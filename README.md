@@ -9,15 +9,16 @@ cd /directory_name
 
 ```
 For SSH: 
-git clone git@github.com:2309-te4m-supreme/sales-app-template.git
+git clone git@github.com:2309-te4m-supreme/Crafitfy.git
 
 For HTTPS:
-https://github.com/2309-te4m-supreme/sales-app-template.git
+https://github.com/2309-te4m-supreme/Craftify.git
 ```
 
-3. Install packages
+3. Move into newly created folder and install packages
 
 ```bash
+cd Craftify
 npm i
 ```
 
