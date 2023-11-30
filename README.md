@@ -47,7 +47,7 @@ npm run dev
 
 10. Build something cool! 😎
 
-## Table Breakdown
+## Data Table Breakdown
 
 ### 1. Users Table
 
@@ -56,7 +56,7 @@ The `users` table stores information about the registered users of the eCommerce
 | Field Name | Data Type | Description |
 |---|---|---|
 | user_id | INT | Unique identifier for each user |
-| permissions | ENUMS | User's permission level (0 for Admin, 1 for User, etc.)
+| permissions | ENUM | User's permission level (Admin, User, etc.)
 | username | VARCHAR(255) | User's chosen username for login purposes |
 | email | VARCHAR(255) | User's email address |
 | password | VARCHAR(255) | User's password, securely stored using hashing techniques |
