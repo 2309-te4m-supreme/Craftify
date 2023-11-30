@@ -1,5 +1,5 @@
 const { Client } = require('pg');
-const connectionString = process.env.DATABASE_URL || 'http://localhost:5432/salesapp';
+const connectionString = process.env.DATABASE_URL || 'http://localhost:5432/craftify';
 
 const db = new Client({
     connectionString,
