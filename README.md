@@ -9,7 +9,7 @@ cd /directory_name
 
 ```
 For SSH: 
-git clone git@github.com:2309-te4m-supreme/Crafitfy.git
+git clone git@github.com:2309-te4m-supreme/Craftify.git
 
 For HTTPS:
 https://github.com/2309-te4m-supreme/Craftify.git
