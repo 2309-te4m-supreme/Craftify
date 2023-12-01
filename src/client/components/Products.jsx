@@ -20,9 +20,12 @@ async function fetchProducts(){
   // let API = 'https://fsa-book-buddy-b6e748d1380d.herokuapp.com/api/'
 
   try {
-    const { data: response } = await Axios.get(`${API}/books`)
+    const response = await fetch(`${API}/books`)
+    const result = response.json()
 
-    setProducts(response.books)
+    console.log(result)
+
+    setProducts(result.products)
   }
   catch(err){
     console.error(err.message)

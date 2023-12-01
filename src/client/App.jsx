@@ -10,7 +10,7 @@ function App() {
   return (
     <>
     <div className='header'>
-        <h1>Craftify</h1>
+        <h1 className='logo-header'>Craftify</h1>
       <Navigation/>
     </div>
       <Routes>
