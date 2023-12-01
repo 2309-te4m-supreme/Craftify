@@ -5,7 +5,6 @@ const SALT_COUNT = 10;
 const createUser = async ({ 
     users_id,
     permissions,
-    username,
     email,
     password,
     first_name,
@@ -18,18 +17,16 @@ const createUser = async ({
         INSERT INTO users(
             users_id,
             permissions,
-            username,
             email,
             password,
             first_name,
             last_name,
             address,
             phone_number )
-        VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
+        VALUES($1, $2, $3, $4, $5, $6, $7, $8)
         RETURNING *`, [
             users_id,
             permissions,
-            username,
             email,
             hashedPassword,
             first_name,

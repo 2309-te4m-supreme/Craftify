@@ -6,7 +6,6 @@ const users = [
   {
     users_id: 1,
     permissions: 'user',
-    username: 'Edog67',
     email: 'emily@example.com',
     password: 'securepass',
     first_name: 'Emily',
@@ -17,7 +16,6 @@ const users = [
   {
     users_id: 2,
     permissions: 'user',
-    username: 'LW142',
     email: 'liu@example.com',
     password: 'strongpass',
     first_name: 'Liu',
@@ -28,7 +26,6 @@ const users = [
   {
     users_id: 3,
     permissions: 'user',
-    username: 'IGgirl',
     email: 'bella@example.com',
     password: 'pass1234',
     first_name: 'Isabella',
@@ -40,7 +37,6 @@ const users = [
   {
     users_id: 4,
     permissions: 'user',
-    username: 'MA700',
     email: 'mohammed@example.com',
     password: 'mysecretpassword',
     first_name: 'Mohammed',
@@ -52,7 +48,6 @@ const users = [
   {
     users_id: 5,
     permissions: 'user',
-    username: 'JS222',
     email: 'john@example.com',
     password: 'password123',
     first_name: 'John',
@@ -64,7 +59,6 @@ const users = [
   {
     users_id: 6,
     permissions: 'admin',
-    username: 'Craftia',
     email: 'Craftia@example.com',
     password: 'code123',
     first_name: 'Craft',
@@ -99,7 +93,6 @@ const createTables = async () => {
         CREATE TABLE users (
           users_id SERIAL PRIMARY KEY,
           permissions permission,
-          username varchar(255),
           email varchar(255),
           password varchar(255),
           first_name varchar(255),
