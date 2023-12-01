@@ -1,6 +1,6 @@
 const db = require('./client');
 const { createUser } = require('./users');
-
+const { products } = require('./productsData')
 const users = [
   {
     name: 'Emily Johnson',
@@ -32,8 +32,10 @@ const users = [
 
 const dropTables = async () => {
     try {
+      console.log("Dropping tables...")
         await db.query(`
         DROP TABLE IF EXISTS users;
+        DROP TABLE IF EXISTS products;
         `)
     }
     catch(err) {
@@ -43,13 +45,24 @@ const dropTables = async () => {
 
 const createTables = async () => {
     try{
+      console.log("Creating tables...")
         await db.query(`
         CREATE TABLE users(
             id SERIAL PRIMARY KEY,
             name VARCHAR(255) DEFAULT 'name',
             email VARCHAR(255) UNIQUE NOT NULL,
             password VARCHAR(255) NOT NULL
-        )`)
+        );
+        CREATE TABLE products (
+          product_id INTEGER PRIMARY KEY,
+          product_name VARCHAR(255),
+          product_description TEXT,
+          product_price DECIMAL(10,2),
+          product_image VARCHAR(255),
+          product_category VARCHAR(255),
+          product_stock INTEGER
+        );`)
+        
     }
     catch(err) {
         throw err;
@@ -73,6 +86,7 @@ const seedDatabse = async () => {
         await dropTables();
         await createTables();
         await insertUsers();
+        console.log(`products at the index of 0: ${products[0].product_name}`)
     }
     catch (err) {
         throw err;
