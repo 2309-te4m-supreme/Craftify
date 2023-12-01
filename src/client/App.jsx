@@ -1,18 +1,25 @@
 import { useState } from 'react';
 import reactLogo from './assets/react.svg';
 import Login from './components/Login';
+import Navigation from './components/Navigation';
+import { Route, Routes } from 'react-router-dom';
 
 function App() {
-  const [count, setCount] = useState(0);
+
 
   return (
-    <div className='App'>
-        <h1>Boilerplate</h1>
-        <img id='comp-img' src='./computer.png'></img>
-        <p>Replace the starter code in this template with something cool</p>
-        <Login />
+    <>
+    <div className='header'>
+        <h1>Craftify</h1>
+      <Navigation/>
     </div>
+      <Routes>
+        {/* <Route path='/' element={<Products/>}/> */}
+        <Route path='/login' element={<Login/>}/>
+      </Routes>
+    </>
   );
 }
 
 export default App;
+
