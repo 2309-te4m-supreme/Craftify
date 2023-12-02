@@ -2,14 +2,37 @@ const db = require('./client')
 const bcrypt = require('bcrypt');
 const SALT_COUNT = 10;
 
-const createUser = async({ name='first last', email, password }) => {
+const createUser = async ({ 
+    users_id,
+    permissions,
+    email,
+    password,
+    first_name,
+    last_name,
+    address,
+    phone_number }) => {
     const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
     try {
-        const { rows: [user ] } = await db.query(`
-        INSERT INTO users(name, email, password)
-        VALUES($1, $2, $3)
-        ON CONFLICT (email) DO NOTHING
-        RETURNING *`, [name, email, hashedPassword]);
+        const { rows: [user] } = await db.query(`
+        INSERT INTO users(
+            users_id,
+            permissions,
+            email,
+            password,
+            first_name,
+            last_name,
+            address,
+            phone_number )
+        VALUES($1, $2, $3, $4, $5, $6, $7, $8)
+        RETURNING *`, [
+            users_id,
+            permissions,
+            email,
+            hashedPassword,
+            first_name,
+            last_name,
+            address,
+            phone_number]);
 
         return user;
     } catch (err) {
@@ -17,16 +40,16 @@ const createUser = async({ name='first last', email, password }) => {
     }
 }
 
-const getUser = async({email, password}) => {
-    if(!email || !password) {
+const getUser = async ({ email, password }) => {
+    if (!email || !password) {
         return;
     }
     try {
         const user = await getUserByEmail(email);
-        if(!user) return;
+        if (!user) return;
         const hashedPassword = user.password;
         const passwordsMatch = await bcrypt.compare(password, hashedPassword);
-        if(!passwordsMatch) return;
+        if (!passwordsMatch) return;
         delete user.password;
         return user;
     } catch (err) {
@@ -34,14 +57,14 @@ const getUser = async({email, password}) => {
     }
 }
 
-const getUserByEmail = async(email) => {
+const getUserByEmail = async (email) => {
     try {
-        const { rows: [ user ] } = await db.query(`
+        const { rows: [user] } = await db.query(`
         SELECT * 
         FROM users
-        WHERE email=$1;`, [ email ]);
+        WHERE email=$1;`, [email]);
 
-        if(!user) {
+        if (!user) {
             return;
         }
         return user;
