@@ -1,6 +1,6 @@
 const db =require('./client');
 
-const createProduct = async({ product_name, product_description, product_price, product_image, product_category, product_stock }) => {
+const createProduct = async( product_name, product_description, product_price, product_image, product_category, product_stock ) => {
     try {
         const { rows: [products] } = await db.query(`
         INSERT INTO products(product_name, product_description, product_price, product_image, product_category, product_stock)
@@ -10,6 +10,19 @@ const createProduct = async({ product_name, product_description, product_price, 
         return products;
     } catch (err) {
         throw err;
+    }
+}
+
+const deleteProduct = async (productId) => {
+    try {
+        const { rows: product } = await db.query(`
+            DELETE FROM products
+            WHERE product_id=$1
+            RETURNING *;
+        `, [productId])
+        return product
+    } catch (error) {
+        throw error;
     }
 }
 
@@ -39,5 +52,6 @@ const getProductById = async(productId) => {
 module.exports = { 
     createProduct,
     getAllProducts,
-    getProductById
+    getProductById,
+    deleteProduct
 }
