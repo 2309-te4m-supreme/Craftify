@@ -102,7 +102,7 @@ const createTables = async () => {
         );
 
         CREATE TABLE products (
-          product_id INTEGER PRIMARY KEY,
+          product_id SERIAL PRIMARY KEY,
           product_name VARCHAR(255),
           product_description TEXT,
           product_price DECIMAL(10,2),

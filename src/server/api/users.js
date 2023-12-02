@@ -5,7 +5,9 @@ const usersRouter = express.Router();
 const {
     createUser,
     getUser,
-    getUserByEmail
+    getUserByEmail,
+    getAllUsers,
+    getUserById
 } = require('../db');
 
 const jwt = require('jsonwebtoken')
@@ -21,6 +23,18 @@ usersRouter.get('/', async( req, res, next) => {
         next({name, message})
     }
 });
+
+usersRouter.get('/:userId', async (req, res, next) => {
+    try {
+        const user = await getUserById(req.params.userId);
+
+        res.send({
+            user
+        });
+    } catch ({name, message}) {
+        next({name, message})
+    }
+})
 
 usersRouter.post('/login', async(req, res, next) => {
     const { email, password } = req.body;
@@ -57,7 +71,7 @@ usersRouter.post('/login', async(req, res, next) => {
 });
 
 usersRouter.post('/register', async(req, res, next) => {
-    const { name, email, password } = req.body;
+    const { users_id, first_name, last_name, email, password, address, phone_number } = req.body;
 
     try {
         const _user = await getUserByEmail(email);
@@ -69,14 +83,20 @@ usersRouter.post('/register', async(req, res, next) => {
             });
         }
 
+
         const user = await createUser({
-            name,
+            users_id,
+            permissions: 'user',
             email,
-            password
+            password,
+            first_name,
+            last_name,
+            address,
+            phone_number
         });
 
         const token = jwt.sign({
-            id: user.id,
+            id: user.users_id,
             email
         }, process.env.JWT_SECRET, {
             expiresIn: '1w'
