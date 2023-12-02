@@ -1,7 +1,7 @@
 const express = require('express')
 const productsRouter = express.Router();
 
-const { createProduct, getAllProducts, getProductById, deleteProduct } = require('../db/products')
+const { createProduct, getAllProducts, getProductById, deleteProduct} = require('../db/products')
 
 productsRouter.get('/', async (req, res, next) => {
   try {
@@ -36,14 +36,14 @@ productsRouter.post('/', async (req, res, next) => {
     productData.category = product_category
     productData.stock = product_stock
 
-    const newProduct = await createProduct(
-      productData.name,
-      productData.description, 
-      productData.price,
-      productData.image,
-      productData.category,
-      productData.stock
-      )
+    const newProduct = await createProduct({
+      product_name: productData.name,
+      product_description: productData.description, 
+      product_price: productData.price,
+      product_image: productData.image,
+      product_category: productData.category,
+      product_stock: productData.stock
+    })
 
     res.send(newProduct)
 
@@ -64,6 +64,27 @@ productsRouter.delete('/:productId', async (req, res, next) => {
   }
 
 })
+
+//TODO Update Product (Admin) SUCCESS
+// productsRouter.patch('/:productId', async (req, res, next) => {
+
+//   try {
+//     const { productId } = req.params.productId
+//     const existingProduct = getProductById(productId)
+//     if(existingProduct){
+//       const { product_name, product_description, product_price, product_image, product_category, product_stock } = req.body
+//       const product = await updateProduct({id:productId, product_name, product_description, product_price, product_image, product_category, product_stock})
+//       res.send(product)
+//     } else {
+//       next({
+//         name: 'NotFound',
+//         message: `No activity by ID ${productId}`
+//       });
+//     }
+//   } catch ({name, message}) {
+//     next({name, message})
+//   }
+// })
 
 
 

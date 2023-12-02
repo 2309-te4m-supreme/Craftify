@@ -142,7 +142,6 @@ const insertProducts = async () => {
   try {
     for (const product of products) {
       await createProduct({
-        product_id: product.product_id,
         product_name: product.product_name,
         product_description: product.product_description,
         product_price: product.product_price,
