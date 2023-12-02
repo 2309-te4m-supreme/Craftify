@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom'
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const navigate = useNavigate()
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -13,27 +15,28 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
-  const login = async() => {
+  const login = async () => {
     try {
-        const response = await fetch('http://localhost:3000/api/users/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type' : 'application/json'
-            }, 
-            body: JSON.stringify({
-                email,
-                password
-            })
-        });
-        const result = await response.json();
-        setMessage(result.message);
-        if(!response.ok) {
-          throw(result)
-        }
-        setEmail('');
-        setPassword('');
+      const response = await fetch('http://localhost:3000/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email,
+          password
+        })
+      });
+      const result = await response.json();
+      setMessage(result.message);
+      if (!response.ok) {
+        throw (result)
+      }
+      setEmail('');
+      setPassword('');
+      // navigate('/')
     } catch (err) {
-        console.error(`${err.name}: ${err.message}`);
+      console.error(`${err.name}: ${err.message}`);
     }
   }
 
@@ -43,32 +46,28 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor='email'>Email:</label>
-          <input
-            type='email'
-            id='email'
-            value={email}
-            onChange={handleEmailChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor='password'>Password:</label>
-          <input
-            type='password'
-            id='password'
-            value={password}
-            onChange={handlePasswordChange}
-            required
-          />
-        </div>
+    <div className='form-div'>
+      <form className='form' onSubmit={handleSubmit}>
+        <h2 className='form-heading'>Login</h2>
+        <label htmlFor='email'>Email:</label>
+        <input
+          type='email'
+          id='email'
+          value={email}
+          onChange={handleEmailChange}
+          required/>
+        <label htmlFor='password'>Password:</label>
+        <input
+          type='password'
+          id='password'
+          value={password}
+          onChange={handlePasswordChange}
+          required/>
         <button type='submit'>Login</button>
       </form>
-      <p>{message}</p>
+      {/* <p><Link to="/register">
+      No account? Register HERE! 
+      </Link></p> */}
     </div>
   );
 };
