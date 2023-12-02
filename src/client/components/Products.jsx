@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react"
-import Axios from "axios"
 
 import { Link } from 'react-router-dom'
 
@@ -9,23 +8,21 @@ const [ products, setProducts ] = useState([])
 const [ searchString, setSearchString ] = useState('')
 
 
-
 useEffect(() => {
   fetchProducts()
 },[])
 
-// Change this function
 async function fetchProducts(){
-  // input NEW API ******
-  // let API = 'https://fsa-book-buddy-b6e748d1380d.herokuapp.com/api/'
+
+  let API = 'http://localhost:3000/api'
 
   try {
-    const response = await fetch(`${API}/books`)
-    const result = response.json()
+    const response = await fetch(`${API}/products`)
+    const result = await response.json()
 
     console.log(result)
 
-    setProducts(result.products)
+    setProducts(result)
   }
   catch(err){
     console.error(err.message)
@@ -36,32 +33,32 @@ const handleChange = (event) => {
   setSearchString(event.target.value)
 }
 
-const filteredProducts = products.filter(product => {
-  return product.title.toLowerCase().includes(searchString.toLowerCase())
-})
+// const filteredProducts = products.filter(product => {
+//   return product.title.toLowerCase().includes(searchString.toLowerCase())
+// })
   
   return (
     <div>
-      <input
+      {/* <input
         className="search-filter"
         type="text"
         placeholder="Search for a book..."
         value={searchString}
         onChange={handleChange}
-        />
+        /> */}
       <ul className="products-container">
-      <h1>Library Catalog</h1>
-        {filteredProducts.length ?
-          filteredProducts.map((product) => (
-            <li key={product.id}>
-              <Link to={`/details/${product.id}`}>
-              <h2>{product.title}</h2>
-              <img src={product.coverimage} alt={product.title} className="product-image"/>
+      <h1>Products Catalog</h1>
+        {
+          products.map((product) => (
+            <li key={product.product_id}>
+              <Link to={`/products/${product.product_id}`}>
+              <h2>{product.product_name}</h2>
+              <img src={product.product_image} alt={product.product_name} className="product-image"/>
               </Link>
+              <p>${product.product_price}</p>
             </li>
-       )) : (
-        <h2>Loading.....</h2>
-        )}
+       ))}
+
       </ul>
     </div>
     )

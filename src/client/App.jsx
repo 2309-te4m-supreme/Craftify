@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import reactLogo from './assets/react.svg';
 import Login from './components/Login';
+import Products from './components/Products';
+import SingleProduct from './components/SingleProduct'
 import Navigation from './components/Navigation';
 import { Route, Routes } from 'react-router-dom';
 
@@ -14,8 +15,9 @@ function App() {
       <Navigation/>
     </div>
       <Routes>
-        {/* <Route path='/' element={<Products/>}/> */}
+        <Route path='/products' element={<Products/>}/>
         <Route path='/login' element={<Login/>}/>
+        <Route path='/products/:productId' element={<SingleProduct />}/>
       </Routes>
     </>
   );
