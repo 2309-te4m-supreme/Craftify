@@ -1,49 +1,42 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function Register() {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+function Register({ setToken }) {
+  const [first_name, setFirstName] = useState('');
+  const [last_name, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [address, setAddress] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [token, setToken] = useState(null);
-  const [error, setError] = useState(null);
+  const [phone_number, setPhoneNumber] = useState('');
   const navigate = useNavigate();
+
+  const API = 'http://localhost:3000/api';
+
 
   async function handleRegister(event) {
     event.preventDefault();
 
     try {
-      // INSERT CORRECT API
-      // const API = 'https://fsa-book-buddy-b6e748d1380d.herokuapp.com/api';
       const response = await fetch(`${API}/users/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          firstname: firstName,
-          lastname: lastName,
+          first_name,
+          last_name,
           email,
           password,
           address,
-          phoneNumber,
+          phone_number,
         }),
       });
-
-      if (!response.ok) {
-        throw new Error('Failed Registration Attempt');
-      }
-
-      const data = await response.json();
-      navigate('/');
-      const newToken = data.token || data.accessToken;
-      setToken(newToken);
+      const result = await response.json();
+      console.log(result.token)
+      setToken()
+      navigate('/products');
     } catch (err) {
-      setError(err.message || 'Failed Registration Attempt');
-      console.error('Failed Registration Error', err);
+      console.error(err);
     }
   }
 
@@ -55,7 +48,7 @@ function Register() {
           First Name:
           <input
             type="text"
-            value={firstName}
+            value={first_name}
             onChange={(e) => setFirstName(e.target.value)}
           />
         </label>
@@ -63,7 +56,7 @@ function Register() {
           Last Name:
           <input
             type="text"
-            value={lastName}
+            value={last_name}
             onChange={(e) => setLastName(e.target.value)}
           />
         </label>
@@ -95,7 +88,7 @@ function Register() {
           Phone Number:
           <input
             type="text"
-            value={phoneNumber}
+            value={phone_number}
             onChange={(e) => setPhoneNumber(e.target.value)}
           />
         </label>

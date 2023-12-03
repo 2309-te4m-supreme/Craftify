@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
 
-const Login = () => {
+const Login = ({ setToken }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -28,13 +28,10 @@ const Login = () => {
         })
       });
       const result = await response.json();
+      console.log(result)
       setMessage(result.message);
-      if (!response.ok) {
-        throw (result)
-      }
-      setEmail('');
-      setPassword('');
-      // navigate('/')
+      setToken(result.token);
+      navigate('/products')
     } catch (err) {
       console.error(`${err.name}: ${err.message}`);
     }
@@ -64,10 +61,10 @@ const Login = () => {
           onChange={handlePasswordChange}
           required/>
         <button type='submit'>Login</button>
-      </form>
-      {/* <p><Link to="/register">
+      <p><Link to="/register">
       No account? Register HERE! 
-      </Link></p> */}
+      </Link></p>
+      </form>
     </div>
   );
 };
