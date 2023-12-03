@@ -6,23 +6,26 @@ const {
     getUser,
     getUserByEmail,
     getAllUsers,
-    getUserById
+    getUserById,
 } = require('../db');
 
+const { requireUser } = require('./utils');
 const jwt = require('jsonwebtoken')
 
-usersRouter.get('/', async( req, res, next) => {
+// GET /api/users
+usersRouter.get('/', async (req, res, next) => {
     try {
         const users = await getAllUsers();
 
         res.send({
             users
         });
-    } catch ({name, message}) {
-        next({name, message})
+    } catch ({ name, message }) {
+        next({ name, message })
     }
 });
 
+// GET /api/users/:userId
 usersRouter.get('/:userId', async (req, res, next) => {
     try {
         const user = await getUserById(req.params.userId);
@@ -30,22 +33,23 @@ usersRouter.get('/:userId', async (req, res, next) => {
         res.send({
             user
         });
-    } catch ({name, message}) {
-        next({name, message})
+    } catch ({ name, message }) {
+        next({ name, message })
     }
 })
 
-usersRouter.post('/login', async(req, res, next) => {
+// POST /api/users/login
+usersRouter.post('/login', async (req, res, next) => {
     const { email, password } = req.body;
-    if(!email || !password) {
+    if (!email || !password) {
         next({
             name: 'MissingCredentialsError',
             message: 'Please supply both an email and password'
         });
     }
     try {
-        const user = await getUser({email, password});
-        if(user) {
+        const user = await getUser({ email, password });
+        if (user) {
             const token = jwt.sign({
                 id: user.id,
                 email
@@ -64,24 +68,24 @@ usersRouter.post('/login', async(req, res, next) => {
                 message: 'Username or password is incorrect'
             });
         }
-    } catch(err) {
+    } catch (err) {
         next(err);
     }
 });
 
-usersRouter.post('/register', async(req, res, next) => {
+// POST /api/users/register
+usersRouter.post('/register', async (req, res, next) => {
     const { users_id, username, first_name, last_name, email, password, address, phone_number } = req.body;
 
     try {
         const _user = await getUserByEmail(email);
 
-        if(_user) {
+        if (_user) {
             next({
                 name: 'UserExistsError',
                 message: 'A user with that email already exists'
             });
         }
-
 
         const user = await createUser({
             users_id,
@@ -106,8 +110,8 @@ usersRouter.post('/register', async(req, res, next) => {
             message: 'Sign up successful!',
             token
         });
-    } catch({name, message}) {
-        next({name, message})
+    } catch ({ name, message }) {
+        next({ name, message })
     }
 })
 
