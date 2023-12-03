@@ -59,6 +59,7 @@ The `users` table stores information about the registered users of the eCommerce
 |---|---|---|
 | user_id | INT | Unique identifier for each user |
 | permissions | ENUM | User's permission level (Admin, User, etc.)
+| username | VARCHAR(255) | User's chosen username for login purposes |
 | email | VARCHAR(255) | User's email address |
 | password | VARCHAR(255) | User's password, securely stored using hashing techniques |
 | first_name | VARCHAR(255) | User's first name |
