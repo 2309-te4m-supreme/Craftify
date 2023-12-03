@@ -1,7 +1,6 @@
 const express = require('express')
 const usersRouter = express.Router();
 
-
 const {
     createUser,
     getUser,
@@ -71,7 +70,7 @@ usersRouter.post('/login', async(req, res, next) => {
 });
 
 usersRouter.post('/register', async(req, res, next) => {
-    const { users_id, first_name, last_name, email, password, address, phone_number } = req.body;
+    const { users_id, username, first_name, last_name, email, password, address, phone_number } = req.body;
 
     try {
         const _user = await getUserByEmail(email);
@@ -87,6 +86,7 @@ usersRouter.post('/register', async(req, res, next) => {
         const user = await createUser({
             users_id,
             permissions: 'user',
+            username,
             email,
             password,
             first_name,
