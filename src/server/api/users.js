@@ -25,8 +25,8 @@ usersRouter.get('/', async (req, res, next) => {
     }
 });
 
-// GET /api/users/:userId
-usersRouter.get('/:userId', async (req, res, next) => {
+// GET /api/users/user/:userId
+usersRouter.get('/user/:userId', async (req, res, next) => {
     try {
         const user = await getUserById(req.params.userId);
 
@@ -37,6 +37,15 @@ usersRouter.get('/:userId', async (req, res, next) => {
         next({ name, message })
     }
 })
+
+// GET /api/users/me
+usersRouter.get('/me', requireUser, async (req, res, next) => {
+    try {
+      res.send(req.user);
+    } catch (error) {
+      next(error)
+    }
+  })  
 
 // POST /api/users/login
 usersRouter.post('/login', async (req, res, next) => {

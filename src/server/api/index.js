@@ -3,7 +3,6 @@ const apiRouter = express.Router();
 const jwt = require('jsonwebtoken');
 const { getUserByEmail } = require('../db');
 const { JWT_SECRET } = process.env;
-const { requireUser } = require('./utils');
 
 const volleyball = require('volleyball')
 apiRouter.use(volleyball)
@@ -43,15 +42,6 @@ apiRouter.use((req, res, next) => {
   }
   next();
 });
-
-// GET /api/users/me
-apiRouter.get('/account', requireUser, async (req, res, next) => {
-  try {
-    res.send(req.user);
-  } catch (error) {
-    next(error)
-  }
-})
 
 const usersRouter = require('./users');
 apiRouter.use('/users', usersRouter);
