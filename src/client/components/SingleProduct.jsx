@@ -6,7 +6,7 @@ export default function SingleProduct() {
     const [productDetails, setProductDetails] = useState({})
     const API = 'http://localhost:3000/api'
 
-    let { productId } = useParams()
+    const { productId } = useParams()
 
     useEffect(() => {
         getSingleProduct()
