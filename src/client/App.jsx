@@ -5,6 +5,7 @@ import Products from './components/Products';
 import SingleProduct from './components/SingleProduct'
 import Navigation from './components/Navigation';
 import MyAccount from './components/MyAccount';
+import Users from './components/Users';
 import { Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path='/register' element={<Register setToken={setToken}/>}/>
         <Route path='/products/:productId' element={<SingleProduct />}/>
         <Route path='/products' element={<Products/>}/>
+        <Route path='/users' element={<Users/>}/>
         <Route path='/users/:userId' element={<MyAccount/>}/>
       </Routes>
     </>

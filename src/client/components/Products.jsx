@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect } from 'react'
 
 import { Link } from 'react-router-dom'
 
@@ -29,9 +29,9 @@ async function fetchProducts(){
   }
 }
 
-const handleChange = (event) => {
-  setSearchString(event.target.value)
-}
+// const handleChange = (event) => {
+//   setSearchString(event.target.value)
+// }
 
 // const filteredProducts = products.filter(product => {
 //   return product.title.toLowerCase().includes(searchString.toLowerCase())
