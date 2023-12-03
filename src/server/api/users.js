@@ -1,52 +1,64 @@
 const express = require('express')
 const usersRouter = express.Router();
 
-
 const {
     createUser,
     getUser,
     getUserByEmail,
     getAllUsers,
-    getUserById
+    getUserById,
 } = require('../db');
 
+const { requireUser } = require('./utils');
 const jwt = require('jsonwebtoken')
 
-usersRouter.get('/', async( req, res, next) => {
+// GET /api/users
+usersRouter.get('/', async (req, res, next) => {
     try {
         const users = await getAllUsers();
 
         res.send({
             users
         });
-    } catch ({name, message}) {
-        next({name, message})
+    } catch ({ name, message }) {
+        next({ name, message })
     }
 });
 
-usersRouter.get('/:userId', async (req, res, next) => {
+// GET /api/users/user/:userId
+usersRouter.get('/user/:userId', async (req, res, next) => {
     try {
         const user = await getUserById(req.params.userId);
 
         res.send({
             user
         });
-    } catch ({name, message}) {
-        next({name, message})
+    } catch ({ name, message }) {
+        next({ name, message })
     }
 })
 
-usersRouter.post('/login', async(req, res, next) => {
+// GET /api/users/me
+usersRouter.get('/me', requireUser, async (req, res, next) => {
+    try {
+      res.send(req.user);
+    } catch (error) {
+      next(error)
+    }
+  })  
+
+// POST /api/users/login
+usersRouter.post('/login', async (req, res, next) => {
     const { email, password } = req.body;
-    if(!email || !password) {
+    if (!email || !password) {
         next({
             name: 'MissingCredentialsError',
             message: 'Please supply both an email and password'
         });
     }
     try {
-        const user = await getUser({email, password});
-        if(user) {
+        const user = await getUser({ email, password });
+        if (user) {
             const token = jwt.sign({
                 id: user.id,
                 email
@@ -65,28 +77,29 @@ usersRouter.post('/login', async(req, res, next) => {
                 message: 'Username or password is incorrect'
             });
         }
-    } catch(err) {
+    } catch (err) {
         next(err);
     }
 });
 
-usersRouter.post('/register', async(req, res, next) => {
-    const { users_id, first_name, last_name, email, password, address, phone_number } = req.body;
+// POST /api/users/register
+usersRouter.post('/register', async (req, res, next) => {
+    const { users_id, username, first_name, last_name, email, password, address, phone_number } = req.body;
 
     try {
         const _user = await getUserByEmail(email);
 
-        if(_user) {
+        if (_user) {
             next({
                 name: 'UserExistsError',
                 message: 'A user with that email already exists'
             });
         }
 
-
         const user = await createUser({
             users_id,
             permissions: 'user',
+            username,
             email,
             password,
             first_name,
@@ -106,8 +119,8 @@ usersRouter.post('/register', async(req, res, next) => {
             message: 'Sign up successful!',
             token
         });
-    } catch({name, message}) {
-        next({name, message})
+    } catch ({ name, message }) {
+        next({ name, message })
     }
 })
 

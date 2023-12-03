@@ -6,6 +6,7 @@ const users = [
   {
     users_id: 1,
     permissions: 'user',
+    username: 'emjay',
     email: 'emily@example.com',
     password: 'securepass',
     first_name: 'Emily',
@@ -16,6 +17,7 @@ const users = [
   {
     users_id: 2,
     permissions: 'user',
+    username: 'liuwei',
     email: 'liu@example.com',
     password: 'strongpass',
     first_name: 'Liu',
@@ -26,46 +28,46 @@ const users = [
   {
     users_id: 3,
     permissions: 'user',
+    username: 'bellaG',
     email: 'bella@example.com',
     password: 'pass1234',
     first_name: 'Isabella',
     last_name: 'García',
     address: '2300 Henderson Rd.',
     phone_number: '525-9032',
-    
   },
   {
     users_id: 4,
     permissions: 'user',
+    username: 'moahmed',
     email: 'mohammed@example.com',
     password: 'mysecretpassword',
     first_name: 'Mohammed',
     last_name: 'Ahmed',
     address: '2300 Anderson Rd.',
     phone_number: '535-9032',
-    
   },
   {
     users_id: 5,
     permissions: 'user',
+    username: 'jsmith',
     email: 'john@example.com',
     password: 'password123',
     first_name: 'John',
     last_name: 'Smith',
     address: '2900 Canderson Rd.',
     phone_number: '545-9032',
-    
   },
   {
     users_id: 6,
     permissions: 'admin',
+    username: 'crafTia',
     email: 'Craftia@example.com',
-    password: 'code123',
+    password: 'Code123',
     first_name: 'Craft',
     last_name: 'Tia',
     address: '2900 Candle Dr.',
     phone_number: '565-9032',
-    
   },
   // Add more user objects as needed
 ];
@@ -93,6 +95,7 @@ const createTables = async () => {
         CREATE TABLE users (
           users_id SERIAL PRIMARY KEY,
           permissions permission,
+          username varchar(255),
           email varchar(255),
           password varchar(255),
           first_name varchar(255),
@@ -142,7 +145,6 @@ const insertProducts = async () => {
   try {
     for (const product of products) {
       await createProduct({
-        product_id: product.product_id,
         product_name: product.product_name,
         product_description: product.product_description,
         product_price: product.product_price,

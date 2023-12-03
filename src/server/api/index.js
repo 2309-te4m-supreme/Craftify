@@ -1,35 +1,46 @@
 const express = require('express');
 const apiRouter = express.Router();
 const jwt = require('jsonwebtoken');
+const { getUserByEmail } = require('../db');
+const { JWT_SECRET } = process.env;
 
 const volleyball = require('volleyball')
 apiRouter.use(volleyball)
 
-// TO BE COMPLETED - set `req.user` if possible, using token sent in the request header
+// set `req.user` if possible
 apiRouter.use(async (req, res, next) => {
+  const prefix = 'Bearer ';
   const auth = req.header('Authorization');
-  
-  if (!auth) { 
-    next();
-  } 
-  else if (auth.startsWith('REPLACE_ME')) {
-    // TODO - Get JUST the token out of 'auth'
-    const token = 'REPLACE_ME';
-    
-    try {
-      const parsedToken = 'REPLACE_ME';
-      // TODO - Call 'jwt.verify()' to see if the token is valid. If it is, use it to get the user's 'id'. Look up the user with their 'id' and set 'req.user'
 
+  if (!auth) { // nothing to see here
+    next();
+  } else if (auth.startsWith(prefix)) {
+    const token = auth.slice(prefix.length);
+
+    try {
+      const parsedToken = jwt.verify(token, JWT_SECRET);
+      const email = parsedToken && parsedToken.email
+
+      if (email) {
+        req.user = await getUserByEmail(email);
+        next();
+      }
     } catch (error) {
       next(error);
     }
-  } 
-  else {
+  } else {
     next({
       name: 'AuthorizationHeaderError',
-      message: `Authorization token must start with 'Bearer'`
+      message: `Authorization token must start with ${prefix}`
     });
   }
+});
+
+apiRouter.use((req, res, next) => {
+  if (req.user) {
+    console.log("User is set:", req.user);
+  }
+  next();
 });
 
 const usersRouter = require('./users');
@@ -39,7 +50,7 @@ const productsRouter = require('./products');
 apiRouter.use('/products', productsRouter);
 
 apiRouter.use((err, req, res, next) => {
-    res.status(500).send(err)
-  })
+  res.status(500).send(err)
+})
 
 module.exports = apiRouter;
