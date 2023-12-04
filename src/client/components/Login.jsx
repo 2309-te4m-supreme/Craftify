@@ -46,20 +46,21 @@ const Login = ({ setToken }) => {
     <div className='form-div'>
       <form className='form' onSubmit={handleSubmit}>
         <h2 className='form-heading'>Login</h2>
-        <label htmlFor='email'>Email:</label>
-        <input
-          type='email'
-          id='email'
-          value={email}
-          onChange={handleEmailChange}
-          required/>
-        <label htmlFor='password'>Password:</label>
-        <input
-          type='password'
-          id='password'
-          value={password}
-          onChange={handlePasswordChange}
-          required/>
+          <label htmlFor='email'></label>
+          <input
+            type='email'
+            id='email' placeholder='Username'
+            value={email}
+            onChange={handleEmailChange}
+            required/>
+          <label htmlFor='password'></label>
+          <input
+            type='password'
+            id='password'
+            placeholder='Password'
+            value={password}
+            onChange={handlePasswordChange}
+            required/>
         <button type='submit'>Login</button>
       <p><Link to="/register">
       No account? Register HERE! 

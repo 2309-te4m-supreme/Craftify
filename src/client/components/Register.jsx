@@ -41,53 +41,56 @@ function Register({ setToken }) {
   }
 
   return (
-    <div className='register-container'>
-      <form className='register-form' onSubmit={handleRegister}>
-        <h2>Sign up here!</h2>
+    <div className='form-div'>
+      <form className='form' onSubmit={handleRegister}>
+        <h2 className='form-heading'>Sign up here!</h2>
         <label>
-          First Name:
+          {/* First Name: */}
           <input
-            type="text"
+            type="text" placeholder="First Name"
             value={first_name}
             onChange={(e) => setFirstName(e.target.value)}
           />
         </label>
         <label>
-          Last Name:
+          {/* Last Name: */}
           <input
-            type="text"
+            type="text" placeholder="Last Name"
             value={last_name}
             onChange={(e) => setLastName(e.target.value)}
           />
         </label>
+        {/* Add "Create Username"? */}
         <label>
-          Email:
+          {/* Email: */}
           <input
-            type="text"
+            type="text" placeholder="Email Address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </label>
         <label>
-          Password:
+          {/* Password: */}
           <input
-            type="password"
+            type="password" placeholder="Set password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
+        {/* ADD RE-TYPE PASSWORD?? */}
         <label>
-          Address:
+          {/* Address: */}
           <input
-            type="text"
+            type="text" placeholder="Street Address"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
           />
         </label>
+        {/* Splitting up address info into street address, city, state, zip?? */}
         <label>
-          Phone Number:
+          {/* Phone Number: */}
           <input
-            type="text"
+            type="text" placeholder="Phone Number"
             value={phone_number}
             onChange={(e) => setPhoneNumber(e.target.value)}
           />

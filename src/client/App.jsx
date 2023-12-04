@@ -13,18 +13,20 @@ function App() {
 
   return (
     <>
-    <div className='header'>
-        <h1 className='logo-header'>Craftify</h1>
-      <Navigation token={token}/>
+    <div className='whole-page'>
+      <div className='header'>
+          <h1 className='logo-header'>Craftify</h1>
+        <Navigation token={token}/>
+      </div>
+        <Routes>
+          <Route path='/login' element={<Login setToken={setToken}/>}/>
+          <Route path='/register' element={<Register setToken={setToken}/>}/>
+          <Route path='/products/:productId' element={<SingleProduct />}/>
+          <Route path='/products' element={<Products/>}/>
+          <Route path='/users' element={<Users/>}/>
+          <Route path='/users/:userId' element={<MyAccount/>}/>
+        </Routes>
     </div>
-      <Routes>
-        <Route path='/login' element={<Login setToken={setToken}/>}/>
-        <Route path='/register' element={<Register setToken={setToken}/>}/>
-        <Route path='/products/:productId' element={<SingleProduct />}/>
-        <Route path='/products' element={<Products/>}/>
-        <Route path='/users' element={<Users/>}/>
-        <Route path='/users/:userId' element={<MyAccount/>}/>
-      </Routes>
     </>
   );
 }

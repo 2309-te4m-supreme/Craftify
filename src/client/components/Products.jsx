@@ -46,15 +46,15 @@ async function fetchProducts(){
         value={searchString}
         onChange={handleChange}
         /> */}
-      <ul className="products-container">
       <h1>Products Catalog</h1>
+      <ul className="products-container">
         {
           products.map((product) => (
-            <li key={product.product_id}>
+            <li key={product.product_id} className="individual-product">
               <Link to={`/products/${product.product_id}`}>
               <h2>{product.product_name}</h2>
-              <img src={product.product_image} alt={product.product_name} className="product-image"/>
               </Link>
+              <img src={product.product_image} alt={product.product_name} className="product-image"/>
               <p>${product.product_price}</p>
             </li>
        ))}
