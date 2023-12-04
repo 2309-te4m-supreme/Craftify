@@ -8,6 +8,7 @@ function Register({ setToken }) {
   const [password, setPassword] = useState('');
   const [address, setAddress] = useState('');
   const [phone_number, setPhoneNumber] = useState('');
+  const [username, setUsername] = useState('');
   const navigate = useNavigate();
 
   const API = 'http://localhost:3000/api';
@@ -23,17 +24,18 @@ function Register({ setToken }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          first_name,
-          last_name,
+          username,
           email,
           password,
+          first_name,
+          last_name,
           address,
           phone_number,
         }),
       });
       const result = await response.json();
       console.log(result.token)
-      setToken()
+      setToken(result.token)
       navigate('/products');
     } catch (err) {
       console.error(err);
@@ -41,53 +43,56 @@ function Register({ setToken }) {
   }
 
   return (
-    <div className='register-container'>
-      <form className='register-form' onSubmit={handleRegister}>
-        <h2>Sign up here!</h2>
+    <div className='form-div'>
+      <form className='form' onSubmit={handleRegister}>
+        <h2 className='form-heading'>Sign up here!</h2>
         <label>
-          First Name:
           <input
-            type="text"
+            type="text" placeholder="First Name"
             value={first_name}
             onChange={(e) => setFirstName(e.target.value)}
           />
         </label>
         <label>
-          Last Name:
           <input
-            type="text"
+            type="text" placeholder="Last Name"
             value={last_name}
             onChange={(e) => setLastName(e.target.value)}
           />
         </label>
         <label>
-          Email:
           <input
-            type="text"
+            type="text" placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </label>
+        <label>
+          <input
+            type="text" placeholder="Email Address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </label>
         <label>
-          Password:
           <input
-            type="password"
+            type="password" placeholder="Set password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
+        {/* ADD RE-TYPE PASSWORD?? */}
         <label>
-          Address:
           <input
-            type="text"
+            type="text" placeholder="Street Address"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
           />
         </label>
+        {/* Splitting up address info into street address, city, state, zip?? */}
         <label>
-          Phone Number:
           <input
-            type="text"
+            type="text" placeholder="Phone Number"
             value={phone_number}
             onChange={(e) => setPhoneNumber(e.target.value)}
           />
