@@ -99,10 +99,42 @@ const getUserById = async (userId) => {
     }
 }
 
+// TODO Update User (Admin) Success
+async function updateUser({id, ...fields}){
+    try {
+
+      let user;
+        if (!fields.permissions) {
+          fields.permissions = 'user'
+        }
+        const {rows} = await db.query(`
+          UPDATE users
+          SET  
+          permissions= $1, 
+          username = $2, 
+          email = $3, 
+          password = $4, 
+          first_name = $5, 
+          last_name = $6, 
+          address = $7,
+          phone_number = $8
+          WHERE users_id = $9
+          RETURNING *;
+        `, [fields.permissions, fields.username, fields.email, fields.password, fields.first_name, fields.last_name, fields.address, fields.phone_number, id]);
+
+        user = rows[0];
+        return user;
+
+    } catch (error) {
+      throw error
+    }
+}
+
 module.exports = {
     createUser,
     getUser,
     getUserByEmail,
     getAllUsers,
-    getUserById
+    getUserById,
+    updateUser
 };

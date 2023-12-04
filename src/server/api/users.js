@@ -7,6 +7,7 @@ const {
     getUserByEmail,
     getAllUsers,
     getUserById,
+    updateUser,
 } = require('../db');
 
 const { requireUser } = require('./utils');
@@ -122,6 +123,38 @@ usersRouter.post('/register', async (req, res, next) => {
     } catch ({ name, message }) {
         next({ name, message })
     }
+})
+
+// TODO Update User (Admin) Success
+usersRouter.put('/user/:userId', async (req, res, next) => {
+
+    try { 
+      // ⬇ ⬇ ⬇This piece of code isn't responsive, but keeping it to edit later ⬇ ⬇ ⬇
+    const existingUser = getUserById(req.params.userId);
+
+    if (!existingUser) return res.status(404).json({message:"This user does not exist"})
+      // ⬆ ⬆ ⬆ This piece of code isn't responsive, but keeping it to edit later ⬆ ⬆ ⬆ 
+    
+
+    const { permissions, username, email, password, first_name, last_name, address, phone_number } = req.body
+
+   const user = await updateUser({id:req.params.userId, 
+    permissions,
+    username, 
+    email,
+    password,
+    first_name,
+    last_name,
+    address,
+    phone_number })
+
+
+   res.send(user)
+      
+    } catch ({name, message}) {
+      next({name, message})
+    }
+  
 })
 
 module.exports = usersRouter;
