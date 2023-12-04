@@ -107,7 +107,16 @@
   /* still figuring this out, just wanted to make sure I could target individual items */
   /* try same technique with users page */
   display: flex;
+  flex-direction: column;
+  padding: 1%;
+  inline-size: 150px;
   border: 5px solid #192A51;
+}
+.product-image{
+  max-width: 100%;
+  height: auto;
+  max-height: 150px;
+  margin: 10px;
 }
 
 

@@ -49,7 +49,7 @@ const Login = ({ setToken }) => {
           <label htmlFor='email'></label>
           <input
             type='email'
-            id='email' placeholder='Username'
+            id='email' placeholder='Email='
             value={email}
             onChange={handleEmailChange}
             required/>

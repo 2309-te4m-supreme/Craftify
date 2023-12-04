@@ -53,9 +53,9 @@ async function fetchProducts(){
             <li key={product.product_id} className="individual-product">
               <Link to={`/products/${product.product_id}`}>
               <h2>{product.product_name}</h2>
-              </Link>
               <img src={product.product_image} alt={product.product_name} className="product-image"/>
               <p>${product.product_price}</p>
+              </Link>
             </li>
        ))}
 
