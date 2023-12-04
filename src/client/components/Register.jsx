@@ -45,7 +45,6 @@ function Register({ setToken }) {
       <form className='form' onSubmit={handleRegister}>
         <h2 className='form-heading'>Sign up here!</h2>
         <label>
-          {/* First Name: */}
           <input
             type="text" placeholder="First Name"
             value={first_name}
@@ -53,16 +52,13 @@ function Register({ setToken }) {
           />
         </label>
         <label>
-          {/* Last Name: */}
           <input
             type="text" placeholder="Last Name"
             value={last_name}
             onChange={(e) => setLastName(e.target.value)}
           />
         </label>
-        {/* Add "Create Username"? */}
         <label>
-          {/* Email: */}
           <input
             type="text" placeholder="Email Address"
             value={email}
@@ -70,7 +66,6 @@ function Register({ setToken }) {
           />
         </label>
         <label>
-          {/* Password: */}
           <input
             type="password" placeholder="Set password"
             value={password}
@@ -79,7 +74,6 @@ function Register({ setToken }) {
         </label>
         {/* ADD RE-TYPE PASSWORD?? */}
         <label>
-          {/* Address: */}
           <input
             type="text" placeholder="Street Address"
             value={address}
@@ -88,7 +82,6 @@ function Register({ setToken }) {
         </label>
         {/* Splitting up address info into street address, city, state, zip?? */}
         <label>
-          {/* Phone Number: */}
           <input
             type="text" placeholder="Phone Number"
             value={phone_number}

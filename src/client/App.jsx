@@ -6,6 +6,7 @@ import SingleProduct from './components/SingleProduct'
 import Navigation from './components/Navigation';
 import MyAccount from './components/MyAccount';
 import Users from './components/Users';
+import SingleUser from './components/SingleUser'
 import { Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
           <Route path='/products' element={<Products/>}/>
           <Route path='/users' element={<Users/>}/>
           <Route path='/users/:userId' element={<MyAccount/>}/>
+          <Route path='/users/user/:userId' element={<SingleUser/>} />
         </Routes>
     </div>
     </>
