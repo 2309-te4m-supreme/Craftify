@@ -49,32 +49,35 @@ const getProductById = async(productId) => {
     }
 }
 
-// async function updateProduct({id, ...fields}){
-//     try {
-//       const toUpdate = {}
-//       for(let column in fields) {
-//         if(fields[column] !== undefined) toUpdate[column] = fields[column];
-//       }
-//       console.log()
-//       let product;
-//       if (util.dbFields(toUpdate).insert.length > 0) {
-//         const {rows} = await db.query(`
-//           UPDATE products
-//           SET ${ util.dbFields(toUpdate).insert }
-//           WHERE product_id=${ id }
-//           RETURNING *;
-//         `, Object.values(toUpdate));
-//         product = rows[0];
-//       }
-//       return product;
-//     } catch (error) {
-//       throw error
-//     }
-// }
+async function updateProduct({id, ...fields}){
+    try {
+
+      let product;
+        const {rows} = await db.query(`
+          UPDATE products
+          SET  
+            product_name= $1, 
+            product_description = $2, 
+            product_price = $3, 
+            product_image = $4, 
+            product_category = $5, 
+            product_stock = $6
+          WHERE product_id = $7
+          RETURNING *;
+        `, [fields.product_name, fields.product_description, fields.product_price, fields.product_image, fields.product_category, fields.product_stock, id]);
+
+        product = rows[0];
+        return product;
+
+    } catch (error) {
+      throw error
+    }
+}
 
 module.exports = { 
     createProduct,
     getAllProducts,
     getProductById,
     deleteProduct,
+    updateProduct,
 }
