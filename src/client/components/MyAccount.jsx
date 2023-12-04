@@ -2,20 +2,27 @@ import { useState, useEffect } from "react"
 import { useParams } from 'react-router-dom'
 
 
-const MyAccount = () => {
+const MyAccount = ({ token }) => {
   const [user, setUser] = useState({});
   const API = 'http://localhost:3000/api'
 
-  const { userId } = useParams()
-  console.log("userId: ", userId)
+  // const { userId } = useParams()
+  // console.log("userId: ", userId)
   
   useEffect(() => {
     fetchUserData()
-    }, [userId]);
+    }, []);
 
     async function fetchUserData() {
       try {
-        const response = await fetch(`${API}/users/${userId}`);
+        const response = await fetch(`${API}/users/me`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+
+        });
           const result = await response.json();
           console.log(result)
           setUser(result)
@@ -27,7 +34,7 @@ const MyAccount = () => {
     return (
       <div>
         <h1>
-          Welcome to Your Account{`${user.first_name} ${user.last_name}!`};
+          Welcome to Your Account {`${user.first_name} ${user.last_name}!`}
         </h1>
           <div>
             <h3>Email: {user.email}</h3>

@@ -7,7 +7,7 @@ function Navigation({ token }) {
       <Link to='/products'>Home</Link>
       <Link to='/users'>Users</Link>
       {token ? (
-          <Link to='/myaccount'>My Account</Link> //correct to /users/me **waiting on backend**
+          <Link to='/users/me'>My Account</Link>
       ) : (
         <Link to='/login'>Login</Link>
       )}

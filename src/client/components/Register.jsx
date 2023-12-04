@@ -8,6 +8,7 @@ function Register({ setToken }) {
   const [password, setPassword] = useState('');
   const [address, setAddress] = useState('');
   const [phone_number, setPhoneNumber] = useState('');
+  const [username, setUsername] = useState('');
   const navigate = useNavigate();
 
   const API = 'http://localhost:3000/api';
@@ -23,17 +24,18 @@ function Register({ setToken }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          first_name,
-          last_name,
+          username,
           email,
           password,
+          first_name,
+          last_name,
           address,
           phone_number,
         }),
       });
       const result = await response.json();
       console.log(result.token)
-      setToken()
+      setToken(result.token)
       navigate('/products');
     } catch (err) {
       console.error(err);
@@ -56,6 +58,13 @@ function Register({ setToken }) {
             type="text" placeholder="Last Name"
             value={last_name}
             onChange={(e) => setLastName(e.target.value)}
+          />
+        </label>
+        <label>
+          <input
+            type="text" placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </label>
         <label>
