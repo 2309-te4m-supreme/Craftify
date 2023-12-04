@@ -27,7 +27,7 @@ const createUser = async ({
         RETURNING *`, [
             permissions,
             username,
-            email,
+            email.toLowerCase(),
             hashedPassword,
             first_name,
             last_name,
@@ -55,7 +55,8 @@ const getUser = async ({ email, password }) => {
         return;
     }
     try {
-        const user = await getUserByEmail(email);
+        const lowerEmail = email.toLowerCase()
+        const user = await getUserByEmail(lowerEmail);
         if (!user) return;
         const hashedPassword = user.password;
         const passwordsMatch = await bcrypt.compare(password, hashedPassword);

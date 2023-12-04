@@ -48,7 +48,7 @@ usersRouter.get('/me', requireUser, async (req, res, next) => {
     }
   })  
 
-// POST /api/users/login
+// POST /api/users/login //TODO Fix Email Case Sensitivity Success
 usersRouter.post('/login', async (req, res, next) => {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -56,31 +56,38 @@ usersRouter.post('/login', async (req, res, next) => {
             name: 'MissingCredentialsError',
             message: 'Please supply both an email and password'
         });
+    
     }
-    try {
-        const user = await getUser({ email, password });
-        if (user) {
-            const token = jwt.sign({
-                id: user.id,
-                email
-            }, process.env.JWT_SECRET, {
-                expiresIn: '1w'
-            });
+    
+        try {
+            const user = await getUser({ email, password });
+                
+                if (user) {
+                    const token = jwt.sign({
+                        id: user.id,
+                        email
+                    }, process.env.JWT_SECRET, {
+                        expiresIn: '1w'
+                    });
+        
+                    res.send({
+                        message: 'Login successful!',
+                        token
+                    });
+                }
+        
+                else {
+                    next({
+                        name: 'IncorrectCredentialsError',
+                        message: 'Username or password is incorrect'
+                    });
+                }
+            } catch (err) {
+                next(err);
+            }
+    
 
-            res.send({
-                message: 'Login successful!',
-                token
-            });
-        }
-        else {
-            next({
-                name: 'IncorrectCredentialsError',
-                message: 'Username or password is incorrect'
-            });
-        }
-    } catch (err) {
-        next(err);
-    }
+    
 });
 
 // POST /api/users/register
