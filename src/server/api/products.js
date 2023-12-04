@@ -70,11 +70,13 @@ productsRouter.delete('/:productId', async (req, res, next) => {
 //TODO Update Product (Admin) SUCCESS
 productsRouter.put('/:productId', async (req, res, next) => {
 
-    try {
-
+    try { 
+      // ⬇ ⬇ ⬇This piece of code isn't responsive, but keeping it to edit later ⬇ ⬇ ⬇
     const existingProduct = getProductById(req.params.productId);
 
     if (!existingProduct) return res.status(404).json({message:"This product does not exist"})
+      // ⬆ ⬆ ⬆ This piece of code isn't responsive, but keeping it to edit later ⬆ ⬆ ⬆ 
+    
 
     const { product_name, product_description, product_price, product_image, product_category, product_stock } = req.body
 
