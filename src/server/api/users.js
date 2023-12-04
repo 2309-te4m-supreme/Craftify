@@ -7,6 +7,7 @@ const {
     getUserByEmail,
     getAllUsers,
     getUserById,
+    updateUser,
 } = require('../db');
 
 const { requireUser } = require('./utils');
@@ -47,7 +48,7 @@ usersRouter.get('/me', requireUser, async (req, res, next) => {
     }
   })  
 
-// POST /api/users/login
+// POST /api/users/login //TODO Fix Email Case Sensitivity Success
 usersRouter.post('/login', async (req, res, next) => {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -55,31 +56,38 @@ usersRouter.post('/login', async (req, res, next) => {
             name: 'MissingCredentialsError',
             message: 'Please supply both an email and password'
         });
+    
     }
-    try {
-        const user = await getUser({ email, password });
-        if (user) {
-            const token = jwt.sign({
-                id: user.id,
-                email
-            }, process.env.JWT_SECRET, {
-                expiresIn: '1w'
-            });
+    
+        try {
+            const user = await getUser({ email, password });
+                
+                if (user) {
+                    const token = jwt.sign({
+                        id: user.id,
+                        email
+                    }, process.env.JWT_SECRET, {
+                        expiresIn: '1w'
+                    });
+        
+                    res.send({
+                        message: 'Login successful!',
+                        token
+                    });
+                }
+        
+                else {
+                    next({
+                        name: 'IncorrectCredentialsError',
+                        message: 'Username or password is incorrect'
+                    });
+                }
+            } catch (err) {
+                next(err);
+            }
+    
 
-            res.send({
-                message: 'Login successful!',
-                token
-            });
-        }
-        else {
-            next({
-                name: 'IncorrectCredentialsError',
-                message: 'Username or password is incorrect'
-            });
-        }
-    } catch (err) {
-        next(err);
-    }
+    
 });
 
 // POST /api/users/register
@@ -122,6 +130,38 @@ usersRouter.post('/register', async (req, res, next) => {
     } catch ({ name, message }) {
         next({ name, message })
     }
+})
+
+// TODO Update User (Admin) Success
+usersRouter.put('/user/:userId', async (req, res, next) => {
+
+    try { 
+      // ⬇ ⬇ ⬇This piece of code isn't responsive, but keeping it to edit later ⬇ ⬇ ⬇
+    const existingUser = getUserById(req.params.userId);
+
+    if (!existingUser) return res.status(404).json({message:"This user does not exist"})
+      // ⬆ ⬆ ⬆ This piece of code isn't responsive, but keeping it to edit later ⬆ ⬆ ⬆ 
+    
+
+    const { permissions, username, email, password, first_name, last_name, address, phone_number } = req.body
+
+   const user = await updateUser({id:req.params.userId, 
+    permissions,
+    username, 
+    email,
+    password,
+    first_name,
+    last_name,
+    address,
+    phone_number })
+
+
+   res.send(user)
+      
+    } catch ({name, message}) {
+      next({name, message})
+    }
+  
 })
 
 module.exports = usersRouter;

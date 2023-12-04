@@ -1,7 +1,8 @@
 const express = require('express')
 const productsRouter = express.Router();
 
-const { createProduct, getAllProducts, getProductById, deleteProduct} = require('../db/products')
+const { createProduct, getAllProducts, getProductById, deleteProduct, updateProduct} = require('../db/products');
+const { user } = require('../db');
 
 productsRouter.get('/', async (req, res, next) => {
   try {
@@ -65,26 +66,36 @@ productsRouter.delete('/:productId', async (req, res, next) => {
 
 })
 
-//TODO Update Product (Admin) SUCCESS
-// productsRouter.patch('/:productId', async (req, res, next) => {
 
-//   try {
-//     const { productId } = req.params.productId
-//     const existingProduct = getProductById(productId)
-//     if(existingProduct){
-//       const { product_name, product_description, product_price, product_image, product_category, product_stock } = req.body
-//       const product = await updateProduct({id:productId, product_name, product_description, product_price, product_image, product_category, product_stock})
-//       res.send(product)
-//     } else {
-//       next({
-//         name: 'NotFound',
-//         message: `No activity by ID ${productId}`
-//       });
-//     }
-//   } catch ({name, message}) {
-//     next({name, message})
-//   }
-// })
+//TODO Update Product (Admin) SUCCESS
+productsRouter.put('/:productId', async (req, res, next) => {
+
+    try { 
+      // ⬇ ⬇ ⬇This piece of code isn't responsive, but keeping it to edit later ⬇ ⬇ ⬇
+    const existingProduct = getProductById(req.params.productId);
+
+    if (!existingProduct) return res.status(404).json({message:"This product does not exist"})
+      // ⬆ ⬆ ⬆ This piece of code isn't responsive, but keeping it to edit later ⬆ ⬆ ⬆ 
+    
+
+    const { product_name, product_description, product_price, product_image, product_category, product_stock } = req.body
+
+   const product = await updateProduct({id:req.params.productId, 
+      product_name,
+      product_description, 
+      product_price,
+      product_image,
+      product_category,
+      product_stock })
+
+
+   res.send(product)
+      
+    } catch ({name, message}) {
+      next({name, message})
+    }
+  
+})
 
 
 
