@@ -3,6 +3,7 @@ const productsRouter = express.Router();
 
 const { createProduct, getAllProducts, getProductById, deleteProduct, updateProduct} = require('../db/products');
 const { user } = require('../db');
+const { requireAdmin } = require('./utils')
 
 productsRouter.get('/', async (req, res, next) => {
   try {
@@ -25,7 +26,7 @@ productsRouter.get('/:productId', async (req, res, next) => {
 
 //TODO Create Product (Admin) SUCCESS
 
-productsRouter.post('/', async (req, res, next) => {
+productsRouter.post('/', requireAdmin, async (req, res, next) => {
   const { product_name, product_description, product_price, product_image, product_category, product_stock } = req.body
   const productData = {}
 
@@ -55,7 +56,7 @@ productsRouter.post('/', async (req, res, next) => {
 
 //TODO Delete Product (Admin) SUCCESS
 
-productsRouter.delete('/:productId', async (req, res, next) => {
+productsRouter.delete('/:productId', requireAdmin, async (req, res, next) => {
 
   try {
     const product = await deleteProduct(req.params.productId)
@@ -68,7 +69,7 @@ productsRouter.delete('/:productId', async (req, res, next) => {
 
 
 //TODO Update Product (Admin) SUCCESS
-productsRouter.put('/:productId', async (req, res, next) => {
+productsRouter.put('/:productId', requireAdmin, async (req, res, next) => {
 
     try { 
       // ⬇ ⬇ ⬇This piece of code isn't responsive, but keeping it to edit later ⬇ ⬇ ⬇

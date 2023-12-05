@@ -1,5 +1,6 @@
 const express = require('express')
 const usersRouter = express.Router();
+const { requireAdmin } = require("./utils")
 
 const {
     createUser,
@@ -14,7 +15,7 @@ const { requireUser } = require('./utils');
 const jwt = require('jsonwebtoken')
 
 // GET /api/users
-usersRouter.get('/', async (req, res, next) => {
+usersRouter.get('/', requireAdmin, async (req, res, next) => {
     try {
         const users = await getAllUsers();
 
@@ -26,8 +27,17 @@ usersRouter.get('/', async (req, res, next) => {
     }
 });
 
-// GET /api/users/user/:userId
-usersRouter.get('/user/:userId', async (req, res, next) => {
+// GET /api/users/me
+usersRouter.get('/me', requireUser, async (req, res, next) => {
+    try {
+      res.send(req.user);
+    } catch (error) {
+      next(error)
+    }
+})  
+
+// GET /api/users/:userId
+usersRouter.get('/:userId', requireAdmin, async (req, res, next) => {
     try {
         const user = await getUserById(req.params.userId);
 
@@ -39,14 +49,6 @@ usersRouter.get('/user/:userId', async (req, res, next) => {
     }
 })
 
-// GET /api/users/me
-usersRouter.get('/me', requireUser, async (req, res, next) => {
-    try {
-      res.send(req.user);
-    } catch (error) {
-      next(error)
-    }
-  })  
 
 // POST /api/users/login //TODO Fix Email Case Sensitivity Success
 usersRouter.post('/login', async (req, res, next) => {
@@ -92,7 +94,7 @@ usersRouter.post('/login', async (req, res, next) => {
 
 // POST /api/users/register
 usersRouter.post('/register', async (req, res, next) => {
-    const { users_id, username, first_name, last_name, email, password, address, phone_number } = req.body;
+    const { user_id, username, first_name, last_name, email, password, address, phone_number } = req.body;
 
     try {
         const _user = await getUserByEmail(email);
@@ -105,7 +107,7 @@ usersRouter.post('/register', async (req, res, next) => {
         }
 
         const user = await createUser({
-            users_id,
+            user_id,
             permissions: 'user',
             username,
             email,
@@ -117,7 +119,7 @@ usersRouter.post('/register', async (req, res, next) => {
         });
 
         const token = jwt.sign({
-            id: user.users_id,
+            id: user.user_id,
             email
         }, process.env.JWT_SECRET, {
             expiresIn: '1w'
@@ -133,7 +135,7 @@ usersRouter.post('/register', async (req, res, next) => {
 })
 
 // TODO Update User (Admin) Success
-usersRouter.put('/user/:userId', async (req, res, next) => {
+usersRouter.put('/:userId', requireAdmin, async (req, res, next) => {
 
     try { 
       // ⬇ ⬇ ⬇This piece of code isn't responsive, but keeping it to edit later ⬇ ⬇ ⬇
