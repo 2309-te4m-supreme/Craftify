@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom'
 
 function Products() {
 
-const [ products, setProducts ] = useState([])
-const [ searchString, setSearchString ] = useState('')
+const [ products, setProducts ] = useState([]);
+const [ searchString, setSearchString ] = useState('');
 
 
 useEffect(() => {

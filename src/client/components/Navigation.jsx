@@ -5,7 +5,7 @@ function Navigation({ token }) {
   return (
     <nav className='nav-bar'>
       <Link to='/products'>Home</Link>
-      <Link to='/users'>Users</Link>
+      <Link to='/admin'>Admin</Link>
       <Link to='/register'>Register</Link> 
       {token ? (
         <Link to='/users/me'>My Account</Link>
