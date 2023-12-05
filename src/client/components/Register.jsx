@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import flowers2 from '../assets/flowers2.mp4'
 
 function Register({ setToken }) {
   const [first_name, setFirstName] = useState('');
@@ -43,6 +44,8 @@ function Register({ setToken }) {
   }
 
   return (
+    <>
+    <video className='treeBg' src={flowers2} autoPlay loop muted/>
     <div className='form-div'>
       <form className='form' onSubmit={handleRegister}>
         <h2 className='form-heading'>Sign up here!</h2>
@@ -100,6 +103,7 @@ function Register({ setToken }) {
         <button type="submit">Register Account</button>
       </form>
     </div>
+    </>
   );
 }
 
