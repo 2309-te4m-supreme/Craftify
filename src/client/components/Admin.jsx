@@ -47,7 +47,8 @@ function Admin (){
     <>
     <div>
       <h1 className="users">Users:</h1>
-      <thread>
+      <table className="nice-table">
+      <thead>
         <tr>
           <th>First Name </th>
           <th>Last Name </th>
@@ -56,8 +57,9 @@ function Admin (){
           <th>Phone Number </th>
           <th>Permission </th>
           <th>User Id</th>
+          <th>Action</th>
         </tr>
-      </thread>
+      </thead>
       <tbody>
         {
           users.map((user) => (
@@ -71,43 +73,46 @@ function Admin (){
             <td>{user.users_id}</td>
             <td>
             <Link to={`/users/user/${user.users_id}`}>
-              <button>Edit</button>
+              <button>View Details</button>
             </Link>
-              <button>Delete</button>
             </td>
           </tr>
         ))}
       </tbody>
+      </table>
     </div>
     <hr/>
     <div>
         <h1>Products</h1>
-        <thread>
+        <table className="nice-table">
+        <thead>
           <tr>
             <th>Product ID</th>
             <th>Name</th>
             <th>Price</th>
             <th>Category</th>
             <th>Stock</th>
+            <th>Action</th>
           </tr>
-        </thread>
+        </thead>
         <tbody>
           {
           products.map((product) =>
           <tr key={product.product_id}>
             <td>{product.product_id}</td>
             <td>{product.product_name}</td>
+            <td>${product.product_price}</td>
             <td>{product.product_category}</td>
             <td>{product.product_stock}</td>
             <td>
-            <Link to={`/admin/${product.product_id}`}>
-              <button>Edit</button>
+            <Link to={`/admin/products/${product.product_id}`}>
+              <button>View Details</button>
             </Link>
-              <button>Delete</button>
             </td>
           </tr>
           )}
         </tbody>
+        </table>
     </div>
     </>
   );

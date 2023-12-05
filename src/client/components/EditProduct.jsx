@@ -29,7 +29,7 @@ export default function EditProduct() {
         <>
         <div>
         <h1>Products</h1>
-        <thread>
+        <thead>
           <tr>
             <th>Product ID</th>
             <th>Name</th>
@@ -37,7 +37,7 @@ export default function EditProduct() {
             <th>Category</th>
             <th>Stock</th>
           </tr>
-        </thread>
+        </thead>
         <tbody>
           <tr>
             <td>{productDetails.product_id}</td>

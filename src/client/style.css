@@ -170,6 +170,7 @@
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
+
 .springFlowers{
   width: 100%;
   height: 100%;
@@ -187,4 +188,12 @@
   top: 0;
   left: 0;
   z-index: -1;
+}
+
+
+.nice-table{
+  width: 100%;
+}
+table, th, td {
+  border: 1px solid;
 }

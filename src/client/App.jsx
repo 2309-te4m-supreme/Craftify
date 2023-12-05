@@ -8,6 +8,7 @@ import Navigation from './components/Navigation';
 import MyAccount from './components/MyAccount';
 import Admin from './components/Admin';
 import SingleUser from './components/SingleUser'
+import EditUser from './components/EditUser';
 import { Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -25,10 +26,11 @@ function App() {
           <Route path='/register' element={<Register setToken={setToken}/>}/>
           <Route path='/products/:productId' element={<SingleProduct />}/>
           <Route path='/products' element={<Products/>}/>
-          <Route path='/admin/:productId' element={<EditProduct/>}/>
+          <Route path='/admin/products/:productId' element={<EditProduct/>}/>
           <Route path='/admin' element={<Admin/>}/>
           <Route path='/users/me' element={<MyAccount token={token}/>}/>
           <Route path='/users/user/:userId' element={<SingleUser/>} />
+          <Route path='/admin/users/:userId' element={<EditUser/>} />
         </Routes>
     </div>
     </>
