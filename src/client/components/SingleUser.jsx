@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import EditUser from "./EditUser";
+
 
 export default function SingleUser() {
+  const navigate = useNavigate();
   const [userDetails, setUserDetails] = useState({});
   const API = "http://localhost:3000/api";
 
@@ -23,8 +24,8 @@ export default function SingleUser() {
     }
   }
 
-  function handleClick(userId) {
-    useNavigate(`/admin/users/${userId}`);
+  function handleClick() {
+    navigate(`/admin/users/${userId}`);
   }
 
   return (
