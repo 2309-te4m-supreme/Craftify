@@ -2,12 +2,16 @@ import { useState, useEffect } from "react"
 
 const MyAccount = ({ token }) => {
   const [user, setUser] = useState({});
+  const [userId, setUserId] = useState({});
+  const [orders, setOrders] = useState([]);
+
   const API = 'http://localhost:3000/api'
   
-  useEffect(() => {
+  // useEffect(() => {
     fetchUserData()
-    }, []);
-
+    fetchOrderHistory()
+    // }, []);
+    
     async function fetchUserData() {
       try {
         const response = await fetch(`${API}/users/me`, {
@@ -20,12 +24,33 @@ const MyAccount = ({ token }) => {
           const result = await response.json();
           console.log(result)
           setUser(result)
-      } catch (err) {
-        console.log(err)
+          console.log(user)
+          setUserId(result.user_id)
+        } catch (err) {
+          console.log(err)
+        }
+      };
+      
+      async function fetchOrderHistory() {
+        try {
+        const response = await fetch(`${API}/orders/${userId}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        const result = await response.json()
+  
+        console.log(result)
+        setOrders(result)
+      } catch (error) {
+        console.error(error.message)
       }
-    };
+  
+    }
 
     return (
+      <>
       <div>
         <h1>Welcome to Your Account!</h1>
           <h2>{`${user.first_name} ${user.last_name}`}</h2>
@@ -35,6 +60,40 @@ const MyAccount = ({ token }) => {
             <h3>Phone Number: {user.phone_number}</h3>
           </div>
       </div>
+      <div>
+      <h1>Orders:</h1>
+      <table className="nice-table">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Order Date</th>
+            <th>Order Total</th>
+            <th>User</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            orders.map((order) =>
+              <tr key={order.order_id}>
+                <td>{order.order_id}</td>
+                <td>{order.order_date}</td>
+                <td>${order.order_total}</td>
+                <td>{order.user_id}</td>
+                <td>{order.order_status}</td>
+                <td>
+                  {/* <Link to={`/admin/orders/${order.order_id}`}>
+                    <button>Edit</button>
+                  </Link> */}
+                  <button>View</button>
+                </td>
+              </tr>
+            )}
+        </tbody>
+      </table>
+    </div>
+    </>
     )
     
   };
