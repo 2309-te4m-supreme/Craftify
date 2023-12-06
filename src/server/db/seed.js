@@ -75,25 +75,17 @@ const users = [
   // Add more user objects as needed
 ];
 
-let status = 'in progress'
-
 const orders = [
   {
     user_id: 3,
-    order_date: new Date(),
-    order_status: status,
     order_total: 42,
   },
   {
-    user_id: 5,
-    order_date: new Date(),
-    order_status: status,
+    user_id: 3,
     order_total: 159,
   },
   {
     user_id: 6,
-    order_date: new Date(),
-    order_status: status,
     order_total: 872,
   }
 
@@ -239,13 +231,10 @@ const insertOrders = async () => {
 
   try {
     for (const order of orders) {
-      await createOrder({
-        user_id: order.user_id,
-        order_date: order.order_date,
-        order_status: order.order_status,
-        order_total: order.order_total
-
-      });
+      await createOrder(
+        order.user_id,
+        order.order_total
+      );
     }
     console.log('Seed Orders data inserted successfully.');
   } catch (error) {

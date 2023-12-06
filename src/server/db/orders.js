@@ -36,13 +36,12 @@ const getOrderByUserId = async(userId) => {
     }
 }
 
-const createOrder = async ({
+const createOrder = async (
       user_id, 
-      order_date, 
-      order_status,
-      order_total }) => {
-
+      order_total) => {
         try {
+        let order_date = new Date()
+        let order_status = "In Progress"
         const { rows: [order] } = await db.query(`
         INSERT INTO orders(
             user_id, 
@@ -60,5 +59,17 @@ const createOrder = async ({
         throw err;
     }
 }
+
+// const deleteOrder = async (orderId) => {
+//     try {
+//         const { rows: order } = await db.query(`
+//             DELETE FROM orders
+//             WHERE order_id=$1;
+//         `, [orderId])
+//         return order
+//     } catch (error) {
+//         throw error;
+//     }
+// }
 
 module.exports = { getAllOrders, getOrderById, getOrderByUserId, createOrder}
