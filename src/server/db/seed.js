@@ -4,7 +4,7 @@ const { createProduct } = require('./products');
 const { products } = require('./productsData')
 const users = [
   {
-    users_id: 1,
+    user_id: 1,
     permissions: 'user',
     username: 'emjay',
     email: 'emily@example.com',
@@ -15,7 +15,7 @@ const users = [
     phone_number: '555-9032',
   },
   {
-    users_id: 2,
+    user_id: 2,
     permissions: 'user',
     username: 'liuwei',
     email: 'liu@example.com',
@@ -26,7 +26,7 @@ const users = [
     phone_number: '515-9032',
   },
   {
-    users_id: 3,
+    user_id: 3,
     permissions: 'user',
     username: 'bellaG',
     email: 'bella@example.com',
@@ -37,7 +37,7 @@ const users = [
     phone_number: '525-9032',
   },
   {
-    users_id: 4,
+    user_id: 4,
     permissions: 'user',
     username: 'moahmed',
     email: 'mohammed@example.com',
@@ -48,7 +48,7 @@ const users = [
     phone_number: '535-9032',
   },
   {
-    users_id: 5,
+    user_id: 5,
     permissions: 'user',
     username: 'jsmith',
     email: 'john@example.com',
@@ -59,7 +59,7 @@ const users = [
     phone_number: '545-9032',
   },
   {
-    users_id: 6,
+    user_id: 6,
     permissions: 'admin',
     username: 'crafTia',
     email: 'Craftia@example.com',
@@ -93,7 +93,7 @@ const createTables = async () => {
         CREATE TYPE permission AS ENUM ('user', 'admin');
           
         CREATE TABLE users (
-          users_id SERIAL PRIMARY KEY,
+          user_id SERIAL PRIMARY KEY,
           permissions permission,
           username varchar(255),
           email varchar(255),
@@ -124,7 +124,7 @@ const insertUsers = async () => {
   try {
     for (const user of users) {
       await createUser({ 
-        users_id: user.users_id,
+        user_id: user.user_id,
         permissions: user.permissions,
         username: user.username,
         email: user.email,

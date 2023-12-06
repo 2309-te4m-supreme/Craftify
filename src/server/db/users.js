@@ -69,11 +69,12 @@ const getUser = async ({ email, password }) => {
 }
 
 const getUserByEmail = async (email) => {
+    const lowerEmail = email.toLowerCase()
     try {
         const { rows: [user] } = await db.query(`
         SELECT * 
         FROM users
-        WHERE email=$1;`, [email]);
+        WHERE email=$1;`, [lowerEmail]);
 
         if (!user) {
             return;
@@ -89,7 +90,7 @@ const getUserById = async (userId) => {
         const { rows: [user] } = await db.query(`
         SELECT * 
         FROM users
-        WHERE users_id=$1;`, [userId]);
+        WHERE user_id=$1;`, [userId]);
 
         if (!user) {
             return;
