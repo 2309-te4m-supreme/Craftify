@@ -10,6 +10,7 @@ import SingleUser from './components/SingleUser'
 import EditUser from './components/EditUser';
 import OrderHistory from './components/OrderHistory'
 import Logout from './components/Logout'
+// import All from './components';
 import { Route, Routes } from 'react-router-dom';
 
 function App() {
