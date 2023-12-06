@@ -33,27 +33,27 @@ export default function EditUser() {
   // Add form listeners and state variables with starting values from userDetails
   return (
     <>
-      <form>
-        <label> Username:
-          <input value={userDetails.username} />
+      <form className='edit-form'>
+        <label> Username: <br />
+          <input typle='text' value={userDetails.username} />
         </label>
-        <label> Email:
-          <input value={userDetails.email} />
+        <label> Email: <br />
+          <input type='text' value={userDetails.email} />
         </label>
-        <label> Password:
-          <input value={userDetails.password} />
+        <label> Password: <br />
+          <input type='text' value={userDetails.password} />
         </label>
-        <label> First Name:
-          <input value={userDetails.first_name} />
+        <label> First Name: <br />
+          <input type='text' value={userDetails.first_name} />
         </label>
-        <label> Last Name:
-          <input value={userDetails.last_name} />
+        <label> Last Name: <br />
+          <input type='text' value={userDetails.last_name} />
         </label>
-        <label> Address:
-          <input value={userDetails.address} />
+        <label> Address: <br />
+          <input type='text' value={userDetails.address} />
         </label>
-        <label> Phone Number:
-          <input value={userDetails.phone_number} />
+        <label> Phone Number: <br />
+          <input type='text' value={userDetails.phone_number} />
         </label>
         <button onClick={handleClick}>Save</button>
       </form>
