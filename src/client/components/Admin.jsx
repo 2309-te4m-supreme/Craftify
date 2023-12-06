@@ -77,8 +77,8 @@ function Admin({ token }) {
                   <td>{user.permissions}</td>
                   <td>{user.user_id}</td>
                   <td>
-                    <Link to={`/users/${user.user_id}`}>
-                      <button>View Details</button>
+                    <Link to={`/admin/users/${user.user_id}`}>
+                      <button>Edit</button>
                     </Link>
                   </td>
                 </tr>
