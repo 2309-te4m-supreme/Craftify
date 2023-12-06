@@ -12,18 +12,18 @@
     - [API Base URL](#api-base-url-on-localhost)
     - [Endpoints](#endpoints)
         1. [Users Endpoints](#users-endpoints)
-            1. [GET /users](#get-users)
-            1. [GET /users/user/:userId](#get-usersuseruserid)
             1. [GET /users/me](#get-usersme)
             1. [POST /users/register](#post-usersregister)
             1. [POST /users/login](#post-userslogin)
-            1. [PUT /users/user/:userId](#put-usersuseruserid)
+            1. [GET /users (Admin Only)](#get-users-admin-only)
+            1. [GET /users/:userId (Admin Only)](#get-usersuserid-admin-only)
+            1. [PUT /users/:userId (Admin Only)](#put-usersuserid-admin-only)
         1. [Products Endpoints](#products-endpoints)
             1. [GET /products](#get-products)
-            1. [GET /products/:productsId](#get-productsproductsid)
-            1. [POST /products](#post-products)
-            1. [PUT /products/:productsId](#put-productsproductsid)
-            1. [DELETE /products/:productsId](#delete-productsproductsid)
+            1. [GET /products/:productId](#get-productsproductid)
+            1. [POST /products (Admin Only)](#post-products-admin-only)
+            1. [PUT /products/:productId (Admin Only)](#put-productsproductid-admin-only)
+            1. [DELETE /products/:productId (Admin Only)](#delete-productsproductid-admin-only)
 
 # Getting Started
 1. Move into an empty directory where you want the code to clone:
@@ -206,7 +206,7 @@ The resulting console log for an array with two users should look like this:
 ```js
 [
     {
-        "users_id": 1,
+        "user_id": 1,
         "permissions": "user",
         "username": "emjay",
         "email": "emily@example.com",
@@ -217,7 +217,7 @@ The resulting console log for an array with two users should look like this:
         "phone_number": "555-9032"
     },
     {
-        "users_id": 2,
+        "user_id": 2,
         "permissions": "user",
         "username": "liuwei",
         "email": "liu@example.com",
@@ -234,7 +234,7 @@ The resulting console log for an array with two users should look like this:
 [Back to Top](#craftify-documentation)
 ## Endpoints
 ## Users Endpoints
-### `GET /users`
+### `GET /users` (Admin Only)
 Returns the data for all users (for admin purposes).
 
 #### Request Parameters
@@ -246,7 +246,7 @@ No body required.
 #### Return Parameters
 An array of user objects:
 
-- `users_id` (number)
+- `user_id` (number)
 - `permissions` (string)
 - `username` (string)
 - `email` (string)
@@ -267,7 +267,7 @@ console.log(result.users);
 ```js
 [
     {
-        "users_id": 1,
+        "user_id": 1,
         "permissions": "user",
         "username": "emjay",
         "email": "emily@example.com",
@@ -278,7 +278,7 @@ console.log(result.users);
         "phone_number": "555-9032"
     },
     {
-        "users_id": 2,
+        "user_id": 2,
         "permissions": "user",
         "username": "liuwei",
         "email": "liu@example.com",
@@ -293,7 +293,7 @@ console.log(result.users);
 ```
 
 [Back to Top](#craftify-documentation)
-### `GET /users/user/:userId`
+### `GET /users/:userId` (Admin Only)
 Returns the data for a single user (for admin purposes).
 
 #### Request Parameters
@@ -305,7 +305,7 @@ No body required.
 #### Return Parameters
 A user object.
 
-- `users_id` (number)
+- `user_id` (number)
 - `permissions` (string)
 - `username` (string)
 - `email` (string)
@@ -332,7 +332,7 @@ console.log(result.users);
 #### Sample Response
 ```js
 {
-    "users_id": 1,
+    "user_id": 1,
     "permissions": "user",
     "username": "emjay",
     "email": "emily@example.com",
@@ -361,7 +361,7 @@ No body required.
 #### Return Parameters
 A user object corresponding to the logged in user.
 
-- `users_id` (number)
+- `user_id` (number)
 - `permissions` (string)
 - `username` (string)
 - `email` (string)
@@ -396,7 +396,7 @@ console.log(result);
 #### Sample Response
 ```js
 {
-    "users_id": 6,
+    "user_id": 6,
     "permissions": "admin",
     "username": "crafTia",
     "email": "Craftia@example.com",
@@ -417,28 +417,28 @@ Allows the creation of a new user.
 Allows a user to login to an existing account.
 
 [Back to Top](#craftify-documentation)
-### `PUT /users/user/:userId`
+### `PUT /users/:userId` (Admin Only)
 Updates the data for a single user (for admin purposes).
 
 [Back to Top](#craftify-documentation)
 ## Products Endpoints
 ### `GET /products`
-Returns the data for all users.
+Returns the data for all products.
 
 [Back to Top](#craftify-documentation)
-### `GET /products/:productsId`
-Returns the data for a single user.
+### `GET /products/:productId`
+Returns the data for a single product.
 
 [Back to Top](#craftify-documentation)
-### `POST /products`
+### `POST /products` (Admin Only)
 Allows the creation of a new product.
 
 [Back to Top](#craftify-documentation)
-### `PUT /products/:productsId`
+### `PUT /products/:productId` (Admin Only)
 Updates a product by product-id.
 
 [Back to Top](#craftify-documentation)
-### `DELETE /products/:productsId`
+### `DELETE /products/:productId` (Admin Only)
 Deletes a product by product-id.
 
 [Back to Top](#craftify-documentation)
