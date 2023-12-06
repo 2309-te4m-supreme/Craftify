@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
+import flowers2 from '../assets/flowers2.mp4'
 
 const Login = ({ setToken }) => {
   const [email, setEmail] = useState('');
@@ -43,13 +44,15 @@ const Login = ({ setToken }) => {
   };
 
   return (
+    <>
+    <video className='treeBg' src={flowers2} autoPlay loop muted/>
     <div className='form-div'>
       <form className='form' onSubmit={handleSubmit}>
         <h2 className='form-heading'>Login</h2>
           <label htmlFor='email'></label>
           <input
             type='email'
-            id='email' placeholder='Email='
+            id='email' placeholder='Email'
             value={email}
             onChange={handleEmailChange}
             required/>
@@ -67,6 +70,7 @@ const Login = ({ setToken }) => {
       </Link></p>
       </form>
     </div>
+    </>
   );
 };
 

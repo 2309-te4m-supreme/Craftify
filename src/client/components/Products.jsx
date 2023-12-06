@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
+import springFlowers from '../assets/springFlowers.mp4'
 
 import { Link } from 'react-router-dom'
 
 function Products() {
 
-const [ products, setProducts ] = useState([])
-const [ searchString, setSearchString ] = useState('')
+const [ products, setProducts ] = useState([]);
+const [ searchString, setSearchString ] = useState('');
 
 
 useEffect(() => {
@@ -39,22 +40,25 @@ async function fetchProducts(){
   
   return (
     <div>
+      <video className='springFlowers' src={springFlowers} autoPlay loop muted/>
       {/* <input
         className="search-filter"
         type="text"
         placeholder="Search for a book..."
         value={searchString}
         onChange={handleChange}
-        /> */}
-      <h1>Products Catalog</h1>
+      /> */}
+      <h1 className='product-header'>Products Catalog</h1>
       <ul className="products-container">
         {
           products.map((product) => (
             <li key={product.product_id} className="individual-product">
               <Link to={`/products/${product.product_id}`}>
-              <h2>{product.product_name}</h2>
-              <img src={product.product_image} alt={product.product_name} className="product-image"/>
-              <p>${product.product_price}</p>
+                <div className='individual-product-container'>
+                  <h2>{product.product_name}</h2>
+                  <img src={product.product_image} alt={product.product_name} className="product-image"/>
+                    <p>${product.product_price}</p>
+                </div>
               </Link>
             </li>
        ))}
