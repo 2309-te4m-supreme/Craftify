@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
 
 export default function EditUser({ token }) {
@@ -15,6 +15,7 @@ export default function EditUser({ token }) {
   const API = 'http://localhost:3000/api'
 
   const { userId } = useParams()
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetchSingleUser()
@@ -69,6 +70,7 @@ export default function EditUser({ token }) {
   function handleClick(e) {
     e.preventDefault();
     editUserDetails();
+    navigate('/admin');
   }
 
 
@@ -94,12 +96,12 @@ export default function EditUser({ token }) {
             value={email}
             onChange={(e) => setEmail(e.target.value)} />
         </label>
-        <label> Password:
+        {/* <label> Password:
           <input 
             type='text' 
             value={password}
             onChange={(e) => setPassword(e.target.value)} />
-        </label>
+        </label> */}
         <label> First Name:
           <input 
             type='text' 

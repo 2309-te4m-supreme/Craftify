@@ -27,7 +27,7 @@ function App() {
           <Route path='/products' element={<Products />}/>
           <Route path='/products/:productId' element={<SingleProduct />}/>
           <Route path='/users/:userId' element={<SingleUser token={token} />}/>
-          <Route path='/admin/products/:productId' element={<EditProduct />}/>
+          <Route path='/admin/products/:productId' element={<EditProduct token={token}/>}/>
           <Route path='/admin' element={<Admin token={token} />}/>
           <Route path='/users/me' element={<MyAccount token={token} />}/>
           <Route path='/admin/users/:userId' element={<EditUser token={token} />}/>

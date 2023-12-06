@@ -88,7 +88,7 @@ function Admin({ token }) {
       </div>
       <hr />
       <div>
-        <h1>Products</h1>
+        <h1>Products:</h1>
         <table className="nice-table">
           <thead>
             <tr>
@@ -111,7 +111,7 @@ function Admin({ token }) {
                   <td>{product.product_stock}</td>
                   <td>
                     <Link to={`/admin/products/${product.product_id}`}>
-                      <button>View Details</button>
+                      <button>Edit</button>
                     </Link>
                   </td>
                 </tr>
