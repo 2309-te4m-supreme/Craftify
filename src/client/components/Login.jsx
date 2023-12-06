@@ -5,7 +5,6 @@ import flowers2 from '../assets/flowers2.mp4'
 const Login = ({ setToken }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
   const navigate = useNavigate()
 
   const handleEmailChange = (e) => {
@@ -30,8 +29,7 @@ const Login = ({ setToken }) => {
       });
       const result = await response.json();
       console.log(result)
-      setMessage(result.message);
-      setToken(result.token);
+      localStorage.setItem("token", `${result.token}`);
       navigate('/products')
     } catch (err) {
       console.error(`${err.name}: ${err.message}`);
@@ -45,7 +43,7 @@ const Login = ({ setToken }) => {
 
   return (
     <>
-    <video className='treeBg' src={flowers2} autoPlay loop muted/>
+    {/* <video className='treeBg' src={flowers2} autoPlay loop muted/> */}
     <div className='form-div'>
       <form className='form' onSubmit={handleSubmit}>
         <h2 className='form-heading'>Login</h2>

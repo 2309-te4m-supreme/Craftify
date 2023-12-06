@@ -120,7 +120,7 @@ async function updateUser({id, ...fields}){
           last_name = $6, 
           address = $7,
           phone_number = $8
-          WHERE users_id = $9
+          WHERE user_id = $9
           RETURNING *;
         `, [fields.permissions, fields.username, fields.email, fields.password, fields.first_name, fields.last_name, fields.address, fields.phone_number, id]);
 

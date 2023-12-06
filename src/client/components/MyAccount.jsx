@@ -1,13 +1,8 @@
 import { useState, useEffect } from "react"
-import { useParams } from 'react-router-dom'
-
 
 const MyAccount = ({ token }) => {
   const [user, setUser] = useState({});
   const API = 'http://localhost:3000/api'
-
-  // const { userId } = useParams()
-  // console.log("userId: ", userId)
   
   useEffect(() => {
     fetchUserData()
@@ -21,7 +16,6 @@ const MyAccount = ({ token }) => {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
           },
-
         });
           const result = await response.json();
           console.log(result)

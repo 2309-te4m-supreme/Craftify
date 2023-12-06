@@ -1,14 +1,21 @@
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
 
-export default function EditUser() {
-
-  const [userDetails, setUserDetails] = useState({})
+export default function EditUser({ token }) {
+  const [ permissions, setPermissions ] = useState ('');
+  const [ username, setUsername ] = useState('');
+  const [ email, setEmail ] = useState('');
+  const [ password, setPassword ] = useState('');
+  const [ firstName, setFirstName ] = useState('');
+  const [ lastName, setLastName ] = useState('');
+  const [ address, setAddress ] = useState('');
+  const [ phoneNumber, setPhoneNumber ] = useState('');
 
   const API = 'http://localhost:3000/api'
 
   const { userId } = useParams()
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetchSingleUser()
@@ -16,17 +23,54 @@ export default function EditUser() {
 
   async function fetchSingleUser() {
     try {
-      const response = await fetch(`${API}/users/user/${userId}`)
+      const response = await fetch(`${API}/users/${userId}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      }
+      )
       const result = await response.json()
       console.log(result)
-      setUserDetails(result.user)
+      setPermissions(result.user.permissions);
+      setUsername(result.user.username);
+      setEmail(result.user.email);
+      setPassword(result.user.password);
+      setFirstName(result.user.first_name);
+      setLastName(result.user.last_name);
+      setAddress(result.user.address);
+      setPhoneNumber(result.user.phone_number);
     } catch (error) {
       console.error(error)
     }
   }
 
-  function handleClick() {
-    console.log("Fix this later (make a put call).")
+  async function editUserDetails() {
+    const response = await fetch(`${API}/users/${userId}`, {
+      method: "PUT",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          permissions: permissions,
+          username: username,
+          email: email,
+          password: password,
+          first_name: firstName,
+          last_name: lastName,
+          address: address,
+          phone_number: phoneNumber,
+        })
+    });
+    const result = await response.json();
+    console.log(result);
+  }
+
+  function handleClick(e) {
+    e.preventDefault();
+    editUserDetails();
+    navigate('/admin');
   }
 
 
@@ -34,26 +78,53 @@ export default function EditUser() {
   return (
     <>
       <form className='edit-form'>
-        <label> Username: <br />
-          <input typle='text' value={userDetails.username} />
+        <label> Permissions:
+          <input 
+            type='text'
+            value={permissions}
+            onChange={(e) => setPermissions(e.target.value)} />
         </label>
-        <label> Email: <br />
-          <input type='text' value={userDetails.email} />
+        <label> Username:
+          <input 
+            type='text'
+            value={username}
+            onChange={(e) => setUsername(e.target.value)} />
         </label>
-        <label> Password: <br />
-          <input type='text' value={userDetails.password} />
+        <label> Email:
+          <input 
+            type='email' 
+            value={email}
+            onChange={(e) => setEmail(e.target.value)} />
         </label>
-        <label> First Name: <br />
-          <input type='text' value={userDetails.first_name} />
+        {/* <label> Password:
+          <input 
+            type='text' 
+            value={password}
+            onChange={(e) => setPassword(e.target.value)} />
+        </label> */}
+        <label> First Name:
+          <input 
+            type='text' 
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)} />
         </label>
-        <label> Last Name: <br />
-          <input type='text' value={userDetails.last_name} />
+        <label> Last Name:
+          <input 
+            type='text' 
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)} />
         </label>
-        <label> Address: <br />
-          <input type='text' value={userDetails.address} />
+        <label> Address:
+          <input 
+            type='text' 
+            value={address}
+            onChange={(e) => setAddress(e.target.value)} />
         </label>
-        <label> Phone Number: <br />
-          <input type='text' value={userDetails.phone_number} />
+        <label> Phone Number:
+          <input 
+            type='text' 
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)} />
         </label>
         <button onClick={handleClick}>Save</button>
       </form>
