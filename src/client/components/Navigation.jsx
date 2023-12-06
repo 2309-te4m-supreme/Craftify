@@ -17,7 +17,10 @@ function Navigation({ token }) {
         <Link to='/products' href='/#'>Home</Link>
         <Link to='/admin' href='/#'>Admin</Link>
         {token ? (
+          <>
           <Link to='/users/me' href='/#'>My Account</Link>
+          <Link to='/logout' href='/#'>Logout</Link>
+          </>
           ) : (
             <>
             <Link to='/login' href='/#'>Login</Link>

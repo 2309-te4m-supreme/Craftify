@@ -8,6 +8,8 @@ import MyAccount from './components/MyAccount';
 import Admin from './components/Admin';
 import SingleUser from './components/SingleUser'
 import EditUser from './components/EditUser';
+import OrderHistory from './components/OrderHistory'
+import Logout from './components/Logout'
 import { Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -23,6 +25,7 @@ function App() {
       </div>
         <Routes>
           <Route path='/login' element={<Login />}/>
+          <Route path='/logout' element={<Logout />}/>
           <Route path='/register' element={<Register />}/>
           <Route path='/products' element={<Products />}/>
           <Route path='/products/:productId' element={<SingleProduct />}/>
@@ -30,6 +33,7 @@ function App() {
           <Route path='/admin/products/:productId' element={<EditProduct token={token}/>}/>
           <Route path='/admin' element={<Admin token={token} />}/>
           <Route path='/users/me' element={<MyAccount token={token} />}/>
+          <Route path='/orders/:userId' element={<OrderHistory token={token} />}/>
           <Route path='/admin/users/:userId' element={<EditUser token={token} />}/>
         </Routes>
     </div>
