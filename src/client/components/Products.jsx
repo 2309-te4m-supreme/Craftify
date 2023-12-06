@@ -40,7 +40,7 @@ async function fetchProducts(){
   
   return (
     <div>
-      <video className='springFlowers' src={springFlowers} autoPlay loop muted/>
+      {/* <video className='springFlowers' src={springFlowers} autoPlay loop muted/> */}
       {/* <input
         className="search-filter"
         type="text"
@@ -62,7 +62,6 @@ async function fetchProducts(){
               </Link>
             </li>
        ))}
-
       </ul>
     </div>
     )

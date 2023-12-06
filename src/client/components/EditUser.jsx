@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
 
-export default function EditUser() {
+export default function EditUser({ token }) {
 
   const [userDetails, setUserDetails] = useState({})
 
@@ -16,7 +16,14 @@ export default function EditUser() {
 
   async function fetchSingleUser() {
     try {
-      const response = await fetch(`${API}/users/user/${userId}`)
+      const response = await fetch(`${API}/users/${userId}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      }
+      )
+
       const result = await response.json()
       console.log(result)
       setUserDetails(result.user)
@@ -34,25 +41,25 @@ export default function EditUser() {
   return (
     <>
       <form className='edit-form'>
-        <label> Username: <br />
-          <input typle='text' value={userDetails.username} />
+        <label> Username:
+          <input type='text' value={userDetails.username} />
         </label>
-        <label> Email: <br />
+        <label> Email:
           <input type='text' value={userDetails.email} />
         </label>
-        <label> Password: <br />
+        <label> Password:
           <input type='text' value={userDetails.password} />
         </label>
-        <label> First Name: <br />
+        <label> First Name:
           <input type='text' value={userDetails.first_name} />
         </label>
-        <label> Last Name: <br />
+        <label> Last Name:
           <input type='text' value={userDetails.last_name} />
         </label>
-        <label> Address: <br />
+        <label> Address:
           <input type='text' value={userDetails.address} />
         </label>
-        <label> Phone Number: <br />
+        <label> Phone Number:
           <input type='text' value={userDetails.phone_number} />
         </label>
         <button onClick={handleClick}>Save</button>

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import flowers2 from '../assets/flowers2.mp4'
 
-function Register({ setToken }) {
+function Register() {
   const [first_name, setFirstName] = useState('');
   const [last_name, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -13,7 +13,6 @@ function Register({ setToken }) {
   const navigate = useNavigate();
 
   const API = 'http://localhost:3000/api';
-
 
   async function handleRegister(event) {
     event.preventDefault();
@@ -36,7 +35,7 @@ function Register({ setToken }) {
       });
       const result = await response.json();
       console.log(result.token)
-      setToken(result.token)
+      localStorage.setItem("token", `${result.token}`);
       navigate('/products');
     } catch (err) {
       console.error(err);
@@ -45,7 +44,7 @@ function Register({ setToken }) {
 
   return (
     <>
-    <video className='treeBg' src={flowers2} autoPlay loop muted/>
+    {/* <video className='treeBg' src={flowers2} autoPlay loop muted/> */}
     <div className='form-div'>
       <form className='form' onSubmit={handleRegister}>
         <h2 className='form-heading'>Sign up here!</h2>

@@ -29,7 +29,7 @@ export default function SingleProduct() {
     return (
         <>
         <div>
-        <video className='springFlowers' src={springFlowers} autoPlay loop muted/>
+        {/* <video className='springFlowers' src={springFlowers} autoPlay loop muted/> */}
         <section key={productDetails.product_id} className='single-product'>
                     <h3>{productDetails.product_name}</h3>
                     <img src={productDetails.product_image} />

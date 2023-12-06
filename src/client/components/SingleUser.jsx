@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 
-export default function SingleUser() {
+export default function SingleUser({ token }) {
   const navigate = useNavigate();
   const [userDetails, setUserDetails] = useState({});
   const API = "http://localhost:3000/api";
@@ -15,7 +15,12 @@ export default function SingleUser() {
 
   async function fetchSingleUser() {
     try {
-      const response = await fetch(`${API}/users/user/${userId}`);
+      const response = await fetch(`${API}/users/${userId}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
       const result = await response.json();
       console.log(result);
       setUserDetails(result.user);
@@ -38,7 +43,7 @@ export default function SingleUser() {
         <li>Address: {userDetails.address}</li>
         <li>Phone Number: {userDetails.phone_number}</li>
         <li>Permissions: {userDetails.permissions}</li>
-        <li>User ID: {userDetails.users_id}</li>
+        <li>User ID: {userDetails.user_id}</li>
         <button onClick={handleClick}>Edit</button>
       </ul>
     </>
