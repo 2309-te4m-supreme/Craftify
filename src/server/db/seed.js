@@ -1,7 +1,10 @@
 const db = require('./client');
 const { createUser } = require('./users');
 const { createProduct } = require('./products');
+const { createOrder } = require('./orders');
+const { createOrders_Product } = require('./orders_products');
 const { products } = require('./productsData')
+
 const users = [
   {
     user_id: 1,
@@ -72,10 +75,56 @@ const users = [
   // Add more user objects as needed
 ];
 
+let status = 'in progress'
+
+const orders = [
+  {
+    user_id: 3,
+    order_date: new Date(),
+    order_status: status,
+    order_total: 42,
+  },
+  {
+    user_id: 5,
+    order_date: new Date(),
+    order_status: status,
+    order_total: 159,
+  },
+  {
+    user_id: 6,
+    order_date: new Date(),
+    order_status: status,
+    order_total: 872,
+  }
+
+];
+
+const orders_products = [
+  {
+    order_id: 1,
+    product_id: 15,
+    quantity: 30,
+  },
+  {
+    order_id: 2,
+    product_id: 47,
+    quantity: 4,
+  },
+  {
+    order_id: 3,
+    product_id: 2,
+    quantity: 5,
+  }
+
+];
+
+
 const dropTables = async () => {
   try {
     console.log("Dropping tables...")
     await db.query(`
+        DROP TABLE IF EXISTS orders_products;
+        DROP TABLE IF EXISTS orders;
         DROP TABLE IF EXISTS users;
         DROP TABLE IF EXISTS products;
         DROP TYPE IF EXISTS permission;
@@ -112,7 +161,34 @@ const createTables = async () => {
           product_image VARCHAR(255),
           product_category VARCHAR(255),
           product_stock INTEGER
-        );`)
+        );
+        CREATE TABLE orders (
+          order_id SERIAL PRIMARY KEY,
+          user_id integer,
+          order_date TIMESTAMP,
+          order_status VARCHAR(255),
+          order_total DECIMAL(10,2)
+        );
+        
+        CREATE TABLE orders_products (
+          order_id integer,
+          product_id integer,
+          quantity integer
+        );
+        
+        ALTER TABLE orders 
+        ADD FOREIGN KEY ("user_id") 
+        REFERENCES users ("user_id");
+        
+        ALTER TABLE orders_products 
+        ADD FOREIGN KEY ("product_id") 
+        REFERENCES products ("product_id");
+        
+        ALTER TABLE orders_products 
+        ADD FOREIGN KEY ("order_id") 
+        REFERENCES orders ("order_id");
+        
+        `)
 
   }
   catch (err) {
@@ -159,6 +235,41 @@ const insertProducts = async () => {
   }
 };
 
+const insertOrders = async () => {
+
+  try {
+    for (const order of orders) {
+      await createOrder({
+        user_id: order.user_id,
+        order_date: order.order_date,
+        order_status: order.order_status,
+        order_total: order.order_total
+
+      });
+    }
+    console.log('Seed Orders data inserted successfully.');
+  } catch (error) {
+    console.error('Error inserting seed data:', error);
+  }
+};
+
+const insertOrders_Products = async () => {
+
+  try {
+    for (const orders_product of orders_products) {
+      await createOrders_Product({
+        order_id: orders_product.order_id,
+        product_id: orders_product.product_id,
+        quantity: orders_product.quantity,
+
+      });
+    }
+    console.log('Seed Orders_Products data inserted successfully.');
+  } catch (error) {
+    console.error('Error inserting seed data:', error);
+  }
+};
+
 
 
 const seedDatabse = async () => {
@@ -168,6 +279,9 @@ const seedDatabse = async () => {
     await createTables();
     await insertUsers();
     await insertProducts();
+    await insertOrders();
+    await insertOrders_Products();
+    
   }
   catch (err) {
     throw err;
