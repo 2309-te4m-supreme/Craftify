@@ -1,36 +1,36 @@
 import { useState, useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
-export default function Cart({ token }) {
-    // const [cart, setCart] = useState([]);
-    // const API = 'http://localhost:3000/api'
+export default function Checkout({ token }) {
+//     const [checkout, setCheckout] = useState([]);
+//     const API = 'http://localhost:3000/api'
 
-    // useEffect(() => {
-    //     fetchCart()
-    // }, []);
+//     useEffect(() => {
+//         fetchCheckout()
+//     }, []);
 
-    // const { userId } = useParams();
+//     const { userId } = useParams();
 
-    // async function fetchCart() {
-    // try {
-    //   const response = await fetch(``, {
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       'Authorization': `Bearer ${token}`
-    //     }
-    //   })
-    //   const result = await response.json()
-    //   console.log(result)
-    //   setCart(result)
-    // } catch (error) {
-    //   console.error(error.message)
-    // }
-  // }
+//     async function fetchCheckout() {
+//     try {
+//       const response = await fetch(``, {
+//         headers: {
+//           'Content-Type': 'application/json',
+//           'Authorization': `Bearer ${token}`
+//         }
+//       })
+//       const result = await response.json()
+//       console.log(result)
+//       setCheckout(result)
+//     } catch (error) {
+//       console.error(error.message)
+//     }
+//   }
 
   return (
 
     <div>
-        <h1>Cart</h1>
+        <h1>Checkout</h1>
         <table className="nice-table">
           <thead>
             <tr>
@@ -39,8 +39,6 @@ export default function Cart({ token }) {
               <th>Description</th>
               <th>Price</th>
               <th>Quantity</th>
-              <th>Action</th>
-              {/* add edit or delete button here */}
             </tr>
           </thead>
           <tbody>
@@ -61,9 +59,7 @@ export default function Cart({ token }) {
             } */}
           </tbody>
         </table>
-            <Link to='/checkout/:userId'>
-              <button>Checkout</button>
-            </Link>
+            <button>Confirm Purchase</button>
       </div>
 
   )
