@@ -26,9 +26,10 @@ const getOrderById = async(orderId) => {
 
 const getOrderByUserId = async(userId) => {
     try {
+        console.log(userId)
         const { rows: order } = await db.query(`
             SELECT * FROM orders
-            WHERE user_id=$1;
+            WHERE user_id=$1 AND order_status="Pending";
         `, [userId])
         return order
     } catch (error) {
@@ -36,12 +37,14 @@ const getOrderByUserId = async(userId) => {
     }
 }
 
+
 const createOrder = async (
       user_id, 
-      order_total) => {
+      order_total,
+      order_status) => {
         try {
         let order_date = new Date()
-        let order_status = "In Progress"
+        if(!order_status){order_status = "Pending"}
         const { rows: [order] } = await db.query(`
         INSERT INTO orders(
             user_id, 

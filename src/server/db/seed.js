@@ -77,15 +77,47 @@ const users = [
 
 const orders = [
   {
-    user_id: 3,
-    order_total: 42,
+    user_id: 1,
+    order_total: 85,
+  },
+  {
+    user_id: 2,
+    order_total: 931,
   },
   {
     user_id: 3,
+    order_status: "In Progress",
+    order_total: 2746,
+  },
+  {
+    user_id: 3,
+    order_total: 82,
+  },
+  {
+    user_id: 4,
     order_total: 159,
   },
   {
+    user_id: 4,
+    order_status: "In Progress",
+    order_total: 942,
+  },
+  {
+    user_id: 5,
+    order_total: 40,
+  },
+  {
+    user_id: 5,
+    order_status: "Completed",
+    order_total: 525,
+  },
+  {
     user_id: 6,
+    order_total: 872,
+  },
+  {
+    user_id: 6,
+    order_status: "In Progress",
     order_total: 872,
   }
 
@@ -106,6 +138,11 @@ const orders_products = [
     order_id: 3,
     product_id: 2,
     quantity: 5,
+  },
+  {
+    order_id: 1,
+    product_id: 20,
+    quantity: 53,
   }
 
 ];
@@ -120,6 +157,7 @@ const dropTables = async () => {
         DROP TABLE IF EXISTS users;
         DROP TABLE IF EXISTS products;
         DROP TYPE IF EXISTS permission;
+        DROP TYPE IF EXISTS status;
         `)
   }
   catch (err) {
@@ -132,6 +170,7 @@ const createTables = async () => {
     console.log("Creating tables...")
     await db.query(`
         CREATE TYPE permission AS ENUM ('user', 'admin');
+        CREATE TYPE status AS ENUM ('Pending', 'In Progress', 'Completed');
           
         CREATE TABLE users (
           user_id SERIAL PRIMARY KEY,
@@ -158,7 +197,7 @@ const createTables = async () => {
           order_id SERIAL PRIMARY KEY,
           user_id integer,
           order_date TIMESTAMP,
-          order_status VARCHAR(255),
+          order_status status,
           order_total DECIMAL(10,2)
         );
         
@@ -233,7 +272,8 @@ const insertOrders = async () => {
     for (const order of orders) {
       await createOrder(
         order.user_id,
-        order.order_total
+        order.order_total,
+        order.order_status
       );
     }
     console.log('Seed Orders data inserted successfully.');

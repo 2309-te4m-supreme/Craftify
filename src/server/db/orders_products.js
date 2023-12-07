@@ -23,6 +23,48 @@ const createOrders_Product = async ({
   }
 }
 
+const getAllProductsByOrderId = async (orderId) => {
+  try {
+    console.log(orderId)
+    const { rows } = await db.query(`
+    SELECT * FROM orders_products
+    WHERE order_id = $1;`, [
+      orderId,]);
+    return rows;
+  } catch (err) {
+      throw err;
+  }
+}
+
+const checkForPendingCart = async (userId) => {
+  try {
+    const { rows: order} = await db.query(`
+      SELECT * FROM orders
+      WHERE user_id=$1 AND order_status='Pending';`, [
+        userId
+      ])
+    return order;
+  } catch (err) {
+    throw err;
+  }
+}
+
+const removeFromCartByID = async (orderId, productId) => {
+  try {
+    console.log(orderId)
+    const { rows } = await db.query(`
+    DELETE FROM orders_products
+    WHERE order_id = $1 AND product_id = $2
+    RETURNING * ;`, [
+      orderId, productId]);
+    return rows;
+  } catch (err) {
+      throw err;
+  }
+}
+
+
+
 // POSSIBLE Update for Total
 // const updateOrderTotal = async (product_id) => {
 //     try {
@@ -53,4 +95,4 @@ const createOrders_Product = async ({
 
 
 
-module.exports = { createOrders_Product}
+module.exports = { createOrders_Product, getAllProductsByOrderId, checkForPendingCart, removeFromCartByID}
