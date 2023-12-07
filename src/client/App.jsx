@@ -14,9 +14,15 @@ import Cart from './components/Cart';
 import AddProduct from './components/AddProduct';
 import Checkout from './components/Checkout';
 import { Route, Routes } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 function App() {
-  const token = localStorage.getItem("token");
+  const [ token, setToken ] = useState();
+
+  useEffect(() => {
+    setToken(localStorage.getItem("token"))
+  }, [])
+ 
   console.log(token);
 
   return (
@@ -28,7 +34,7 @@ function App() {
       </div>
         <Routes>
           <Route path='/login' element={<Login />}/>
-          <Route path='/logout' element={<Logout />}/>
+          <Route path='/logout' element={<Logout setToken={setToken} />}/>
           <Route path='/register' element={<Register />}/>
           <Route path='/products' element={<Products />}/>
           <Route path='/products/:productId' element={<SingleProduct />}/>
