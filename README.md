@@ -136,14 +136,24 @@ When using the API, many calls are made in the context of a registered user. The
 A sample request with an authorization token looks like this:
 
 ```js
-fetch('/api/reservations', {
-    method: 'PATCH',
+// 'token' is placed in localStorage in App.jsx
+const token = localStorage.getItem("token");
+
+// Pass 'token' into desired route on App.jsx (for example, 'MyAccount')
+<Route path="/users/me" element={<MyAccount token={token} />} />
+
+// Destructure 'token' from route parameters (for example, 'MyAccount.jsx')
+function MyAccount({ token }) {...}
+
+// Use token in authorization on API call
+const response = await fetch(`${API_URL}/users/me`, {
     headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer TOKEN_STRING_HERE'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
     },
-    body: JSON.stringify({ /* whatever things you need to send to the API */ })
-    })
+})
+const result = await response.json();
+console.log(result);
 ```
 
 It is crucial that the value for Authorization is a string starting with Bearer, followed by a space, and finished with the token you receive either by registering or logging in. Deviating from this format will cause the API to not recognize the token, and will result in an error.
@@ -234,11 +244,167 @@ The resulting console log for an array with two users should look like this:
 [Back to Top](#craftify-documentation)
 ## Endpoints
 ## Users Endpoints
+### `GET /users/me`
+Returns the data for a logged in user (My Account).
+
+#### Request Parameters
+No request parameters required.
+
+#### Headers (object, required)
+- Content-Type (string, required): application/json
+- Authorization (template literal, required): Bearer ${TOKEN_STRING_HERE}
+
+#### Body
+No body required.
+
+#### Return Parameters
+A user object corresponding to the logged in user.
+
+- `user_id` (number)
+- `permissions` (string)
+- `username` (string)
+- `email` (string)
+- `password` (string)
+- `first_name` (string)
+- `last_name` (string)
+- `address` (string)
+- `phone_number` (string)
+
+#### Sample Call
+```js
+const response = await fetch(`${API_URL}/users/me`, {
+    headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+    },
+})
+const result = await response.json();
+console.log(result);
+```
+
+#### Sample Response
+```js
+{
+    "user_id": 6,
+    "permissions": "admin",
+    "username": "crafTia",
+    "email": "Craftia@example.com",
+    "password": "$2b$10$sY/sal3k0uy1qXU/S5p4nOfSsK3cxLYYnwK9TYTP1Bc0FBIXrFEiy",
+    "first_name": "Craft",
+    "last_name": "Tia",
+    "address": "2900 Candle Dr.",
+    "phone_number": "565-9032"
+}
+```
+
+[Back to Top](#craftify-documentation)
+### `POST /users/register`
+Allows the creation of a new user.
+
+#### Request Parameters
+No request parameters required.
+
+#### Headers (object, required)
+- Content-Type (string, required): application/json
+- Authorization (template literal, required): Bearer ${TOKEN_STRING_HERE}
+
+#### Body
+- `username` (string)
+- `email` (string)
+- `password` (string)
+- `first_name` (string)
+- `last_name` (string)
+- `address` (string)
+- `phone_number` (string)
+
+#### Return Parameters
+Object containing status message and signed token.
+- `message` (string)
+- `token` (string)
+
+#### Sample Call
+```js
+const response = await fetch(`${API_URL}/users/register`, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        username = "TesterBoi",
+        email = "testerboi@example.com",
+        password = "testPass",
+        first_name = "Tester",
+        last_name = "Boi",
+        address = "123 Test Ln.",
+        phone_number = "1-800-Test-Now",
+    }),
+});
+const result = await response.json();
+console.log(result);
+```
+
+#### Sample Response
+```js
+{
+    "message": "Sign up successful!",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJUZXN0ZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE3MDE5NzIwOTksImV4cCI6MTcwMjU3Njg5OX0.IEtDOvGKr6Pe41rEb6j2JwRbpDovqW6Lx6PSustO28c"
+}
+```
+
+[Back to Top](#craftify-documentation)
+### `POST /users/login`
+Allows a user to login to an existing account.
+
+#### Request Parameters
+No request parameters required.
+
+#### Headers (object, required)
+- Content-Type (string, required): application/json
+- Authorization (template literal, required): Bearer ${TOKEN_STRING_HERE}
+
+#### Body
+- `email` (string)
+- `password` (string)
+
+#### Return Parameters
+Object containing status message and signed token.
+- `message` (string)
+- `token` (string)
+
+#### Sample Call
+```js
+const response = await fetch(`${API_URL}/users/login`, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        email = "craftia@example.com",
+        password = "Code123",
+    })
+});
+const result = await response.json();
+console.log(result);
+```
+
+#### Sample Response
+```js
+{
+    "message": "Login successful!",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IkNyYWZ0aWFAZXhhbXBsZS5jb20iLCJpYXQiOjE3MDE5NzI4NzQsImV4cCI6MTcwMjU3NzY3NH0.VHgrKdnvcIfxhW6sLkfwIZobVjb64kI-8w03fMDw-Y8"
+}
+```
+
+[Back to Top](#craftify-documentation)
 ### `GET /users` (Admin Only)
 Returns the data for all users (for admin purposes).
 
 #### Request Parameters
 No request parameters required.
+
+#### Headers (object, required)
+- Content-Type (string, required): application/json
+- Authorization (template literal, required): Bearer ${TOKEN_STRING_HERE}
 
 #### Body
 No body required.
@@ -258,7 +424,12 @@ An array of user objects:
 
 #### Sample Call
 ```js
-const response = await fetch(`${API_URL}/users`);
+const response = await fetch(`${API_URL}/users`, {
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    },
+});
 const result = await response.json();
 console.log(result.users);
 ```
@@ -299,6 +470,10 @@ Returns the data for a single user (for admin purposes).
 #### Request Parameters
 - `userId` (string, required)
 
+#### Headers (object, required)
+- Content-Type (string, required): application/json
+- Authorization (template literal, required): Bearer ${TOKEN_STRING_HERE}
+
 #### Body
 No body required.
 
@@ -324,7 +499,12 @@ import { useParams } from 'react-router-dom';
 const { userId } = useParams();
 
 // Pass 'userId' as parameter to the API call
-const response = await fetch(`${API_URL}/users/user/${userId}`)
+const response = await fetch(`${API_URL}/users/user/${userId}`, {
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    },
+})
 const result = await response.json();
 console.log(result.users);
 ```
@@ -345,21 +525,28 @@ console.log(result.users);
 ```
 
 [Back to Top](#craftify-documentation)
-### `GET /users/me`
-Returns the data for a logged in user (My Account).
+### `PUT /users/:userId` (Admin Only)
+Updates the data for a single user (for admin purposes).
 
 #### Request Parameters
-No request parameters required.
-
-#### Body
-No body required.
+- `userId` (string, required)
 
 #### Headers (object, required)
 - Content-Type (string, required): application/json
 - Authorization (template literal, required): Bearer ${TOKEN_STRING_HERE}
 
+#### Body
+- `permissions` (string)
+- `username` (string)
+- `email` (string)
+- `password` (string)
+- `first_name` (string)
+- `last_name` (string)
+- `address` (string)
+- `phone_number` (string)
+
 #### Return Parameters
-A user object corresponding to the logged in user.
+A user object.
 
 - `user_id` (number)
 - `permissions` (string)
@@ -373,52 +560,48 @@ A user object corresponding to the logged in user.
 
 #### Sample Call
 ```js
-// 'token' is defined as a state variable in App.jsx
-const { token, setToken } = useState('');
+// Import useParams at top of file
+import { useParams } from 'react-router-dom';
 
-// Pass 'token' into desired route on App.jsx (for example, 'MyAccount')
-<Route path="/users/me" element={<MyAccount token={token} />} />
+// Destructure 'userId' from useParams before the API call
+const { userId } = useParams();
 
-// Destructure 'token' from route parameters (for example, 'MyAccount.jsx')
-function MyAccount({ token }) {...}
-
-// Use token in authorization on API call
-const response = await fetch(`${API_URL}/users/me`, {
+// Pass 'userId' as parameter to the API call
+const response = await fetch(`${API_URL}/users/user/${userId}`, {
+    method: "PUT",
     headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
     },
+    body: JSON.stringify({
+        permissions: "user",
+        username: "emjay",
+        email: "emily@example.com",
+        password: "$2b$10$JTfrz2QcNa39zDMrMl/m0eDYvs8VAb8yZoEPBJlGj2X5y5FaNmbHO",
+        first_name: "Emily",
+        last_name: "Johnson",
+        address: "3200 Croyden Ave",
+        phone_number: "555-9032",
+    })
 })
 const result = await response.json();
-console.log(result);
+console.log(result.users);
 ```
 
 #### Sample Response
 ```js
 {
-    "user_id": 6,
-    "permissions": "admin",
-    "username": "crafTia",
-    "email": "Craftia@example.com",
-    "password": "$2b$10$sY/sal3k0uy1qXU/S5p4nOfSsK3cxLYYnwK9TYTP1Bc0FBIXrFEiy",
-    "first_name": "Craft",
-    "last_name": "Tia",
-    "address": "2900 Candle Dr.",
-    "phone_number": "565-9032"
+    "user_id": 1,
+    "permissions": "user",
+    "username": "emjay",
+    "email": "emily@example.com",
+    "password": "$2b$10$JTfrz2QcNa39zDMrMl/m0eDYvs8VAb8yZoEPBJlGj2X5y5FaNmbHO",
+    "first_name": "Emily",
+    "last_name": "Johnson",
+    "address": "3200 Croyden Ave",
+    "phone_number": "555-9032"
 }
 ```
-
-[Back to Top](#craftify-documentation)
-### `POST /users/register`
-Allows the creation of a new user.
-
-[Back to Top](#craftify-documentation)
-### `POST /users/login`
-Allows a user to login to an existing account.
-
-[Back to Top](#craftify-documentation)
-### `PUT /users/:userId` (Admin Only)
-Updates the data for a single user (for admin purposes).
 
 [Back to Top](#craftify-documentation)
 ## Products Endpoints
