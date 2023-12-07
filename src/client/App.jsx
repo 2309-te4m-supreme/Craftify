@@ -10,7 +10,7 @@ import SingleUser from './components/SingleUser'
 import EditUser from './components/EditUser';
 import OrderHistory from './components/OrderHistory'
 import Logout from './components/Logout'
-// import All from './components';
+import AddProduct from './components/AddProduct';
 import { Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -32,6 +32,7 @@ function App() {
           <Route path='/products/:productId' element={<SingleProduct />}/>
           <Route path='/users/:userId' element={<SingleUser token={token} />}/>
           <Route path='/admin/products/:productId' element={<EditProduct token={token}/>}/>
+          <Route path='/admin/addproduct' element={<AddProduct token={token}/>}/>
           <Route path='/admin' element={<Admin token={token} />}/>
           <Route path='/users/me' element={<MyAccount token={token} />}/>
           <Route path='/orders/:userId' element={<OrderHistory token={token} />}/>
