@@ -54,8 +54,9 @@ function Admin({ token }) {
 
       console.log(result)
       setOrders(result)
+      console.log(orders)
     } catch (error) {
-      console.error(err.message)
+      console.error(error.message)
     }
 
   }
@@ -150,7 +151,7 @@ function Admin({ token }) {
                 <tr key={order.order_id}>
                   <td>{order.order_id}</td>
                   <td>{order.order_date}</td>
-                  <td>${order.order_total}</td>
+                  <td>{order.order_total}</td>
                   <td>{order.user_id}</td>
                   <td>{order.order_status}</td>
                   <td>
