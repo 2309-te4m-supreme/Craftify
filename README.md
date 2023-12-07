@@ -24,6 +24,15 @@
             1. [POST /products (Admin Only)](#post-products-admin-only)
             1. [PUT /products/:productId (Admin Only)](#put-productsproductid-admin-only)
             1. [DELETE /products/:productId (Admin Only)](#delete-productsproductid-admin-only)
+        1. [Orders Endpoints](#orders-endpoints)
+            1. [GET /orders (Admin Only)](#get-orders-admin-only)
+            1. [GET /orders/:userId](#get-ordersuserid)
+            1. [POST /orders](#post-orders)
+        1. [Orders_Products Endpoints](#orders_products-endpoints)
+            1. [GET /orders_products/:userId](#get-orders_productsuserid)
+            1. [POST /orders_products](#post-orders_products)
+            1. [DELETE /orders_products/:productId](#delete-orders_productsproductid)
+
 
 # Getting Started
 1. Move into an empty directory where you want the code to clone:
@@ -247,15 +256,9 @@ The resulting console log for an array with two users should look like this:
 ### `GET /users/me`
 Returns the data for a logged in user (My Account).
 
-#### Request Parameters
-No request parameters required.
-
 #### Headers (object, required)
 - Content-Type (string, required): application/json
 - Authorization (template literal, required): Bearer ${TOKEN_STRING_HERE}
-
-#### Body
-No body required.
 
 #### Return Parameters
 A user object corresponding to the logged in user.
@@ -300,9 +303,6 @@ console.log(result);
 [Back to Top](#craftify-documentation)
 ### `POST /users/register`
 Allows the creation of a new user.
-
-#### Request Parameters
-No request parameters required.
 
 #### Headers (object, required)
 - Content-Type (string, required): application/json
@@ -355,9 +355,6 @@ console.log(result);
 ### `POST /users/login`
 Allows a user to login to an existing account.
 
-#### Request Parameters
-No request parameters required.
-
 #### Headers (object, required)
 - Content-Type (string, required): application/json
 - Authorization (template literal, required): Bearer ${TOKEN_STRING_HERE}
@@ -399,15 +396,9 @@ console.log(result);
 ### `GET /users` (Admin Only)
 Returns the data for all users (for admin purposes).
 
-#### Request Parameters
-No request parameters required.
-
 #### Headers (object, required)
 - Content-Type (string, required): application/json
 - Authorization (template literal, required): Bearer ${TOKEN_STRING_HERE}
-
-#### Body
-No body required.
 
 #### Return Parameters
 An array of user objects:
@@ -473,9 +464,6 @@ Returns the data for a single user (for admin purposes).
 #### Headers (object, required)
 - Content-Type (string, required): application/json
 - Authorization (template literal, required): Bearer ${TOKEN_STRING_HERE}
-
-#### Body
-No body required.
 
 #### Return Parameters
 A user object.
@@ -608,20 +596,278 @@ console.log(result.users);
 ### `GET /products`
 Returns the data for all products.
 
+#### Return Parameters
+Array of product objects:
+
+- `product_id` (number, integer)
+- `product_name` (string)
+- `product_description` (string)
+- `product_price` (number, decimal)
+- `product_image` (string)
+- `product_category` (string)
+- `product_stock` (number, integer)
+
+#### Sample Call
+```js
+const response = await fetch(`${API_URL}/products`);
+const result = await response.json();
+console.log(result);
+```
+
+#### Sample Response
+```js
+[
+    {
+        "product_id": 1,
+        "product_name": "Bread - Raisin",
+        "product_description": "Sed sagittis.",
+        "product_price": "9.70",
+        "product_image": "http://dummyimage.com/112x100.png/5fa2dd/ffffff",
+        "product_category": "jewelry",
+        "product_stock": 301
+    },
+    {
+        "product_id": 2,
+        "product_name": "Pepper - White, Whole",
+        "product_description": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.",
+        "product_price": "6.22",
+        "product_image": "http://dummyimage.com/109x100.png/cc0000/ffffff",
+        "product_category": "jewelry",
+        "product_stock": 545
+    },
+    (...)
+]
+```
+
 [Back to Top](#craftify-documentation)
 ### `GET /products/:productId`
 Returns the data for a single product.
+
+#### Request Parameters
+- `productId` (string, required)
+
+#### Return Parameters
+An array containa a single product object:
+
+- `product_id` (number, integer)
+- `product_name` (string)
+- `product_description` (string)
+- `product_price` (number, decimal)
+- `product_image` (string)
+- `product_category` (string)
+- `product_stock` (number, integer)
+
+#### Sample Call
+```js
+const response = await fetch(`${API}/products/${productId}`)
+const result = await response.json()
+console.log(result[0])
+```
+
+#### Sample Response
+```js
+{
+    "product_id": 1,
+    "product_name": "Bread - Raisin",
+    "product_description": "Sed sagittis.",
+    "product_price": "9.70",
+    "product_image": "http://dummyimage.com/112x100.png/5fa2dd/ffffff",
+    "product_category": "jewelry",
+    "product_stock": 301
+}
+```
 
 [Back to Top](#craftify-documentation)
 ### `POST /products` (Admin Only)
 Allows the creation of a new product.
 
+#### Headers (object, required)
+- Content-Type (string, required): application/json
+- Authorization (template literal, required): Bearer ${TOKEN_STRING_HERE}
+
+#### Body
+- `product_name` (string)
+- `product_description` (string)
+- `product_price` (number, decimal)
+- `product_image` (string)
+- `product_category` (string)
+- `product_stock` (number, integer)
+
+#### Return Parameters
+- `product_id` (number, integer)
+- `product_name` (string)
+- `product_description` (string)
+- `product_price` (number, decimal)
+- `product_image` (string)
+- `product_category` (string)
+- `product_stock` (number, integer)
+
+#### Sample Call
+```js
+const response = await fetch(`${API_URL}/products`, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({
+        product_name: "Test",
+        product_description: "A product to test upon.",
+        product_price: 10.30,
+        product_image: "http://dummyimage.com/fake/picture.jpg",
+        product_category: "handcrafted item",
+        product_stock: 298
+    })
+});
+const result = await response.json();
+console.log(result);
+```
+
+#### Sample Response
+```js
+{
+    "product_id": 51,
+    "product_name": "Test",
+    "product_description": "A product to test upon.",
+    "product_price": "10.30",
+    "product_image": "http://dummyimage.com/fake/picture.jpg",
+    "product_category": "handcrafted item",
+    "product_stock": 298
+}
+```
+
 [Back to Top](#craftify-documentation)
 ### `PUT /products/:productId` (Admin Only)
 Updates a product by product-id.
 
+#### Request Parameters
+- `productId` (string, required)
+
+#### Headers (object, required)
+- Content-Type (string, required): application/json
+- Authorization (template literal, required): Bearer ${TOKEN_STRING_HERE}
+
+#### Body
+- `product_name` (string)
+- `product_description` (string)
+- `product_price` (number, decimal)
+- `product_image` (string)
+- `product_category` (string)
+- `product_stock` (number, integer)
+
+#### Return Parameters
+- `product_id` (number, integer)
+- `product_name` (string)
+- `product_description` (string)
+- `product_price` (number, decimal)
+- `product_image` (string)
+- `product_category` (string)
+- `product_stock` (number, integer)
+
+#### Sample Call
+```js
+const response = await fetch(`${API_URL}/products/${productId}`, {
+    method: 'PUT',
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({
+        product_name: "Test Two - Update",
+        product_description: "A product to test again.",
+        product_price: 10.30,
+        product_image: "http://dummyimage.com/fake/picture.jpg",
+        product_category: "updated handcrafted item",
+        product_stock: 298
+    })
+});
+const result = await response.json();
+console.log(result);
+```
+
+#### Sample Response
+```js
+{
+    "product_id": 51,
+    "product_name": "Test Two - Update",
+    "product_description": "A product to test again.",
+    "product_price": "10.30",
+    "product_image": "http://dummyimage.com/fake/picture.jpg",
+    "product_category": "updated handcrafted item",
+    "product_stock": 298
+}
+```
+
 [Back to Top](#craftify-documentation)
 ### `DELETE /products/:productId` (Admin Only)
 Deletes a product by product-id.
+
+#### Request Parameters
+- `productId` (string, required)
+
+#### Headers (object, required)
+- Content-Type (string, required): application/json
+- Authorization (template literal, required): Bearer ${TOKEN_STRING_HERE}
+
+#### Return Parameters
+- `product_id` (number, integer)
+- `product_name` (string)
+- `product_description` (string)
+- `product_price` (number, decimal)
+- `product_image` (string)
+- `product_category` (string)
+- `product_stock` (number, integer)
+
+#### Sample Call
+```js
+const response = await fetch(`${API_URL}/products/${productId}`, {
+    method: 'DELETE',
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    }
+});
+const result = await response.json();
+console.log(result);
+```
+
+#### Sample Response
+```js
+{
+    "product_id": 51,
+    "product_name": "Test Two - Update",
+    "product_description": "A product to test again.",
+    "product_price": "10.30",
+    "product_image": "http://dummyimage.com/fake/picture.jpg",
+    "product_category": "updated handcrafted item",
+    "product_stock": 298
+}
+```
+
+[Back to Top](#craftify-documentation)
+## Orders Endpoints
+### `GET /orders` (Admin Only)
+Displays a list of all orders (Global Order History).
+
+[Back to Top](#craftify-documentation)
+### `GET /orders/:userId`
+Displays a list of all orders by userId (Personal Order History)
+
+[Back to Top](#craftify-documentation)
+### `POST /orders`
+Creates a new order.
+
+[Back to Top](#craftify-documentation)
+## Orders_Products Endpoints
+### `GET /orders_products/:userId`
+Displays a list of items in the user cart.
+
+[Back to Top](#craftify-documentation)
+### `POST /orders_products`
+Adds an item to the user's cart.
+
+[Back to Top](#craftify-documentation)
+### `DELETE /orders_products/:productId`
+Deletes an item from the user's cart.
 
 [Back to Top](#craftify-documentation)
