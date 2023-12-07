@@ -38,6 +38,7 @@ ordersRouter.get('/:userId', requireUser, async (req, res, next) => {
 ordersRouter.post('/', requireUser, async (req, res, next) => {
   try {
     const { order_total } = req.body
+    
     const order = await createOrder(req.user.user_id, order_total)
     res.send(order)
   } catch ({name, message}) {
