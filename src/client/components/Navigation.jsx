@@ -34,8 +34,8 @@ function Navigation({ token }) {
           </>
         ) : (
           <>
-            <Link to='/login' href='/#'>Login</Link>
-            <Link to='/register' href='/#'>Sign Up</Link>
+            <Link to='/login' href='/#' title='Login'>Login</Link>
+            <Link to='/register' href='/#' title='Sign Up'>Sign Up</Link>
           </>
         )}
         <button className='nav-close-button' onClick={showNavigation}>
