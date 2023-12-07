@@ -4,8 +4,8 @@ const ordersRouter = express.Router();
 const { getAllOrders, getOrderById, getOrderByUserId, createOrder, deleteOrder } = require('../db/orders');
 const { requireAdmin, requireUser } = require('./utils')
 
-//TODO (Admin)
-ordersRouter.get('/', async (req, res, next) => {
+//TODO (Admin) Get Orders
+ordersRouter.get('/',requireAdmin, async (req, res, next) => {
   try {
     const orders = await getAllOrders()
 
@@ -25,6 +25,7 @@ ordersRouter.get('/', async (req, res, next) => {
 //   }
 // })
 
+//TODO (Admin) Get Order By Id
 
 ordersRouter.get('/:userId', requireUser, async (req, res, next) => {
   try {
@@ -35,6 +36,8 @@ ordersRouter.get('/:userId', requireUser, async (req, res, next) => {
   }
 })
 
+
+// Start Order
 ordersRouter.post('/', requireUser, async (req, res, next) => {
   try {
     const { order_total } = req.body

@@ -77,12 +77,39 @@ const users = [
 
 const orders = [
   {
+    user_id: 1,
+    order_total: 85,
+  },
+  {
+    user_id: 2,
+    order_total: 931,
+  },
+  {
     user_id: 3,
-    order_total: 42,
+    order_status: "In Progress",
+    order_total: 2746,
+  },
+  {
+    user_id: 3,
+    order_total: 82,
   },
   {
     user_id: 4,
     order_total: 159,
+  },
+  {
+    user_id: 4,
+    order_status: "In Progress",
+    order_total: 942,
+  },
+  {
+    user_id: 5,
+    order_total: 40,
+  },
+  {
+    user_id: 5,
+    order_status: "Completed",
+    order_total: 525,
   },
   {
     user_id: 6,
@@ -143,7 +170,7 @@ const createTables = async () => {
     console.log("Creating tables...")
     await db.query(`
         CREATE TYPE permission AS ENUM ('user', 'admin');
-        CREATE TYPE status AS ENUM ('Pending', 'In Progress');
+        CREATE TYPE status AS ENUM ('Pending', 'In Progress', 'Completed');
           
         CREATE TABLE users (
           user_id SERIAL PRIMARY KEY,

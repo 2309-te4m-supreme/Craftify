@@ -49,6 +49,20 @@ const checkForPendingCart = async (userId) => {
   }
 }
 
+const removeFromCartByID = async (orderId, productId) => {
+  try {
+    console.log(orderId)
+    const { rows } = await db.query(`
+    DELETE FROM orders_products
+    WHERE order_id = $1 AND product_id = $2
+    RETURNING * ;`, [
+      orderId, productId]);
+    return rows;
+  } catch (err) {
+      throw err;
+  }
+}
+
 
 
 // POSSIBLE Update for Total
@@ -81,4 +95,4 @@ const checkForPendingCart = async (userId) => {
 
 
 
-module.exports = { createOrders_Product, getAllProductsByOrderId, checkForPendingCart}
+module.exports = { createOrders_Product, getAllProductsByOrderId, checkForPendingCart, removeFromCartByID}
