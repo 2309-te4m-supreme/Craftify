@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import flowers2 from '../assets/flowers2.mp4'
 
-function Register() {
+function Register({ setToken }) {
   const [first_name, setFirstName] = useState('');
   const [last_name, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -10,6 +10,7 @@ function Register() {
   const [address, setAddress] = useState('');
   const [phone_number, setPhoneNumber] = useState('');
   const [username, setUsername] = useState('');
+  // const [result, setResult] = useState({ token: '' });
   const navigate = useNavigate();
 
   const API = 'http://localhost:3000/api';
@@ -36,11 +37,16 @@ function Register() {
       const result = await response.json();
       console.log(result.token)
       localStorage.setItem("token", `${result.token}`);
+      setToken(result.token)
       navigate('/products');
     } catch (err) {
       console.error(err);
     }
   }
+
+  // const setTokenHandler = () => {
+  //   setToken('token', `${result.token}`)
+  // } 
 
   return (
     <>
