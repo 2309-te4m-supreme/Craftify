@@ -2,17 +2,15 @@ import { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom';
 
 export default function Cart({ token }) {
+  const { userId } = useParams();
     const [cart, setCart] = useState([]);
-    const [cartProducts, setCartProducts] = useState([]);
-
     const API = 'http://localhost:3000/api'
 
     useEffect(() => {
         fetchCart()
-        getCartProducts()
-    }, []);
+    }, [userId]);
 
-    const { userId } = useParams();
+    console.log(userId)
 
     async function fetchCart() {
     try {
@@ -29,35 +27,6 @@ export default function Cart({ token }) {
       console.error(error.message)
     }
   }
-
-  async function getSingleProduct(productId) {
-    try {
-        const response = await fetch(`${API}/products/${productId}`)
-        const result = await response.json()
-        setCartProducts([
-          ...cartProducts,
-          { result }
-        ]);
-        console.log(cartProducts)
-    } catch (error) {
-        console.error(error)
-    }
-  }
-
-  async function getCartProducts() {
-    // const renderCart = []
-    // for (let i = 0; i < cart.length; i++) {
-    //   await renderCart.push(getSingleProduct(cart[i].product_id))
-    // }
-    // return renderCart
-      const renderCart = await Promise.all(
-        cart.map((cartItem) => getSingleProduct(cartItem.product_id))
-      );
-      console.log(cart)
-      return renderCart;
-  }
-  
-console.log(getCartProducts())
 
   return (
 
@@ -76,26 +45,26 @@ console.log(getCartProducts())
             </tr>
           </thead>
           <tbody>
-            {/* {
-              orders.map((order) => {
+            {
+              cart.map((item) => {
                 return (
-                  <tr key={order.order_id}>
-                    <td>{order.order_id}</td>
-                    <td>{order.order_date}</td>
-                    <td>{order.order_total}</td>
-                    <td>{order.user_id}</td>
-                    <td>{order.order_status}</td>
+                  <tr key={item.product_id}>
+                    <td>{item.product_id}</td>
+                    <td>{item.item_name}</td>
+                    <td>{item.description}</td>
+                    <td>{item.price}</td>
+                    <td>{item.quantity}</td>
                     <td>
                         <button>View Order</button>
                     </td>
                   </tr>
                 )})
-            } */}
+            }
           </tbody>
         </table>
-            <Link to='/checkout/:userId'>
+            {/* <Link to='/checkout/:userId'>
               <button>Checkout</button>
-            </Link>
+            </Link> */}
       </div>
 
   )
