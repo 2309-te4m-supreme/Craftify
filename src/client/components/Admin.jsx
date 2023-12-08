@@ -46,8 +46,12 @@ function Admin({ token }) {
 
   async function fetchAllOrders() {
     try {
-      const response = await fetch(`${API}/orders`);
-      // add headers once require Admin is added on DB
+      const response = await fetch(`${API}/orders`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        }
+      });
       const result = await response.json();
 
       console.log(result);

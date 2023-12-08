@@ -37,6 +37,7 @@ function Register({ setToken }) {
       const result = await response.json();
       console.log(result.token)
       localStorage.setItem("token", `${result.token}`);
+      setToken(result.token)
       navigate('/products');
     } catch (err) {
       console.error(err);

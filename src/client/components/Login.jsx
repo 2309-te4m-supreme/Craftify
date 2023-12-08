@@ -30,6 +30,7 @@ const Login = ({ setToken }) => {
       const result = await response.json();
       console.log(result)
       localStorage.setItem("token", `${result.token}`);
+      setToken(result.token)
       navigate('/products')
     } catch (err) {
       console.error(`${err.name}: ${err.message}`);

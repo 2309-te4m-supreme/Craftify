@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 
-export default function MyAccount({ token }) {
+export default function MyAccount({ token, setUserId }) {
   const [user, setUser] = useState({});
 
   useEffect(() => {
@@ -38,6 +38,9 @@ export default function MyAccount({ token }) {
           <h3>Phone Number: {user.phone_number}</h3>
         <Link to={`/orders/${user.user_id}`}>
           <button>Order History</button>
+        </Link>
+        <Link to={`/cart/${user.user_id}`}>
+          <button>Cart</button>
         </Link>
         </div>
       </div>

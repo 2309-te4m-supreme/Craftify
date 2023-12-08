@@ -17,7 +17,8 @@ import { Route, Routes } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 function App() {
-  const [ token, setToken ] = useState();
+  const [ token, setToken ] = useState('');
+  
 
   useEffect(() => {
     setToken(localStorage.getItem("token"))
@@ -33,18 +34,18 @@ function App() {
         <Navigation token={token}/>
       </div>
         <Routes>
-          <Route path='/login' element={<Login />}/>
+          <Route path='/login' element={<Login setToken={setToken}/>}/>
           <Route path='/logout' element={<Logout setToken={setToken} />}/>
-          <Route path='/register' element={<Register />}/>
+          <Route path='/register' element={<Register setToken={setToken}/>}/>
           <Route path='/products' element={<Products />}/>
           <Route path='/products/:productId' element={<SingleProduct />}/>
           <Route path='/users/:userId' element={<SingleUser token={token} />}/>
           <Route path='/admin/products/:productId' element={<EditProduct token={token}/>}/>
           <Route path='/admin/addproduct' element={<AddProduct token={token}/>}/>
           <Route path='/admin' element={<Admin token={token} />}/>
-          <Route path='/users/me' element={<MyAccount token={token} />}/>
+          <Route path='/users/me' element={<MyAccount token={token}/>}/>
           <Route path='/orders/:userId' element={<OrderHistory token={token} />}/>
-          <Route path='/cart/:userId' element={<Cart token={token} />}/>
+          <Route path='/cart/:userId' element={<Cart token={token}/>}/>
           <Route path='/checkout/:userId' element={<Checkout token={token} />}/>
           <Route path='/admin/users/:userId' element={<EditUser token={token} />}/>
         </Routes>
