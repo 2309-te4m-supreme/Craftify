@@ -1,4 +1,5 @@
 const db = require('./client')
+const product = require ('./products')
 const SALT_COUNT = 10;
 
 const createOrders_Product = async ({
@@ -26,8 +27,11 @@ const createOrders_Product = async ({
 const getAllProductsByOrderId = async (orderId) => {
   try {
     const { rows } = await db.query(`
-    SELECT * FROM orders_products
-    WHERE order_id = $1;`, [
+    SELECT products.product_name, products.product_price, orders_products.quantity
+    FROM orders_products
+    JOIN products ON orders_products.product_id = products.product_id
+    WHERE order_id = $1;
+     ;`, [
       orderId]);
       console.log(rows)
     return rows;

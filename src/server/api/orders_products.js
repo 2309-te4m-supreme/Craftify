@@ -6,7 +6,7 @@ const { getAllProductsByOrderId, createOrders_Product, checkForPendingCart, remo
 const { getOrderByUserId } = require('../db/orders')
 
 // Get Cart 
-// ROUTE /api/orders_products/:userId
+// ROUTE /api/orders_products/:userId (Can cut out userId)
 ordersProductsRouter.get('/:userId', requireUser, async (req, res, next) => {
   try {
     const {userId} = req.params
