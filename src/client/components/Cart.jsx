@@ -3,11 +3,13 @@ import { Link, useParams } from 'react-router-dom';
 
 export default function Cart({ token }) {
     const [cart, setCart] = useState([]);
+    const [cartProducts, setCartProducts] = useState([]);
 
     const API = 'http://localhost:3000/api'
 
     useEffect(() => {
         fetchCart()
+        getCartProducts()
     }, []);
 
     const { userId } = useParams();
@@ -23,7 +25,6 @@ export default function Cart({ token }) {
       const result = await response.json()
       console.log(result)
       setCart(result)
-      console.log(cart)
     } catch (error) {
       console.error(error.message)
     }
@@ -33,17 +34,27 @@ export default function Cart({ token }) {
     try {
         const response = await fetch(`${API}/products/${productId}`)
         const result = await response.json()
+        setCartProducts([
+          ...cartProducts,
+          { result }
+        ]);
+        console.log(cartProducts)
     } catch (error) {
         console.error(error)
     }
   }
 
   async function getCartProducts() {
-    const renderCart = []
-    for (let i = 0; i < cart.length; i++) {
-      await renderCart.push(getSingleProduct(cart[i].product_id))
-    }
-    return renderCart
+    // const renderCart = []
+    // for (let i = 0; i < cart.length; i++) {
+    //   await renderCart.push(getSingleProduct(cart[i].product_id))
+    // }
+    // return renderCart
+      const renderCart = await Promise.all(
+        cart.map((cartItem) => getSingleProduct(cartItem.product_id))
+      );
+      console.log(cart)
+      return renderCart;
   }
   
 console.log(getCartProducts())
