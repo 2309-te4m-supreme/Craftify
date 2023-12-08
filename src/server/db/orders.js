@@ -63,6 +63,22 @@ const createOrder = async (
     }
 }
 
+const updateOrderStatus = async (orderId) => {
+    try {
+      console.log(orderId)
+      const { rows } = await db.query(`
+      UPDATE orders
+      SET 
+        order_status = $1
+      WHERE order_id= $2
+      RETURNING * ;`, [
+        "In Progress", orderId ]);
+      return rows;
+    } catch (err) {
+        throw err;
+    }
+  }
+
 // const deleteOrder = async (orderId) => {
 //     try {
 //         const { rows: order } = await db.query(`
@@ -75,4 +91,4 @@ const createOrder = async (
 //     }
 // }
 
-module.exports = { getAllOrders, getOrderById, getOrderByUserId, createOrder}
+module.exports = { getAllOrders, getOrderById, getOrderByUserId, createOrder, updateOrderStatus}

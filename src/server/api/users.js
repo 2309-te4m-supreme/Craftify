@@ -118,12 +118,16 @@ usersRouter.post('/register', async (req, res, next) => {
             phone_number
         });
 
+
         const token = jwt.sign({
             id: user.user_id,
             email
         }, process.env.JWT_SECRET, {
             expiresIn: '1w'
         });
+
+        const order = await createOrder(user.user_id, order_total)
+        console.log(order)
 
         res.send({
             message: 'Sign up successful!',

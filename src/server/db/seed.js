@@ -130,6 +130,16 @@ const orders_products = [
     quantity: 30,
   },
   {
+    order_id: 1,
+    product_id: 20,
+    quantity: 53,
+  },
+  {
+    order_id: 2,
+    product_id: 47,
+    quantity: 4,
+  },
+  {
     order_id: 2,
     product_id: 47,
     quantity: 4,
@@ -140,9 +150,14 @@ const orders_products = [
     quantity: 5,
   },
   {
-    order_id: 1,
-    product_id: 20,
-    quantity: 53,
+    order_id: 9,
+    product_id: 4,
+    quantity: 32,
+  },
+  {
+    order_id: 10,
+    product_id: 15,
+    quantity: 36,
   }
 
 ];
