@@ -1,6 +1,7 @@
 # Craftify Documentation
 # Table of Contents
 - [Getting Started](#getting-started)
+- [Post-Merge Guide](#post-merge-guide)
 - [Databse Schema](#database-schema)
     1. [Users](#1-users-table)
     1. [Products](#2-products-table)
@@ -32,6 +33,8 @@
             1. [GET /orders_products/:userId](#get-orders_productsuserid)
             1. [POST /orders_products](#post-orders_products)
             1. [DELETE /orders_products/:productId](#delete-orders_productsproductid)
+            1. [PATCH /orders_products/:productId](#patch-orders_productsproductid)
+            1. [PATCH /orders_products/:orderId](#patch-orders_productsorderid)
 
 
 # Getting Started
@@ -85,6 +88,66 @@ npm run dev
 10. Build something cool! 😎
 
 [Back to Top](#craftify-documentation)
+# Post Merge Guide
+
+1. Navigate to the working directory for Craftify:
+    ```bash
+    cd Craftify
+    ```
+
+1. Checkout the main branch
+    ```bash
+    git checkout main
+    ```
+
+1. Update your main branch:
+    ```bash
+    git pull
+    ```
+
+1. List all locally tracked branches:
+    ```bash
+    git branch
+    ```
+
+1. Remove unused locally tracked branches:
+    ```bash
+    git branch -d <branchName1> <branchName2> (...)
+    ```
+
+1. List all locally tracked remotes:
+    ```bash
+    git branch -a
+    ```
+
+1. Prune all locally tracked, but merged and deleted, branches named origin:
+    ```bash
+    git remote prune origin
+    ```
+
+1. Repeat steps to list locally tracked branches and remotes to confirm deletes:
+    ```bash
+    git branch && git branch -a
+    ```
+
+1. Create a new branch locally:
+    ```bash
+    git checkout -b <newBranchName>
+    ```
+
+1. Setup remote tracking and push to GitHub:
+    ```bash
+    git push --set-upstream origin <newBranchName>
+    ```
+
+1. To checkout an existing branch (or to checkout another branch):
+    ```bash
+    git checkout <newBranchName>
+    ```
+
+1. Write some great features!
+
+[Back to Top](#craftify-documentation)
 # Database Schema
 ## 1. Users Table
 The `users` table stores information about the registered users of the eCommerce app. It typically includes fields such as:
@@ -124,7 +187,7 @@ The `orders` table tracks orders placed by users. It typically includes fields s
 | order_id | INT | Unique identifier for each order |
 | user_id | INT | Foreign key referencing the `user_id` in the `users` table, indicating the user who placed the order |
 | order_date | DATETIME | Date and time when the order was placed |
-| order_status | VARCHAR(255) | Current status of the order, such as "open" or "completed" |
+| order_status | VARCHAR(255) | Current status of the order (one of "pending", "in progress", or "complete")|
 | order_total | DECIMAL(10,2) | Total amount of the order, including product prices and any applicable taxes or shipping costs |
 
 [Back to Top](#craftify-documentation)
@@ -145,8 +208,9 @@ When using the API, many calls are made in the context of a registered user. The
 A sample request with an authorization token looks like this:
 
 ```js
-// 'token' is placed in localStorage in App.jsx
-const token = localStorage.getItem("token");
+// 'token' is placed in state from localStorage in App.jsx
+const [ token, setToken ] = useState('');
+const setToken(localStorage.getItem("token"));
 
 // Pass 'token' into desired route on App.jsx (for example, 'MyAccount')
 <Route path="/users/me" element={<MyAccount token={token} />} />
@@ -178,23 +242,16 @@ If the token is malformed, missing, or has been revoked, you will get a response
 
 [Back to Top](#craftify-documentation)
 ## General Return Schema
-### ERROR
-```js
-{
-    "name": "NotFound",
-    "message": "No book by ID 999"
-}
-```
-
 ### SUCCESS (sends back created/updated/deleted entity)
 ```js
 {
-    "id": 4,
-    "title": "1984",
-    "author": "George Orwell"
-    "description": "George Orwell’s dystopian masterpiece..."
-    "coverimage": "https://images.dummyurl.com/image.jpeg"
-    "available": true
+    "product_id": 51,
+    "product_name": "Test",
+    "product_description": "A product to test upon.",
+    "product_price": "10.30",
+    "product_image": "http://dummyimage.com/fake/picture.jpg",
+    "product_category": "handcrafted item",
+    "product_stock": 298
 }
 ```
 
@@ -306,7 +363,6 @@ Allows the creation of a new user.
 
 #### Headers (object, required)
 - Content-Type (string, required): application/json
-- Authorization (template literal, required): Bearer ${TOKEN_STRING_HERE}
 
 #### Body
 - `username` (string)
@@ -357,7 +413,6 @@ Allows a user to login to an existing account.
 
 #### Headers (object, required)
 - Content-Type (string, required): application/json
-- Authorization (template literal, required): Bearer ${TOKEN_STRING_HERE}
 
 #### Body
 - `email` (string)
@@ -659,6 +714,13 @@ An array containa a single product object:
 
 #### Sample Call
 ```js
+// Import useParams at top of file
+import { useParams } from 'react-router-dom';
+
+// Destructure variable from useParams before the API call
+const { productId } = useParams();
+
+// Use variable in fetch call
 const response = await fetch(`${API}/products/${productId}`)
 const result = await response.json()
 console.log(result[0])
@@ -766,6 +828,13 @@ Updates a product by product-id.
 
 #### Sample Call
 ```js
+// Import useParams at top of file
+import { useParams } from 'react-router-dom';
+
+// Destructure variable from useParams before the API call
+const { productId } = useParams();
+
+// Use variable in fetch call
 const response = await fetch(`${API_URL}/products/${productId}`, {
     method: 'PUT',
     headers: {
@@ -820,6 +889,13 @@ Deletes a product by product-id.
 
 #### Sample Call
 ```js
+// Import useParams at top of file
+import { useParams } from 'react-router-dom';
+
+// Destructure variable from useParams before the API call
+const { productId } = useParams();
+
+// Use variable in fetch call
 const response = await fetch(`${API_URL}/products/${productId}`, {
     method: 'DELETE',
     headers: {
@@ -849,25 +925,308 @@ console.log(result);
 ### `GET /orders` (Admin Only)
 Displays a list of all orders (Global Order History).
 
+#### Headers (object, required)
+- Content-Type (string, required): application/json
+- Authorization (template literal, required): Bearer ${TOKEN_STRING_HERE}
+
+#### Return Parameters
+An array of order objects:
+- `order_id` (number, integer)
+- `user_id` (number, integer)
+- `order_date` (datetime)
+- `order_status` (string)
+- `order_total` (number, decimal)
+
+#### Sample Call
+```js
+const response = await fetch(`${API_URL}/orders`, {
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    }
+});
+const result = await response.json();
+console.log(result);
+```
+
+#### Sample Response
+```js
+{
+    "order_id": 1,
+    "user_id": 1,
+    "order_date": "2023-12-08T18:24:26.215Z",
+    "order_status": "Pending",
+    "order_total": "85.00"
+},
+{
+    "order_id": 2,
+    "user_id": 2,
+    "order_date": "2023-12-08T18:24:26.270Z",
+    "order_status": "Pending",
+    "order_total": "931.00"
+},
+(...)
+```
+
 [Back to Top](#craftify-documentation)
 ### `GET /orders/:userId`
 Displays a list of all orders by userId (Personal Order History)
+
+#### Request Parameters
+- `userId` (as useParams)
+
+#### Headers
+- Content-Type (string, required): application/json
+- Authorization (template literal, required): Bearer ${TOKEN_STRING_HERE}
+
+#### Return Parameters
+An array of order objects:
+- `order_id` (number, integer)
+- `user_id` (number, integer)
+- `order_date` (datetime)
+- `order_status` (string)
+- `order_total` (number, decimal)
+
+#### Sample Call
+```js
+// Import useParams at top of file
+import { useParams } from 'react-router-dom';
+
+// Destructure variable from useParams before the API call
+const { orderId } = useParams();
+
+// Use variable in fetch call
+const response = await fetch(`${API_URL}/orders/${orderId}`, {
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    }
+});
+const result = await response.json();
+console.log(result);
+```
+
+#### Sample Response
+```js
+[
+    {
+    "order_id": 1,
+    "user_id": 1,
+    "order_date": "2023-12-08T18:24:26.215Z",
+    "order_status": "Pending",
+    "order_total": "85.00"
+    },
+    (...)
+]
+```
 
 [Back to Top](#craftify-documentation)
 ### `POST /orders`
 Creates a new order.
 
+#### Headers
+- Content-Type (string, required): application/json
+- Authorization (template literal, required): Bearer ${TOKEN_STRING_HERE}
+
+#### Body
+- `order_id` (number, integer)
+- `user_id` (number, integer)
+- `order_date` (datetime)
+- `order_status` (string)
+- `order_total` (number, decimal)
+
+#### Return Parameters
+An order object:
+- `order_id` (number, integer)
+- `user_id` (number, integer)
+- `order_date` (datetime)
+- `order_status` (string)
+- `order_total` (number, decimal)
+
+#### Sample Call
+```js
+const response = await fetch(`${API_URL}/orders`, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    }
+});
+const result = await response.json();
+console.log(result);
+```
+
+#### Sample Response
+```js
+{
+    "order_id": 1,
+    "user_id": 1,
+    "order_date": "2023-12-08T18:24:26.215Z",
+    "order_status": "Pending",
+    "order_total": "85.00"
+}
+```
+
 [Back to Top](#craftify-documentation)
 ## Orders_Products Endpoints
 ### `GET /orders_products/:userId`
-Displays a list of items in the user cart.
+### WARNING: This endpoint has been updated in the codebase.
+### It now uses SQL joint table functionality.
+### This has not been documented here.
+Displays a list of items in the current (pending) user cart.
+
+#### Request Parameters
+- `userId` (as useParams)
+
+#### Headers
+- Content-Type (string, required): application/json
+- Authorization (template literal, required): Bearer ${TOKEN_STRING_HERE}
+
+#### Response Parameters
+An array of orders_products objects.
+
+- `order_id` (number, integer)
+- `product_id` (number, integer)
+- `quantity` (number, integer)
+
+#### Sample Call
+```js
+// Import useParams at top of file
+import { useParams } from 'react-router-dom';
+
+// Destructure variable from useParams before the API call
+const { userId } = useParams();
+
+// Use variable in fetch call
+const response = await fetch(`${API_URL}/orders_products/${userId}`, {
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    }
+});
+const result = await response.json();
+console.log(result);
+```
+
+#### Sample Response
+```js
+[
+    {
+        "order_id": 1,
+        "product_id": 15,
+        "quantity": 30
+    },
+    {
+        "order_id": 1,
+        "product_id": 20,
+        "quantity": 53
+    }
+    (...)
+]
+```
 
 [Back to Top](#craftify-documentation)
 ### `POST /orders_products`
 Adds an item to the user's cart.
 
+#### Headers
+- Content-Type (string, required): application/json
+- Authorization (template literal, required): Bearer ${TOKEN_STRING_HERE}
+
+#### Body
+- `order_id` (number, integer)
+- `product_id` (number, integer)
+- `quantity` (number, integer)
+
+#### Return Parameters
+An orders_products object.
+
+- `order_id` (number, integer)
+- `product_id` (number, integer)
+- `quantity` (number, integer)
+
+#### Sample Call
+```js
+const response = await fetch(`${API_URL}/orders_products`, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({
+        "order_id": "1",
+        "product_id": "15",
+        "quantity": "30"
+    })
+});
+const result = await response.json();
+console.log(result);
+```
+
+#### Sample Response
+```js
+{
+    "order_id": 1,
+    "product_id": 15,
+    "quantity": 30
+}
+```
+
 [Back to Top](#craftify-documentation)
 ### `DELETE /orders_products/:productId`
 Deletes an item from the user's cart.
+
+#### Headers
+- Content-Type (string, required): application/json
+- Authorization (template literal, required): Bearer ${TOKEN_STRING_HERE}
+
+#### Body
+- `order_id` (number, integer)
+- `product_id` (number, integer)
+- `quantity` (number, integer)
+
+#### Return Parameters
+An orders_products object.
+
+- `order_id` (number, integer)
+- `product_id` (number, integer)
+- `quantity` (number, integer)
+
+#### Sample Call
+```js
+// Import useParams at top of file
+import { useParams } from 'react-router-dom';
+
+// Destructure variable from useParams before the API call
+const { productId } = useParams();
+
+// Use variable in fetch call
+const response = await fetch(`${API_URL}/orders_products/${productId}`, {
+    method: 'DELETE',
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    }
+});
+const result = await response.json();
+console.log(result);
+```
+
+#### Sample Response
+```js
+{
+    "order_id": 1,
+    "product_id": 15,
+    "quantity": 30
+}
+```
+
+[Back to Top](#craftify-documentation)
+### `PATCH /orders_products/:productId`
+Allows a user to edit quantity of items in cart.
+
+[Back to Top](#craftify-documentation)
+### `PATCH /orders_products/:orderId`
+Allows a user to update status of an order
 
 [Back to Top](#craftify-documentation)
