@@ -2,7 +2,7 @@ const express = require('express')
 const ordersProductsRouter = express.Router();
 
 const { requireAdmin, requireUser } = require('./utils')
-const { getAllProductsByOrderId, createOrders_Product, checkForPendingCart, removeFromCartByID } = require('../db/orders_products')
+const { getAllProductsByOrderId, createOrders_Product, checkForPendingCart, removeFromCartByID, updateQuantity, updateOrderStatus } = require('../db/orders_products')
 const { getOrderByUserId } = require('../db/orders')
 
 // Get Cart 
@@ -11,7 +11,9 @@ ordersProductsRouter.get('/:userId', requireUser, async (req, res, next) => {
   try {
     const {userId} = req.params
     const order = await checkForPendingCart(userId)
+    console.log(order[0].order_id)
     const products = await getAllProductsByOrderId(order[0].order_id)
+    console.log(products)
     res.send(products)
   } catch ({name, message}) {
     next({name, message})
@@ -50,19 +52,37 @@ ordersProductsRouter.delete('/:productId', requireUser, async (req, res, next) =
   }
 })
 
-// Edit Quantity IN PROGRESS
-// ordersProductsRouter.PATCH('/:productId', requireUser, async (req, res, next) => {
-//   try {
-//     const {productId} = req.params
-//     const {quantity} = req.body
-//     const {user_id} = req.user
-//     // const order = await checkForPendingCart(user_id)  UNDECIDED
-//     // const order_id = order[0].order_id UNDECIDED
+// Edit Quantity SUCCESS
+ordersProductsRouter.patch('/:productId', requireUser, async (req, res, next) => {
+  try {
+    const {productId} = req.params
+    console.log(productId)
+    const {quantity} = req.body
+    const {user_id} = req.user
+    const amountOfProduct = await updateQuantity(quantity, productId)
 
-//     res.send(products)
-//   } catch ({name, message}) {
-//     next({name, message})
-//   }
-// })
+    res.send(amountOfProduct)
+  } catch ({name, message}) {
+    next({name, message})
+  }
+})
+
+// Checkout Order IN PROGRESS
+ordersProductsRouter.patch('/:orderId', requireUser, async (req, res, next) => {
+  try {
+    const {orderId} = req.params
+// Frontend gets request with userId to get pending orderId, and then pass the orderId through this api function
+    const {user_id} = req.user
+    const orderStatus = await updateOrderStatus(orderId)
+
+    res.send(orderStatus)
+  } catch ({name, message}) {
+    next({name, message})
+  }
+})
+
+
+
+
 
 module.exports = ordersProductsRouter

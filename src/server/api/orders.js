@@ -1,7 +1,7 @@
 const express = require('express')
 const ordersRouter = express.Router();
 
-const { getAllOrders, getOrderById, getOrderByUserId, createOrder, deleteOrder } = require('../db/orders');
+const { getAllOrders, getOrderById, getOrderByUserId, createOrder, updateOrderStatus } = require('../db/orders');
 const { requireAdmin, requireUser } = require('./utils')
 
 //TODO (Admin) Get Orders
@@ -48,6 +48,23 @@ ordersRouter.post('/', requireUser, async (req, res, next) => {
     next({name, message})
   }
 })
+
+// Update Order Status after Checkout SUCCESS
+ordersRouter.patch('/:orderId', requireUser, async (req, res, next) => {
+  try {
+    const {orderId} = req.params
+// Frontend gets request with userId to get pending orderId, and then pass the orderId through this api function
+    const {user_id} = req.user
+    const orderStatus = await updateOrderStatus(orderId)
+    const newOrder = await createOrder(user_id, 0)
+
+    res.send(orderStatus)
+  } catch ({name, message}) {
+    next({name, message})
+  }
+})
+
+
 
 // This route is for TESTING ONLY!
 // ordersRouter.delete('/:orderId', async (req, res, next) => {
