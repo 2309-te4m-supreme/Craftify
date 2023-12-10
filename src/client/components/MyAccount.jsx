@@ -36,9 +36,9 @@ export default function MyAccount({ token, setUserId }) {
           <h3>Email: {user.email}</h3>
           <h3>Address: {user.address}</h3>
           <h3>Phone Number: {user.phone_number}</h3>
-        <Link to={`/orders/${user.user_id}`}>
+        {/* <Link to={`/orders/${user.user_id}`}>
           <button>Order History</button>
-        </Link>
+        </Link> */}
         <Link to={`/cart/${user.user_id}`}>
           <button>Cart</button>
         </Link>

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import springFlowers from '../assets/springFlowers.mp4'
 
-export default function SingleProduct() {
+export default function SingleProduct({ token }) {
 
     const [productDetails, setProductDetails] = useState({})
     const API = 'http://localhost:3000/api'
@@ -23,6 +23,21 @@ export default function SingleProduct() {
             console.error(error)
         }
     }
+    
+    async function handleAddToCart(){
+        try{
+            await fetch(`${API}/orders_products`, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                },
+                body: JSON.stringify({ productId }),
+            })
+        } catch (error){
+            console.log(error)
+        }
+    }
 
     // look at reserveBook function for 'add to cart'
 
@@ -35,7 +50,7 @@ export default function SingleProduct() {
                     <img src={productDetails.product_image} />
                     <p>{productDetails.description}</p>
                     <p>${productDetails.product_price}</p>
-                        <button>Add to cart</button>
+                        <button onClick={handleAddToCart}>Add to cart</button>
                 </section>
         </div>
         </>

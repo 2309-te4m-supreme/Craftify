@@ -8,16 +8,19 @@ export default function OrderHistory({ token }) {
 
   useEffect(() => {
     fetchOrderHistory();
-  }, []);
+  }, [userId, token]);
 
   async function fetchOrderHistory() {
     try {
-      const response = await fetch(`${API}/orders/${userId}`, {
+      const response = await fetch(`${API}/orders_products/${userId}`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          "Authorization": `Bearer ${token}`
         },
       });
+      if(!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`)
+      }
       const result = await response.json();
       console.log(result);
       setOrders(result);
@@ -41,9 +44,9 @@ export default function OrderHistory({ token }) {
           </tr>
         </thead>
         <tbody>
-          {orders.map((order) => {
-            return (
-              <tr key={order.order_id}>
+        {orders.length > 0 ? (
+            orders.map((order, index) => (
+              <tr key={index}>
                 <td>{order.order_id}</td>
                 <td>{order.order_date}</td>
                 <td>{order.order_total}</td>
@@ -53,8 +56,12 @@ export default function OrderHistory({ token }) {
                   <button>View Order</button>
                 </td>
               </tr>
-            );
-          })}
+            ))
+          ) : (
+            <tr>
+              <td colSpan="6">No orders available</td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>
