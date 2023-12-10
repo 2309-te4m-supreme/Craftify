@@ -8,6 +8,7 @@ const createOrders_Product = async ({
     quantity  }) => {
 
       try {
+        if(!quantity) {quantity = 1 }
       const { rows: [orders_product] } = await db.query(`
       INSERT INTO orders_products(
         order_id,
@@ -27,7 +28,7 @@ const createOrders_Product = async ({
 const getAllProductsByOrderId = async (orderId) => {
   try {
     const { rows } = await db.query(`
-    SELECT products.product_name, products.product_price, orders_products.quantity
+    SELECT products.product_id, products.product_name, products.product_price, orders_products.quantity
     FROM orders_products
     JOIN products ON orders_products.product_id = products.product_id
     WHERE order_id = $1;
