@@ -3,7 +3,7 @@ const ordersRouter = express.Router();
 
 const { getAllOrders, getOrderById, getOrderByUserId, createOrder, updateOrderStatus } = require('../db/orders');
 const { requireAdmin, requireUser } = require('./utils')
-const { updateOrderTotal } = require('../db/orders_products')
+const { updateOrderTotal, checkForPendingCart } = require('../db/orders_products')
 
 //TODO (Admin) Get Orders SUCCESS
 ordersRouter.get('/',requireAdmin, async (req, res, next) => {
@@ -32,6 +32,17 @@ ordersRouter.get('/:userId', requireUser, async (req, res, next) => {
   try {
     const order = await getOrderByUserId(req.params.userId)
     res.send(order)
+  } catch ({name, message}) {
+    next({name, message})
+  }
+})
+
+//Get order total TODO
+ordersRouter.get('/order/:userId', requireUser, async (req, res, next) => {
+  try {
+    const {userId} = req.params
+    const order = await checkForPendingCart(userId)
+    res.send(order[0])
   } catch ({name, message}) {
     next({name, message})
   }
