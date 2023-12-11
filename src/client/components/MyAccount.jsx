@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 
-export default function MyAccount({ token, setUserId }) {
+export default function MyAccount({ token }) {
   const [user, setUser] = useState({});
 
   useEffect(() => {
     fetchUserData();
-  }, []);
+  }, [token]);
 
   const API = 'http://localhost:3000/api'
 
