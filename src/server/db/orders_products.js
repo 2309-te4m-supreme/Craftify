@@ -97,21 +97,22 @@ const updateQuantity = async (quantity, productId, orderId) => {
 const updateOrderTotal = async (order_id) => {
   try {
     
-    const subtotal = await db.query(`
+    const { rows: sum } = await db.query(`
     SELECT sum(products.product_price * orders_products.quantity)
     FROM orders_products
     JOIN products ON orders_products.product_id = products.product_id
     WHERE order_id = $1;`,[order_id]);
 
+    const subtotal = sum[0].sum
     const insertTotal = await db.query(`
     Update orders
     SET
     order_total = $1
     WHERE order_id = $2
-    RETURNING * ;`, [order_id])
+    RETURNING * ;`, [subtotal, order_id])
 
     return subtotal;
-  } catch (error) {
+  } catch (err) {
     throw err;
   }
 };
@@ -122,4 +123,5 @@ module.exports = {
   checkForPendingCart,
   removeFromCartByID,
   updateQuantity,
+  updateOrderTotal
 };

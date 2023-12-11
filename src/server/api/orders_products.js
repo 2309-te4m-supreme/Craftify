@@ -2,7 +2,7 @@ const express = require('express')
 const ordersProductsRouter = express.Router();
 
 const { requireAdmin, requireUser } = require('./utils')
-const { getAllProductsByOrderId, createOrders_Product, checkForPendingCart, removeFromCartByID, updateQuantity, updateOrderStatus } = require('../db/orders_products')
+const { getAllProductsByOrderId, createOrders_Product, checkForPendingCart, removeFromCartByID, updateQuantity, updateOrderTotal } = require('../db/orders_products')
 const { getOrderByUserId } = require('../db/orders')
 
 // Get Cart 
@@ -29,8 +29,9 @@ ordersProductsRouter.post('/', requireUser, async (req, res, next) => {
     const order = await checkForPendingCart(user_id)
     const order_id = order[0].order_id
     const products = await createOrders_Product({order_id, product_id, quantity})
+    const subtotal = updateOrderTotal(order_id)
 
-    res.send(products)
+    res.status(200).send(products)
   } catch ({name, message}) {
     next({name, message})
   }
@@ -45,6 +46,8 @@ ordersProductsRouter.delete('/:productId', requireUser, async (req, res, next) =
     const order = await checkForPendingCart(user_id)
     const order_id = order[0].order_id
     const discardProduct = removeFromCartByID(order_id, productId)
+    const subtotal = updateOrderTotal(order_id)
+
 
     res.send(discardProduct)
   } catch ({name, message}) {
@@ -61,12 +64,16 @@ ordersProductsRouter.patch('/:productId', requireUser, async (req, res, next) =>
     const orderId = order[0].order_id
     const {quantity} = req.body
     const amountOfProduct = await updateQuantity(quantity, productId, orderId)
+    const subtotal = updateOrderTotal(orderId)
+
 
     res.send(amountOfProduct)
   } catch ({name, message}) {
     next({name, message})
   }
 })
+
+
 
 
 

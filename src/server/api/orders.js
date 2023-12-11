@@ -3,6 +3,7 @@ const ordersRouter = express.Router();
 
 const { getAllOrders, getOrderById, getOrderByUserId, createOrder, updateOrderStatus } = require('../db/orders');
 const { requireAdmin, requireUser } = require('./utils')
+const { updateOrderTotal } = require('../db/orders_products')
 
 //TODO (Admin) Get Orders SUCCESS
 ordersRouter.get('/',requireAdmin, async (req, res, next) => {
@@ -55,10 +56,11 @@ ordersRouter.patch('/:orderId', requireUser, async (req, res, next) => {
     const {orderId} = req.params
 // Frontend gets request with userId to get pending orderId, and then pass the orderId through this api function
     const {user_id} = req.user
-    const orderStatus = await updateOrderStatus(orderId)
+    const order = await updateOrderStatus(orderId)
     const newOrder = await createOrder(user_id, 0)
+    const subtotal = updateOrderTotal(orderId)
 
-    res.send(orderStatus)
+    return res.status(200).json({order})
   } catch ({name, message}) {
     next({name, message})
   }
