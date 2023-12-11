@@ -13,29 +13,29 @@
     - [API Base URL](#api-base-url-on-localhost)
     - [Endpoints](#endpoints)
         1. [Users Endpoints](#users-endpoints)
-            1. [GET /users/me](#get-usersme)
-            1. [POST /users/register](#post-usersregister)
-            1. [POST /users/login](#post-userslogin)
-            1. [GET /users (Admin Only)](#get-users-admin-only)
-            1. [GET /users/:userId (Admin Only)](#get-usersuserid-admin-only)
-            1. [PUT /users/:userId (Admin Only)](#put-usersuserid-admin-only)
+            1. [GET /users/me (Account | USER)](#get-usersme)
+            1. [POST /users/register (Register)](#post-usersregister)
+            1. [POST /users/login (Login)](#post-userslogin)
+            1. [GET /users (All Users | ADMIN)](#get-users-admin-only)
+            1. [GET /users/:userId (Single User | ADMIN)](#get-usersuserid-admin-only)
+            1. [PUT /users/:userId (Update User | ADMIN)](#put-usersuserid-admin-only)
         1. [Products Endpoints](#products-endpoints)
-            1. [GET /products](#get-products)
-            1. [GET /products/:productId](#get-productsproductid)
-            1. [POST /products (Admin Only)](#post-products-admin-only)
-            1. [PUT /products/:productId (Admin Only)](#put-productsproductid-admin-only)
-            1. [DELETE /products/:productId (Admin Only)](#delete-productsproductid-admin-only)
+            1. [GET /products (All Products)](#get-products)
+            1. [GET /products/:productId (Single Product)](#get-productsproductid)
+            1. [POST /products (Create Product | ADMIN)](#post-products-admin-only)
+            1. [PUT /products/:productId (Update Product | ADMIN)](#put-productsproductid-admin-only)
+            1. [DELETE /products/:productId (Delete Product | ADMIN)](#delete-productsproductid-admin-only)
         1. [Orders Endpoints](#orders-endpoints)
-            1. [GET /orders (Admin Only)](#get-orders-admin-only)
-            1. [GET /orders/:userId](#get-ordersuserid)
-            1. [GET /orders/order/:userId](#get-ordersuserid)
-            1. [POST /orders](#post-orders)
-            1. [PATCH /orders/:orderId](#patch-ordersorderid)
+            1. [GET /orders (All Orders | ADMIN)](#get-orders-admin-only)
+            1. [GET /orders/:userId (User Order History | USER)](#get-ordersuserid)
+            1. [GET /orders/order/:userId (User Current Order | USER)](#get-ordersorderuserid)
+            1. [POST /orders (Backend New Order)](#post-orders)
+            1. [PATCH /orders/:orderId (Backend Update Status)](#patch-ordersorderid)
         1. [Orders_Products Endpoints](#orders_products-endpoints)
-            1. [GET /orders_products/:userId](#get-orders_productsuserid)
-            1. [POST /orders_products](#post-orders_products)
-            1. [DELETE /orders_products/:productId](#delete-orders_productsproductid)
-            1. [PATCH /orders_products/:productId](#patch-orders_productsproductid)
+            1. [GET /orders_products/:userId (User Cart | USER)](#get-orders_productsuserid)
+            1. [POST /orders_products (Add to Cart | USER)](#post-orders_products)
+            1. [DELETE /orders_products/:productId (Remove from Cart | USER)](#delete-orders_productsproductid)
+            1. [PATCH /orders_products/:productId (Update Quantity | USER)](#patch-orders_productsproductid)
 
 
 # Getting Started
@@ -1021,11 +1021,12 @@ console.log(result);
 ]
 ```
 
-### `GET /orders/order/:orderId`
-Displays a the current order by orderId
+[Back to Top](#craftify-documentation)
+### `GET /orders/order/:userId`
+Displays a the current order by userId (for total)
 
 #### Request Parameters
-- `orderId` (as useParams)
+- `userId` (as useParams)
 
 #### Headers
 - Content-Type (string, required): application/json
@@ -1045,10 +1046,10 @@ An order objects:
 import { useParams } from 'react-router-dom';
 
 // Destructure variable from useParams before the API call
-const { orderId } = useParams();
+const { userId } = useParams();
 
 // Use variable in fetch call
-const response = await fetch(`${API_URL}/orders/order/${orderId}`, {
+const response = await fetch(`${API_URL}/orders/order/${userId}`, {
     headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
