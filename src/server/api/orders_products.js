@@ -2,11 +2,11 @@ const express = require('express')
 const ordersProductsRouter = express.Router();
 
 const { requireAdmin, requireUser } = require('./utils')
-const { getAllProductsByOrderId, createOrders_Product, checkForPendingCart, removeFromCartByID, updateQuantity, updateOrderStatus } = require('../db/orders_products')
+const { getAllProductsByOrderId, createOrders_Product, checkForPendingCart, removeFromCartByID, updateQuantity, updateOrderTotal } = require('../db/orders_products')
 const { getOrderByUserId } = require('../db/orders')
 
 // Get Cart 
-// ROUTE /api/orders_products/:userId (Can cut out userId)
+// ROUTE /api/orders_products/:userId (Can cut out userId) SUCCESS
 ordersProductsRouter.get('/:userId', requireUser, async (req, res, next) => {
   try {
     const {userId} = req.params
@@ -20,7 +20,7 @@ ordersProductsRouter.get('/:userId', requireUser, async (req, res, next) => {
   }
 })
 
-// Add to Cart (Makes New Product in Cart)
+// Add to Cart (Makes New Product in Cart) SUCCESS
 // ROUTE /api/orders_products/
 ordersProductsRouter.post('/', requireUser, async (req, res, next) => {
   try {
@@ -29,8 +29,9 @@ ordersProductsRouter.post('/', requireUser, async (req, res, next) => {
     const order = await checkForPendingCart(user_id)
     const order_id = order[0].order_id
     const products = await createOrders_Product({order_id, product_id, quantity})
+    const subtotal = updateOrderTotal(order_id)
 
-    res.send(products)
+    res.status(200).send(products)
   } catch ({name, message}) {
     next({name, message})
   }
@@ -45,6 +46,8 @@ ordersProductsRouter.delete('/:productId', requireUser, async (req, res, next) =
     const order = await checkForPendingCart(user_id)
     const order_id = order[0].order_id
     const discardProduct = removeFromCartByID(order_id, productId)
+    const subtotal = updateOrderTotal(order_id)
+
 
     res.send(discardProduct)
   } catch ({name, message}) {
@@ -52,14 +55,17 @@ ordersProductsRouter.delete('/:productId', requireUser, async (req, res, next) =
   }
 })
 
-// Edit Quantity SUCCESS
+// Edit Quantity SUCCESS 
 ordersProductsRouter.patch('/:productId', requireUser, async (req, res, next) => {
   try {
-    const {productId} = req.params
-    console.log(productId)
-    const {quantity} = req.body
     const {user_id} = req.user
-    const amountOfProduct = await updateQuantity(quantity, productId)
+    const {productId} = req.params
+    const order = await checkForPendingCart(user_id)
+    const orderId = order[0].order_id
+    const {quantity} = req.body
+    const amountOfProduct = await updateQuantity(quantity, productId, orderId)
+    const subtotal = updateOrderTotal(orderId)
+
 
     res.send(amountOfProduct)
   } catch ({name, message}) {
@@ -67,19 +73,9 @@ ordersProductsRouter.patch('/:productId', requireUser, async (req, res, next) =>
   }
 })
 
-// Checkout Order IN PROGRESS
-ordersProductsRouter.patch('/:orderId', requireUser, async (req, res, next) => {
-  try {
-    const {orderId} = req.params
-// Frontend gets request with userId to get pending orderId, and then pass the orderId through this api function
-    const {user_id} = req.user
-    const orderStatus = await updateOrderStatus(orderId)
 
-    res.send(orderStatus)
-  } catch ({name, message}) {
-    next({name, message})
-  }
-})
+
+
 
 
 
