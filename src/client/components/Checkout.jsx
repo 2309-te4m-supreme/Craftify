@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export default function Cart({ token }) {
   const { userId } = useParams();
   const [cart, setCart] = useState([]);
+  const [total, setTotal] = useState("");
   const API = "http://localhost:3000/api";
 
   useEffect(() => {
-    if(token)
-    fetchCart();
+    if (token) fetchCart();
+    fetchTotal();
   }, [userId, token]);
 
   console.log(userId);
@@ -29,8 +30,20 @@ export default function Cart({ token }) {
     }
   }
 
+  async function fetchTotal() {
+    const response = await fetch(`${API}/orders/order/${userId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const result = await response.json();
+    setTotal(result.order_total);
+    console.log(result);
+  }
+
   return (
-    <div>
+    <div className="checkout-table">
       <h1>Cart</h1>
       <table className="nice-table">
         <thead>
@@ -38,7 +51,6 @@ export default function Cart({ token }) {
             <th>Item</th>
             <th>Price</th>
             <th>Quantity</th>
-            <th>Total</th>
           </tr>
         </thead>
         <tbody>
@@ -53,8 +65,11 @@ export default function Cart({ token }) {
           })}
         </tbody>
       </table>
+      <div>
+        <h3>{`Total: $${total}`}</h3>
+      </div>
       <button>Pay Now</button>
     </div>
   );
 }
-// when refreshing page, it breaks the page ***** SAME for My Account
+

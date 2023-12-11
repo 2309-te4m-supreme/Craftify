@@ -5,6 +5,7 @@ import springFlowers from '../assets/springFlowers.mp4'
 export default function SingleProduct({ token }) {
 
     const [productDetails, setProductDetails] = useState({})
+    const [isAddedToCart, setIsAddedToCart] = useState(false);
     const API = 'http://localhost:3000/api'
 
     const { productId } = useParams()
@@ -36,7 +37,7 @@ export default function SingleProduct({ token }) {
                      "product_id": productId 
                     }),
             })
-            // const result = await response.json()
+            setIsAddedToCart(true);
             console.log(productId)
         } catch (error){
             console.log(error)
@@ -55,6 +56,7 @@ export default function SingleProduct({ token }) {
                     <p>{productDetails.description}</p>
                     <p>${productDetails.product_price}</p>
                         <button onClick={() => {handleAddToCart(productDetails.product_id)}}>Add to cart</button>
+                        {isAddedToCart && <p>Item added to cart!</p>}
                 </section>
         </div>
         </>
