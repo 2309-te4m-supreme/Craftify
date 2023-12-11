@@ -24,7 +24,7 @@ export default function SingleProduct({ token }) {
         }
     }
     
-    async function handleAddToCart(){
+    async function handleAddToCart(productId){
         try{
             await fetch(`${API}/orders_products`, {
                 method: 'POST',
@@ -32,8 +32,12 @@ export default function SingleProduct({ token }) {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`,
                 },
-                body: JSON.stringify({ productId }),
+                body: JSON.stringify({
+                     "product_id": productId 
+                    }),
             })
+            // const result = await response.json()
+            console.log(productId)
         } catch (error){
             console.log(error)
         }
@@ -50,7 +54,7 @@ export default function SingleProduct({ token }) {
                     <img src={productDetails.product_image} />
                     <p>{productDetails.description}</p>
                     <p>${productDetails.product_price}</p>
-                        <button onClick={handleAddToCart}>Add to cart</button>
+                        <button onClick={() => {handleAddToCart(productDetails.product_id)}}>Add to cart</button>
                 </section>
         </div>
         </>

@@ -7,8 +7,9 @@ export default function Cart({ token }) {
   const API = "http://localhost:3000/api";
 
   useEffect(() => {
+    if(token)
     fetchCart();
-  }, [userId]);
+  }, [userId, token]);
 
   console.log(userId);
 
@@ -46,21 +47,21 @@ export default function Cart({ token }) {
     }
   };
 
-  // const handleDeleteItem = async (product_id) => {
-  //   try {
-  //     await fetch(`${API}/orders_products/${product_id}`, {
-  //       method: "DELETE",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         "Authorization": `Bearer ${token}`,
-  //       },
-  //       body: JSON.stringify({ product_id }),
-  //     });
-  //     fetchCart();
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+  const handleDeleteItem = async (product_id) => {
+    try {
+      await fetch(`${API}/orders_products/${product_id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify({ product_id }),
+      });
+      fetchCart();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div>
@@ -91,10 +92,10 @@ export default function Cart({ token }) {
                   />
                 </td>
                 <td>
-                  {/* <button onClick={() => handleDeleteItem(item.product_id)}>
+                  <button onClick={() => handleDeleteItem(item.product_id)}>
                     Delete Item
-                  </button> */}
-                  <button>Delete</button>
+                  </button>
+                  {/* <button>Delete</button> */}
                 </td>
                 {console.log(item)}
               </tr>
@@ -102,9 +103,9 @@ export default function Cart({ token }) {
           })}
         </tbody>
       </table>
-      {/* <Link to='/checkout/:userId'>
+      <Link to={`/checkout/${userId}`}>
               <button>Checkout</button>
-            </Link> */}
+            </Link>
     </div>
   );
 }

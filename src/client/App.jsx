@@ -37,7 +37,7 @@ function App() {
           <Route path="/logout" element={<Logout setToken={setToken} />} />
           <Route path="/register" element={<Register setToken={setToken} />} />
           <Route path="/products" element={<Products />} />
-          <Route path="/products/:productId" element={<SingleProduct />} />
+          <Route path="/products/:productId" element={<SingleProduct token={token} />} />
           <Route path="/users/:userId" element={<SingleUser token={token} />} />
           <Route
             path="/admin/products/:productId"
