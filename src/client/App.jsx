@@ -13,6 +13,7 @@ import Logout from "./components/Logout";
 import Cart from "./components/Cart";
 import AddProduct from "./components/AddProduct";
 import Checkout from "./components/Checkout";
+import Home from "./components/Home"
 import { Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
 
@@ -33,6 +34,7 @@ function App() {
           <Navigation token={token} />
         </div>
         <Routes>
+          <Route path="/" element={<Home/>}/>
           <Route path="/login" element={<Login setToken={setToken} />} />
           <Route path="/logout" element={<Logout setToken={setToken} />} />
           <Route path="/register" element={<Register setToken={setToken} />} />
