@@ -29,12 +29,12 @@
             1. [GET /orders (Admin Only)](#get-orders-admin-only)
             1. [GET /orders/:userId](#get-ordersuserid)
             1. [POST /orders](#post-orders)
+            1. [PATCH /orders/:orderId](#patch-ordersorderid)
         1. [Orders_Products Endpoints](#orders_products-endpoints)
             1. [GET /orders_products/:userId](#get-orders_productsuserid)
             1. [POST /orders_products](#post-orders_products)
             1. [DELETE /orders_products/:productId](#delete-orders_productsproductid)
             1. [PATCH /orders_products/:productId](#patch-orders_productsproductid)
-            1. [PATCH /orders_products/:orderId](#patch-orders_productsorderid)
 
 
 # Getting Started
@@ -1068,11 +1068,58 @@ console.log(result);
 ```
 
 [Back to Top](#craftify-documentation)
+### `PATCH /orders/:orderId`
+Allows a user to update status of an order to "In Progress"
+
+#### Request Parameters
+- `orderId` (string, required)
+
+#### Headers (object, required)
+- Content-Type (string, required): application/json
+- Authorization (template literal, required): Bearer ${TOKEN_STRING_HERE}
+
+#### Response Parameters
+An order object:
+- `order_id` (number, integer)
+- `user_id` (number, integer)
+- `order_date` (datetime)
+- `order_status` (string)
+- `order_total` (number, decimal)
+
+#### Sample Call
+```js
+// Import useParams at top of file
+import { useParams } from 'react-router-dom';
+
+// Destructure variable from useParams before the API call
+const { orderId } = useParams();
+
+// Use variable in fetch call
+const response = await fetch(`${API_URL}/orders/${orderId}`, {
+    method: 'PATCH',
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    }
+});
+const result = await response.json();
+console.log(result);
+```
+
+#### Sample Response
+```js
+{
+    "order_id": 5,
+    "user_id": 4,
+    "order_date": "2023-12-11T15:48:10.245Z",
+    "order_status": "In Progress",
+    "order_total": "159.00"
+}
+```
+
+[Back to Top](#craftify-documentation)
 ## Orders_Products Endpoints
 ### `GET /orders_products/:userId`
-### WARNING: This endpoint has been updated in the codebase.
-### It now uses SQL joint table functionality.
-### This has not been documented here.
 Displays a list of items in the current (pending) user cart.
 
 #### Request Parameters
@@ -1085,8 +1132,9 @@ Displays a list of items in the current (pending) user cart.
 #### Response Parameters
 An array of orders_products objects.
 
-- `order_id` (number, integer)
 - `product_id` (number, integer)
+- `product_name` (string)
+- `product_price` (number, decimal)
 - `quantity` (number, integer)
 
 #### Sample Call
@@ -1112,15 +1160,17 @@ console.log(result);
 ```js
 [
     {
-        "order_id": 1,
         "product_id": 15,
+        "product_name": "Grapes - Green",
+        "product_price": "7.32",
         "quantity": 30
     },
     {
-        "order_id": 1,
         "product_id": 20,
+        "product_name": "Wine - Niagara,vqa Reisling",
+        "product_price": "11.73",
         "quantity": 53
-    }
+    },
     (...)
 ]
 ```
@@ -1176,14 +1226,12 @@ console.log(result);
 ### `DELETE /orders_products/:productId`
 Deletes an item from the user's cart.
 
+#### Request Parameters
+- `productId` (as useParams)
+
 #### Headers
 - Content-Type (string, required): application/json
 - Authorization (template literal, required): Bearer ${TOKEN_STRING_HERE}
-
-#### Body
-- `order_id` (number, integer)
-- `product_id` (number, integer)
-- `quantity` (number, integer)
 
 #### Return Parameters
 An orders_products object.
@@ -1225,8 +1273,49 @@ console.log(result);
 ### `PATCH /orders_products/:productId`
 Allows a user to edit quantity of items in cart.
 
-[Back to Top](#craftify-documentation)
-### `PATCH /orders_products/:orderId`
-Allows a user to update status of an order
+#### Request Parameters
+- `productId` (as useParams)
+
+#### Headers
+- Content-Type (string, required): application/json
+- Authorization (template literal, required): Bearer ${TOKEN_STRING_HERE}
+
+#### Body
+- `quantity` (number, integer)
+
+#### Return Parameters
+An orders_products object.
+
+#### Sample Call
+```js
+// Import useParams at top of file
+import { useParams } from 'react-router-dom';
+
+// Destructure variable from useParams before the API call
+const { productId } = useParams();
+
+// Use variable in fetch call
+const response = await fetch(`${API_URL}/orders_products/${productId}`, {
+    method: 'PATCH',
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({
+        "quantity": "18"
+    })
+});
+const result = await response.json();
+console.log(result);
+```
+
+#### Sample Response
+```js
+{
+    "order_id": 1,
+    "product_id": 20,
+    "quantity": 18
+}
+```
 
 [Back to Top](#craftify-documentation)
