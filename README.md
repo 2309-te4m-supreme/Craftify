@@ -28,6 +28,7 @@
         1. [Orders Endpoints](#orders-endpoints)
             1. [GET /orders (Admin Only)](#get-orders-admin-only)
             1. [GET /orders/:userId](#get-ordersuserid)
+            1. [GET /orders/order/:userId](#get-ordersuserid)
             1. [POST /orders](#post-orders)
             1. [PATCH /orders/:orderId](#patch-ordersorderid)
         1. [Orders_Products Endpoints](#orders_products-endpoints)
@@ -993,10 +994,10 @@ An array of order objects:
 import { useParams } from 'react-router-dom';
 
 // Destructure variable from useParams before the API call
-const { orderId } = useParams();
+const { userId } = useParams();
 
 // Use variable in fetch call
-const response = await fetch(`${API_URL}/orders/${orderId}`, {
+const response = await fetch(`${API_URL}/orders/${userId}`, {
     headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
@@ -1018,6 +1019,54 @@ console.log(result);
     },
     (...)
 ]
+```
+
+### `GET /orders/order/:orderId`
+Displays a the current order by orderId
+
+#### Request Parameters
+- `orderId` (as useParams)
+
+#### Headers
+- Content-Type (string, required): application/json
+- Authorization (template literal, required): Bearer ${TOKEN_STRING_HERE}
+
+#### Return Parameters
+An order objects:
+- `order_id` (number, integer)
+- `user_id` (number, integer)
+- `order_date` (datetime)
+- `order_status` (string)
+- `order_total` (number, decimal)
+
+#### Sample Call
+```js
+// Import useParams at top of file
+import { useParams } from 'react-router-dom';
+
+// Destructure variable from useParams before the API call
+const { orderId } = useParams();
+
+// Use variable in fetch call
+const response = await fetch(`${API_URL}/orders/order/${orderId}`, {
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    }
+});
+const result = await response.json();
+console.log(result);
+```
+
+#### Sample Response
+```js
+{
+    "order_id": 1,
+    "user_id": 1,
+    "order_date": "2023-12-08T18:24:26.215Z",
+    "order_status": "Pending",
+    "order_total": "85.00"
+}
 ```
 
 [Back to Top](#craftify-documentation)
