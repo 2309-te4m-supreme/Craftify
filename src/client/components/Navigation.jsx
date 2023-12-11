@@ -12,7 +12,7 @@ import { FiLogOut } from "react-icons/fi";
 
 function Navigation({ token }) {
   const navRef = useRef();
-  const [ userId, setUserId ] = useState(null);
+  // const [ userId, setUserId ] = useState(null);
 
   const API = 'http://localhost:3000/api'
 
@@ -20,28 +20,28 @@ function Navigation({ token }) {
     navRef.current.classList.toggle("responsive_nav");
   }
 
-  useEffect(() => {
-    fetchUserData()
-  }, [token])
+  // useEffect(() => {
+  //   fetchUserData()
+  // }, [token])
 
-  console.log(token)
+  // console.log(token)
 
-  async function fetchUserData() {
-    try {
-      const response = await fetch(`${API}/users/me`, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      const result = await response.json();
-      console.log(result)
-      setUserId(result.user_id)
-      console.log(userId)
-    } catch (err) {
-      console.log(err)
-    }
-  };
+  // async function fetchUserData() {
+  //   try {
+  //     const response = await fetch(`${API}/users/me`, {
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Authorization': `Bearer ${token}`
+  //       }
+  //     });
+  //     const result = await response.json();
+  //     console.log(result)
+  //     setUserId(result.user_id)
+  //     console.log(userId)
+  //   } catch (err) {
+  //     console.log(err)
+  //   }
+  // };
 
   return (
     <header>
