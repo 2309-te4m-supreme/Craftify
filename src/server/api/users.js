@@ -15,6 +15,7 @@ const { requireUser } = require('./utils');
 const jwt = require('jsonwebtoken')
 
 // GET /api/users
+// ROUTE /api/users/
 usersRouter.get('/', requireAdmin, async (req, res, next) => {
     try {
         const users = await getAllUsers();
@@ -28,6 +29,7 @@ usersRouter.get('/', requireAdmin, async (req, res, next) => {
 });
 
 // GET /api/users/me
+// ROUTE /api/users/me
 usersRouter.get('/me', requireUser, async (req, res, next) => {
     try {
       res.send(req.user);
@@ -37,6 +39,7 @@ usersRouter.get('/me', requireUser, async (req, res, next) => {
 })  
 
 // GET /api/users/:userId
+// ROUTE /api/users/:userId
 usersRouter.get('/:userId', requireAdmin, async (req, res, next) => {
     try {
         const user = await getUserById(req.params.userId);
@@ -50,7 +53,8 @@ usersRouter.get('/:userId', requireAdmin, async (req, res, next) => {
 })
 
 
-// POST /api/users/login //TODO Fix Email Case Sensitivity Success
+// POST /api/users/login // Fix Email Case Sensitivity SUCCESS
+// ROUTE /api/users/login
 usersRouter.post('/login', async (req, res, next) => {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -93,6 +97,7 @@ usersRouter.post('/login', async (req, res, next) => {
 });
 
 // POST /api/users/register
+// ROUTE /api/users/register
 usersRouter.post('/register', async (req, res, next) => {
     const { user_id, username, first_name, last_name, email, password, address, phone_number } = req.body;
 
@@ -138,7 +143,8 @@ usersRouter.post('/register', async (req, res, next) => {
     }
 })
 
-// TODO Update User (Admin) Success
+// Update User (Admin) SUCCESS
+// ROUTE /api/users/:userId
 usersRouter.put('/:userId', requireAdmin, async (req, res, next) => {
 
     try { 

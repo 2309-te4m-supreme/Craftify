@@ -6,14 +6,12 @@ const { getAllProductsByOrderId, createOrders_Product, checkForPendingCart, remo
 const { getOrderByUserId } = require('../db/orders')
 
 // Get Cart 
-// ROUTE /api/orders_products/:userId (Can cut out userId) SUCCESS
+// ROUTE /api/orders_products/:userId SUCCESS
 ordersProductsRouter.get('/:userId', requireUser, async (req, res, next) => {
   try {
     const {userId} = req.params
     const order = await checkForPendingCart(userId)
-    console.log(order[0].order_id)
     const products = await getAllProductsByOrderId(order[0].order_id)
-    console.log(products)
     res.send(products)
   } catch ({name, message}) {
     next({name, message})
@@ -55,7 +53,8 @@ ordersProductsRouter.delete('/:productId', requireUser, async (req, res, next) =
   }
 })
 
-// Edit Quantity SUCCESS 
+// Edit Quantity SUCCESS
+// ROUTE /api/orders_products/:productId
 ordersProductsRouter.patch('/:productId', requireUser, async (req, res, next) => {
   try {
     const {user_id} = req.user
