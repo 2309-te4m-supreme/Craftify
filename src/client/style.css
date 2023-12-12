@@ -28,16 +28,47 @@
   width: 250px;
 }
 
+/* Account Page */
+.account-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10%;
+  margin: 10px;
+  border: 0px solid var(--color-5);
+  align-items: center;
+  box-shadow: 0 0 10px var(--color-5);
+  background-color: rgba(245, 230, 232, 0.8);
+  border-radius: 1rem;
+  margin: 2rem;
+}
+.cart-btn {
+  width: 100%;
+}
+.account-page > h2 {
+  font-size: 2rem;
+  background-image: linear-gradient(
+    -225deg,
+    #231557 0%,
+    #44107a 29%,
+    #ff1361 67%,
+    #fff800 100%
+  );
+  background-size: auto auto;
+  background-clip: border-box;
+  background-size: 200% auto;
+  color: #fff;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textclip 2s linear infinite;
+}
+@keyframes textclip {
+  to {
+    background-position: 200% center;
+  }
+}
 
-/* TEST OUT: image on background of webpage */
-/* .whole-page {
-  background-image: url("https://i.postimg.cc/RFj94nxV/clouds.jpg");
-  background-size: contain;
-  height: 100vh; 
-  margin-top: -70px;
-  font-size: 50px;
-  background-repeat: no-repeat;
-} */
 
 
 /* Nav-bar */
@@ -56,6 +87,7 @@
   box-shadow: 0 3px 5px 5px #192a51c2;
   padding: 0;
   margin: 0;
+  border-radius: 1rem;
 }
 .nav-bar {
   display: flex;
