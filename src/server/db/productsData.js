@@ -4,7 +4,7 @@ const products = [
     product_name: "Bread - Raisin",
     product_description: "Sed sagittis.",
     product_price: "9.70",
-    product_image: "http://dummyimage.com/112x100.png/5fa2dd/ffffff",
+    product_image: "https://fastly.picsum.photos/id/211/200/200.jpg?hmac=VJ4wl95YuQJMvM_1O83L3nSfTn20OxaVfWe0wNMZrIc",
     product_category: "jewelry",
     product_stock: 301,
   },
@@ -14,7 +14,7 @@ const products = [
     product_description:
       "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.",
     product_price: "6.22",
-    product_image: "http://dummyimage.com/109x100.png/cc0000/ffffff",
+    product_image: "https://fastly.picsum.photos/id/791/200/200.jpg?hmac=bPVayqOX5aUzsnsX99AgWaxWB3WzWqwaiSDJ-lNHUk4",
     product_category: "jewelry",
     product_stock: 545,
   },
@@ -24,7 +24,7 @@ const products = [
     product_description:
       "Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.",
     product_price: "0.30",
-    product_image: "http://dummyimage.com/150x100.png/ff4444/ffffff",
+    product_image: "https://fastly.picsum.photos/id/228/200/200.jpg?hmac=o6k6dSrgAeHp1V6rxIjRR2cwEeu4DUs9Z1-sLxrQ878",
     product_category: "jewelry",
     product_stock: 713,
   },
@@ -34,7 +34,7 @@ const products = [
     product_description:
       "Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl. Aenean lectus. Pellentesque eget nunc.",
     product_price: "19.61",
-    product_image: "http://dummyimage.com/186x100.png/dddddd/000000",
+    product_image: "https://fastly.picsum.photos/id/936/200/200.jpg?hmac=IL7mo8CcTgJAO1CveVd2nT25CdqAuZ-htB7FYFW-4gQ",
     product_category: "bathbombs",
     product_stock: 757,
   },
@@ -43,7 +43,7 @@ const products = [
     product_name: "Island Oasis - Cappucino Mix",
     product_description: "Suspendisse potenti.",
     product_price: "14.24",
-    product_image: "http://dummyimage.com/193x100.png/dddddd/000000",
+    product_image: "https://fastly.picsum.photos/id/521/200/200.jpg?hmac=J25eIJlH4Vz83r581TpDZbrmu21tzbZMognm7gqkoWo",
     product_category: "jewelry",
     product_stock: 156,
   },
@@ -53,7 +53,7 @@ const products = [
     product_description:
       "Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem. Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy.",
     product_price: "17.53",
-    product_image: "http://dummyimage.com/146x100.png/5fa2dd/ffffff",
+    product_image: "https://fastly.picsum.photos/id/308/200/200.jpg?hmac=gCyOH3yDZDvlNeCodWo0et9Vw3peGSCuMsQBRNqgHJQ",
     product_category: "bathbombs",
     product_stock: 935,
   },
@@ -62,7 +62,7 @@ const products = [
     product_name: "Lady Fingers",
     product_description: "Nulla justo.",
     product_price: "2.17",
-    product_image: "http://dummyimage.com/186x100.png/ff4444/ffffff",
+    product_image: "https://fastly.picsum.photos/id/1053/200/200.jpg?hmac=JOtR2adXynxSVClz0LNlPZjW0TJTRXc7c15kka2QoRk",
     product_category: "bathbombs",
     product_stock: 156,
   },
@@ -72,7 +72,7 @@ const products = [
     product_description:
       "Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam. Nam tristique tortor eu pede.",
     product_price: "13.85",
-    product_image: "http://dummyimage.com/190x100.png/dddddd/000000",
+    product_image: "https://fastly.picsum.photos/id/143/200/200.jpg?hmac=zGj8dhmmqaaQZDcHhU9C0itdL12zcGTpuVdQiVrYiEQ",
     product_category: "bathbombs",
     product_stock: 396,
   },
@@ -82,7 +82,7 @@ const products = [
     product_description:
       "Suspendisse potenti. Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris. Morbi non lectus.",
     product_price: "19.94",
-    product_image: "http://dummyimage.com/142x100.png/dddddd/000000",
+    product_image: "https://fastly.picsum.photos/id/208/200/200.jpg?hmac=J1BdqRgAAAId9wernbPINrW38haBGOtrpEqn3m2wjlY",
     product_category: "bathbombs",
     product_stock: 284,
   },
@@ -92,7 +92,7 @@ const products = [
     product_description:
       "Nulla mollis molestie lorem. Quisque ut erat. Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.",
     product_price: "1.23",
-    product_image: "http://dummyimage.com/217x100.png/5fa2dd/ffffff",
+    product_image: "https://fastly.picsum.photos/id/853/200/200.jpg?hmac=f4LF-tVBBnJb9PQAVEO8GCTGWgLUnxQLw44rUofE6mQ",
     product_category: "jewelry",
     product_stock: 939,
   },
@@ -102,7 +102,7 @@ const products = [
     product_description:
       "Integer non velit. Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue.",
     product_price: "5.02",
-    product_image: "http://dummyimage.com/201x100.png/5fa2dd/ffffff",
+    product_image: "https://fastly.picsum.photos/id/121/200/200.jpg?hmac=0aiR--xgWy1aIM85HCFMySsuQ7DJJBE6XW_Yv4nqU6s",
     product_category: "jewelry",
     product_stock: 744,
   },
@@ -112,7 +112,7 @@ const products = [
     product_description:
       "Nulla facilisi. Cras non velit nec nisi vulputate nonummy.",
     product_price: "3.49",
-    product_image: "http://dummyimage.com/149x100.png/5fa2dd/ffffff",
+    product_image: "https://fastly.picsum.photos/id/371/200/200.jpg?hmac=VShu_HdkBA6-hi8lkHlFMbkqxiu0BgA4mvEKoJke228",
     product_category: "jewelry",
     product_stock: 171,
   },
@@ -122,7 +122,7 @@ const products = [
     product_description:
       "Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit.",
     product_price: "6.34",
-    product_image: "http://dummyimage.com/103x100.png/cc0000/ffffff",
+    product_image: "https://fastly.picsum.photos/id/25/200/200.jpg?hmac=G4ZRBi0qdWfQJQs_yxNQr_LJJlf0V1_Pdj8Tp41xsJU",
     product_category: "jewelry",
     product_stock: 22,
   },
@@ -132,7 +132,7 @@ const products = [
     product_description:
       "Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus. Curabitur at ipsum ac tellus semper interdum.",
     product_price: "15.31",
-    product_image: "http://dummyimage.com/232x100.png/dddddd/000000",
+    product_image: "https://fastly.picsum.photos/id/608/200/200.jpg?hmac=-p1htX-mFieavdRDr9vUIJKyDHCXZAY5B35nhdcgIgQ",
     product_category: "bathbombs",
     product_stock: 681,
   },
@@ -142,7 +142,7 @@ const products = [
     product_description:
       "In est risus, auctor sed, tristique in, tempus sit amet, sem. Fusce consequat. Nulla nisl. Nunc nisl. Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa.",
     product_price: "7.32",
-    product_image: "http://dummyimage.com/221x100.png/ff4444/ffffff",
+    product_image: "https://fastly.picsum.photos/id/258/200/200.jpg?hmac=SRxBTuyYSeHtVooeEMwmQPB0yIF3fqnvrOBR7DJnOlM",
     product_category: "jewelry",
     product_stock: 818,
   },
@@ -152,7 +152,7 @@ const products = [
     product_description:
       "Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus. Phasellus in felis.",
     product_price: "1.19",
-    product_image: "http://dummyimage.com/182x100.png/5fa2dd/ffffff",
+    product_image: "https://fastly.picsum.photos/id/680/200/200.jpg?hmac=jlYrp1rK5RIQZTIaHkTW2llzrRXtuYJLeprOC8i40os",
     product_category: "jewelry",
     product_stock: 686,
   },
@@ -161,7 +161,7 @@ const products = [
     product_name: "Liners - Baking Cups",
     product_description: "Nunc purus.",
     product_price: "10.35",
-    product_image: "http://dummyimage.com/235x100.png/5fa2dd/ffffff",
+    product_image: "https://fastly.picsum.photos/id/797/200/200.jpg?hmac=-S9mzdkNyeh-FXTUE04cyqzvAV1W2D80OVQtTQHNt-k",
     product_category: "bathbombs",
     product_stock: 845,
   },
@@ -171,7 +171,7 @@ const products = [
     product_description:
       "Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis. Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl.",
     product_price: "13.17",
-    product_image: "http://dummyimage.com/164x100.png/ff4444/ffffff",
+    product_image: "https://fastly.picsum.photos/id/436/200/200.jpg?hmac=axiGy-zt6-TD5Hu1AD_rhudOgkfr-VQElZPKE592Mwc",
     product_category: "jewelry",
     product_stock: 10,
   },
@@ -181,7 +181,7 @@ const products = [
     product_description:
       "Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus. Pellentesque at nulla. Suspendisse potenti.",
     product_price: "18.55",
-    product_image: "http://dummyimage.com/224x100.png/dddddd/000000",
+    product_image: "https://fastly.picsum.photos/id/810/200/200.jpg?hmac=h-LObTvlGPc-9CHrUTHemskWMBEOjqEWQejDQV2zvg4",
     product_category: "jewelry",
     product_stock: 953,
   },
@@ -191,7 +191,7 @@ const products = [
     product_description:
       "Suspendisse potenti. Cras in purus eu magna vulputate luctus.",
     product_price: "11.73",
-    product_image: "http://dummyimage.com/210x100.png/cc0000/ffffff",
+    product_image: "https://fastly.picsum.photos/id/300/200/200.jpg?hmac=WLaMDs5x8JF59euEN0NiXqvM7t0IM6c5HgWhV2vvdkY",
     product_category: "jewelry",
     product_stock: 438,
   },
