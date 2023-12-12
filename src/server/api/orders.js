@@ -5,7 +5,8 @@ const { getAllOrders, getOrderById, getOrderByUserId, createOrder, updateOrderSt
 const { requireAdmin, requireUser } = require('./utils')
 const { updateOrderTotal, checkForPendingCart } = require('../db/orders_products')
 
-//TODO (Admin) Get Orders SUCCESS
+// Get Orders (Admin) SUCCESS
+// ROUTE /api/orders/
 ordersRouter.get('/',requireAdmin, async (req, res, next) => {
   try {
     const orders = await getAllOrders()
@@ -16,18 +17,9 @@ ordersRouter.get('/',requireAdmin, async (req, res, next) => {
   }
 })
 
-//TODO (Admin) (Fix routes on this and the get by user id)
-// ordersRouter.get('/:orderId', async (req, res, next) => {
-//   try {
-//     const order = await getOrderById(req.params.orderId)
-//     res.send(order)
-//   } catch ({name, message}) {
-//     next({name, message})
-//   }
-// })
 
-//TODO (Admin) Get Order By Id SUCCESS
-
+// Get Order By User Id (Admin) SUCCESS
+// ROUTE /api/orders/:userId
 ordersRouter.get('/:userId', requireUser, async (req, res, next) => {
   try {
     const order = await getOrderByUserId(req.params.userId)
@@ -37,7 +29,8 @@ ordersRouter.get('/:userId', requireUser, async (req, res, next) => {
   }
 })
 
-//Get order total TODO
+//Get order total
+// ROUTE /api/orders/order/:userId
 ordersRouter.get('/order/:userId', requireUser, async (req, res, next) => {
   try {
     const {userId} = req.params
@@ -50,6 +43,7 @@ ordersRouter.get('/order/:userId', requireUser, async (req, res, next) => {
 
 
 // Start Order SUCCESS
+// ROUTE /api/orders/
 ordersRouter.post('/', requireUser, async (req, res, next) => {
   try {
     const { order_total } = req.body
@@ -62,6 +56,7 @@ ordersRouter.post('/', requireUser, async (req, res, next) => {
 })
 
 // Update Order Status after Checkout SUCCESS
+// ROUTE /api/orders/:orderId
 ordersRouter.patch('/:orderId', requireUser, async (req, res, next) => {
   try {
     const {orderId} = req.params
@@ -78,15 +73,5 @@ ordersRouter.patch('/:orderId', requireUser, async (req, res, next) => {
 })
 
 
-
-// This route is for TESTING ONLY!
-// ordersRouter.delete('/:orderId', async (req, res, next) => {
-//   try {
-//     const order = await deleteOrder(req.params.orderId)
-//     res.send(order)
-//   } catch ({name, message}) {
-//     next({name, message})
-//   }
-// })
 
 module.exports = ordersRouter

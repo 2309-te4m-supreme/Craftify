@@ -5,6 +5,8 @@ const { createProduct, getAllProducts, getProductById, deleteProduct, updateProd
 const { user } = require('../db');
 const { requireAdmin } = require('./utils')
 
+// Get All Products SUCCESS
+// ROUTE /api/products/
 productsRouter.get('/', async (req, res, next) => {
   try {
     const products = await getAllProducts()
@@ -15,6 +17,8 @@ productsRouter.get('/', async (req, res, next) => {
   }
 })
 
+// Get Product SUCCESS
+// ROUTE /api/products/:productId
 productsRouter.get('/:productId', async (req, res, next) => {
   try {
     const product = await getProductById(req.params.productId)
@@ -24,8 +28,8 @@ productsRouter.get('/:productId', async (req, res, next) => {
   }
 })
 
-//TODO Create Product (Admin) SUCCESS
-
+// Create Product (Admin) SUCCESS
+// ROUTE /api/products/
 productsRouter.post('/', requireAdmin, async (req, res, next) => {
   const { product_name, product_description, product_price, product_image, product_category, product_stock } = req.body
   const productData = {}
@@ -54,8 +58,8 @@ productsRouter.post('/', requireAdmin, async (req, res, next) => {
   }
 })
 
-//TODO Delete Product (Admin) SUCCESS
-
+// Delete Product (Admin) SUCCESS
+// ROUTE /api/products/:productId
 productsRouter.delete('/:productId', requireAdmin, async (req, res, next) => {
 
   try {
@@ -68,7 +72,8 @@ productsRouter.delete('/:productId', requireAdmin, async (req, res, next) => {
 })
 
 
-//TODO Update Product (Admin) SUCCESS
+// Update Product (Admin) SUCCESS
+// ROUTE /api/products/:productId
 productsRouter.put('/:productId', requireAdmin, async (req, res, next) => {
 
     try { 
