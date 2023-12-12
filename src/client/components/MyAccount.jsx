@@ -29,10 +29,10 @@ export default function MyAccount({ token }) {
 
   return (
     <>
-      <div>
+      <div className='account-page'>
         <h1>Welcome to Your Account!</h1>
         <h2>{`${user.first_name} ${user.last_name}`}</h2>
-        <div>
+        <div className='account-body'>
           <h3>Email: {user.email}</h3>
           <h3>Address: {user.address}</h3>
           <h3>Phone Number: {user.phone_number}</h3>
@@ -40,7 +40,7 @@ export default function MyAccount({ token }) {
           <button>Order History</button>
         </Link> */}
         <Link to={`/cart/${user.user_id}`}>
-          <button>Cart</button>
+          <button className='cart-btn'>Cart</button>
         </Link>
         </div>
       </div>

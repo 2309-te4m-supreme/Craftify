@@ -28,16 +28,47 @@
   width: 250px;
 }
 
+/* Account Page */
+.account-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10%;
+  margin: 10px;
+  border: 0px solid var(--color-5);
+  align-items: center;
+  box-shadow: 0 0 10px var(--color-5);
+  background-color: rgba(245, 230, 232, 0.8);
+  border-radius: 1rem;
+  margin: 2rem;
+}
+.cart-btn {
+  width: 100%;
+}
+.account-page > h2 {
+  font-size: 2rem;
+  background-image: linear-gradient(
+    -225deg,
+    #231557 0%,
+    #44107a 29%,
+    #ff1361 67%,
+    #fff800 100%
+  );
+  background-size: auto auto;
+  background-clip: border-box;
+  background-size: 200% auto;
+  color: #fff;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textclip 2s linear infinite;
+}
+@keyframes textclip {
+  to {
+    background-position: 200% center;
+  }
+}
 
-/* TEST OUT: image on background of webpage */
-/* .whole-page {
-  background-image: url("https://i.postimg.cc/RFj94nxV/clouds.jpg");
-  background-size: contain;
-  height: 100vh; 
-  margin-top: -70px;
-  font-size: 50px;
-  background-repeat: no-repeat;
-} */
 
 
 /* Nav-bar */
@@ -56,6 +87,7 @@
   box-shadow: 0 3px 5px 5px #192a51c2;
   padding: 0;
   margin: 0;
+  border-radius: 1rem;
 }
 .nav-bar {
   display: flex;
@@ -281,7 +313,7 @@
   left: 0;
   z-index: -1;
 }
-.treeBg{
+/* .treeBg{
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -289,7 +321,7 @@
   top: 0;
   left: 0;
   z-index: -1;
-}
+} */
 
 
 /* ADMIN TABLES */
@@ -298,5 +330,70 @@
 }
 table, th, td {
   border: 1px solid;
+}
+
+.center-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.big-button {
+  padding: 15px; /* Adjust the padding as needed */
+  font-size: 2rem; /* Adjust the font size as needed */
+}
+
+@media only screen and (max-width: 1024px) {
+  .big-button {
+    font-size: 1.5rem; /* Adjust the font size for smaller screens */
+  }
+}
+
+/* Testing button */
+
+.gray-200{
+  width: 100vw;
+  height: 33vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn {
+  background-color: #AAA1C8;
+  border: 0px solid #fff;
+  padding: 1.5em 3em;
+  min-width: 250px;
+  min-height: 60px;
+  position: relative;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  transition: background-color 0.5s linear 0.5s;
+  z-index:1;
+}
+
+
+
+
+.btn-200::after, .btn-200::before {
+  content: "";
+  display: block;
+  box-shadow: 0 0 0 3.5px #192A51;
+  background: none;
+  position: absolute;
+  inset: 0;
+  transition: all 0.5s linear;
+}
+
+.btn-200:hover::before {
+  transform: rotate(45deg);
+}
+
+.btn-200:hover::after {
+  transform: rotate(-45deg);
 }
 
