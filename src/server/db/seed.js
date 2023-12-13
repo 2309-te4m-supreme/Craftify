@@ -1,3 +1,4 @@
+require('dotenv').config()
 const db = require('./client');
 const { createUser } = require('./users');
 const { createProduct } = require('./products');
