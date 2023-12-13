@@ -58,7 +58,6 @@ const checkForPendingCart = async (userId) => {
 
 const removeFromCartByID = async (orderId, productId) => {
   try {
-    console.log(orderId);
     const { rows } = await db.query(
       `
     DELETE FROM orders_products
