@@ -15,7 +15,7 @@ useEffect(() => {
 
 async function fetchProducts(){
 
-  let API = 'http://localhost:3000/api'
+  let API = '/api'
 
   try {
     const response = await fetch(`${API}/products`)

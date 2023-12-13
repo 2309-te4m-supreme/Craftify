@@ -148,16 +148,10 @@ usersRouter.post('/register', async (req, res, next) => {
 usersRouter.put('/:userId', requireAdmin, async (req, res, next) => {
 
     try { 
-      // ⬇ ⬇ ⬇This piece of code isn't responsive, but keeping it to edit later ⬇ ⬇ ⬇
-    const existingUser = getUserById(req.params.userId);
-
-    if (!existingUser) return res.status(404).json({message:"This user does not exist"})
-      // ⬆ ⬆ ⬆ This piece of code isn't responsive, but keeping it to edit later ⬆ ⬆ ⬆ 
-    
 
     const { permissions, username, email, password, first_name, last_name, address, phone_number } = req.body
 
-   const user = await updateUser({id:req.params.userId, 
+    const user = await updateUser({id:req.params.userId, 
     permissions,
     username, 
     email,

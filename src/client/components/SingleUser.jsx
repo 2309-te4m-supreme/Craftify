@@ -5,7 +5,7 @@ import { useParams, useNavigate } from "react-router-dom";
 export default function SingleUser({ token }) {
   const navigate = useNavigate();
   const [userDetails, setUserDetails] = useState({});
-  const API = "http://localhost:3000/api";
+  const API = "/api";
 
   const { userId } = useParams();
 

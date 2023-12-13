@@ -13,7 +13,7 @@ function Register({ setToken }) {
   // const [result, setResult] = useState({ token: '' });
   const navigate = useNavigate();
 
-  const API = 'http://localhost:3000/api';
+  const API = '/api';
 
   async function handleRegister(event) {
     event.preventDefault();
@@ -43,10 +43,6 @@ function Register({ setToken }) {
       console.error(err);
     }
   }
-
-  // const setTokenHandler = () => {
-  //   setToken('token', `${result.token}`)
-  // } 
 
   return (
     <>

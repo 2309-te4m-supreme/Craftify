@@ -6,7 +6,7 @@ export default function SingleProduct({ token }) {
 
     const [productDetails, setProductDetails] = useState({})
     const [isAddedToCart, setIsAddedToCart] = useState(false);
-    const API = 'http://localhost:3000/api'
+    const API = '/api'
 
     const { productId } = useParams()
 

@@ -12,7 +12,7 @@ export default function EditUser({ token }) {
   const [ address, setAddress ] = useState('');
   const [ phoneNumber, setPhoneNumber ] = useState('');
 
-  const API = 'http://localhost:3000/api'
+  const API = '/api'
 
   const { userId } = useParams()
   const navigate = useNavigate()
