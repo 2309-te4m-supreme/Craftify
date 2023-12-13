@@ -6,7 +6,7 @@ function Admin({ token }) {
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
-  const API = "http://localhost:3000/api";
+  const API = "/api";
 
   useEffect(() => {
     fetchAdmin();

@@ -9,7 +9,7 @@ export default function AddProduct({ token }) {
   const [productCategory, setProductCategory] = useState("");
   const [productStock, setProductStock] = useState("");
 
-  const API = "http://localhost:3000/api";
+  const API = "/api";
 
   const { productId } = useParams();
   const navigate = useNavigate();

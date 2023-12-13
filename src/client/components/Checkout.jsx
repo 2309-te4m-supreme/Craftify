@@ -5,7 +5,7 @@ export default function Cart({ token }) {
   const { userId } = useParams();
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState("");
-  const API = "http://localhost:3000/api";
+  const API = "/api";
 
   useEffect(() => {
     if (token) fetchCart();

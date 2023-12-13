@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 export default function OrderHistory({ token }) {
   const { userId } = useParams();
   const [orders, setOrders] = useState([]);
-  const API = "http://localhost:3000/api";
+  const API = "/api";
 
   useEffect(() => {
     fetchOrderHistory();
