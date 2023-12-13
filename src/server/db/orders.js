@@ -26,7 +26,6 @@ const getOrderById = async(orderId) => {
 
 const getOrderByUserId = async(userId) => {
     try {
-        console.log(userId)
         const { rows: order } = await db.query(`
             SELECT * FROM orders
             WHERE user_id=$1 AND order_status="Pending";
@@ -65,7 +64,6 @@ const createOrder = async (
 
 const updateOrderStatus = async (orderId) => {
     try {
-      console.log(orderId)
       const { rows } = await db.query(`
       UPDATE orders
       SET 
@@ -79,16 +77,5 @@ const updateOrderStatus = async (orderId) => {
     }
   }
 
-// const deleteOrder = async (orderId) => {
-//     try {
-//         const { rows: order } = await db.query(`
-//             DELETE FROM orders
-//             WHERE order_id=$1;
-//         `, [orderId])
-//         return order
-//     } catch (error) {
-//         throw error;
-//     }
-// }
 
 module.exports = { getAllOrders, getOrderById, getOrderByUserId, createOrder, updateOrderStatus}

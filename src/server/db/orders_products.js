@@ -36,7 +36,6 @@ const getAllProductsByOrderId = async (orderId) => {
      ;`,
       [orderId]
     );
-    console.log(rows);
     return rows;
   } catch (err) {
     throw err;
@@ -86,14 +85,13 @@ const updateQuantity = async (quantity, productId, orderId) => {
     RETURNING * ;`,
       [quantity, productId, orderId]
     );
-    console.log(rows);
     return rows;
   } catch (err) {
     throw err;
   }
 };
 
-// POSSIBLE Update for Total
+// Update for Total
 const updateOrderTotal = async (order_id) => {
   try {
     
